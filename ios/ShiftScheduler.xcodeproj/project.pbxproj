@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4851AE152EE4F84000D71589 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4851AE142EE4F84000D71589 /* FirebaseAnalytics */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		489EEDFC2EE4F53B00DA77A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4851AE152EE4F84000D71589 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = ShiftScheduler;
 			packageProductDependencies = (
+				4851AE142EE4F84000D71589 /* FirebaseAnalytics */,
 			);
 			productName = ShiftScheduler;
 			productReference = 489EEDEE2EE4F53A00DA77A9 /* ShiftScheduler.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = 489EEDE52EE4F53A00DA77A9;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4851AE132EE4F84000D71589 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 489EEDEF2EE4F53A00DA77A9 /* Products */;
 			projectDirPath = "";
@@ -582,6 +591,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4851AE132EE4F84000D71589 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4851AE142EE4F84000D71589 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4851AE132EE4F84000D71589 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 489EEDE62EE4F53A00DA77A9 /* Project object */;
 }
