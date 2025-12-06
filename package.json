@@ -1,0 +1,14 @@
+{
+  "name": "shift-scheduler",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mono-repo for Troop 900 Tree Lot shift scheduler (iOS app and Firebase backend).",
+  "scripts": {
+    "emulators": "firebase emulators:start"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+
+

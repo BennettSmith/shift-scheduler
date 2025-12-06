@@ -1,0 +1,53 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Firebase
+.firebase/
+*.cache
+
+# iOS / Xcode
+ios/build/
+ios/DerivedData/
+ios/.swiftpm/
+ios/*.xcworkspace/xcuserdata/
+ios/ShiftScheduler.xcodeproj/xcuserdata/
+
+# Swift Package Manager
+.build/
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+# Android (future)
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+
+# Secrets
+*.env
+*.env.local
+google-services.json
+GoogleService-Info.plist
+firebase-config.json
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+.tmp/
+
+
