@@ -202,7 +202,7 @@ Troop900/
 #### Domain Package (No External Dependencies)
 
 ```swift
-// Packages/Troop900Domain/Package.swift
+// ios/Packages/Troop900Domain/Package.swift
 
 // swift-tools-version: 5.9
 import PackageDescription
@@ -210,7 +210,7 @@ import PackageDescription
 let package = Package(
     name: "Troop900Domain",
     platforms: [
-        .iOS(.v17)
+        .iOS(.v16)
     ],
     products: [
         .library(
@@ -243,7 +243,7 @@ let package = Package(
 #### Data Package (Depends on Domain and Firebase)
 
 ```swift
-// Packages/Troop900Data/Package.swift
+// ios/Packages/Troop900Data/Package.swift
 
 // swift-tools-version: 5.9
 import PackageDescription
@@ -251,7 +251,7 @@ import PackageDescription
 let package = Package(
     name: "Troop900Data",
     platforms: [
-        .iOS(.v17)
+        .iOS(.v16)
     ],
     products: [
         .library(
@@ -266,7 +266,7 @@ let package = Package(
         // Firebase SDK
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
-            from: "11.0.0"
+            from: "12.0.0"
         ),
     ],
     targets: [

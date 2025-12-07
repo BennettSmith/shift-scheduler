@@ -13,15 +13,15 @@ Mobile-first scheduling app for managing volunteer shifts for Troop 900's Christ
 - `ios/` – iOS application (Xcode project, Swift packages)
 - `functions/` – Firebase Cloud Functions (TypeScript, Clean Architecture)
 - `android/` – Android application (empty for now, to be added later)
-- `planning/` – Architecture and setup documents
+- `shared/docs/` – Architecture and setup documents
 
 ## Development Setup
 
 For detailed environment setup instructions, see:
 
-- `planning/troop900-dev-setup.md`
-- `planning/troop900-clean-architecture-ios.md`
-- `planning/troop900-clean-architecture-firebase.md`
+- `shared/docs/troop900-dev-setup.md`
+- `shared/docs/troop900-clean-architecture-ios.md`
+- `shared/docs/troop900-clean-architecture-firebase.md`
 
 This repository is currently in the **initial setup** phase; pieces will be added incrementally following the implementation plan.
 

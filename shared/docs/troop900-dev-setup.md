@@ -2,7 +2,7 @@
 
 **Project:** Troop 900 Tree Lot Shift Scheduler  
 **Repository Type:** Mono-repo  
-**Version Control:** GitHub  
+**Version Control:** GitHub (`shift-scheduler` repository)  
 **CI/CD:** GitHub Actions
 
 ---
@@ -35,7 +35,7 @@
 
 **For iOS Development:**
 - macOS 13.0+ (Ventura or later)
-- Xcode 15+ (includes Swift Package Manager)
+- Xcode 26 (includes Swift Package Manager and Swift Testing)
 - Apple Developer Account ($99/year)
 
 **For Android Development:**
@@ -46,7 +46,7 @@
 
 **For Firebase:**
 - Firebase account (free tier sufficient)
-- Firebase project created (troop900-tree-lot)
+- Firebase project created (for example: `shift-scheduler-d5a37`)
 
 ---
 
@@ -55,7 +55,7 @@
 The mono-repo will be organized as follows:
 
 ```
-troop900-tree-lot/
+shift-scheduler/
 ├── .github/
 │   └── workflows/           # GitHub Actions CI/CD
 │       ├── ios-ci.yml
