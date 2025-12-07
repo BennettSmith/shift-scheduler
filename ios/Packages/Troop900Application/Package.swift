@@ -2,21 +2,20 @@
 import PackageDescription
 
 let package = Package(
-    name: "Troop900Presentation",
+    name: "Troop900Application",
     platforms: [
         .iOS(.v16),
         .macOS(.v10_15)
     ],
     products: [
         .library(
-            name: "Troop900Presentation",
-            targets: ["Troop900Presentation"]
+            name: "Troop900Application",
+            targets: ["Troop900Application"]
         ),
     ],
     dependencies: [
-        // Local packages
+        // Local domain package
         .package(path: "../Troop900Domain"),
-        .package(path: "../Troop900Application"),
         // Swift Testing for tests
         .package(
             url: "https://github.com/apple/swift-testing.git",
@@ -25,22 +24,20 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Troop900Presentation",
+            name: "Troop900Application",
             dependencies: [
-                "Troop900Domain",
-                "Troop900Application"
+                "Troop900Domain"
             ],
-            path: "Sources/Troop900Presentation"
+            path: "Sources/Troop900Application"
         ),
         .testTarget(
-            name: "Troop900PresentationTests",
+            name: "Troop900ApplicationTests",
             dependencies: [
-                "Troop900Presentation",
+                "Troop900Application",
                 .product(name: "Testing", package: "swift-testing")
             ],
-            path: "Tests/Troop900PresentationTests"
+            path: "Tests/Troop900ApplicationTests"
         ),
     ]
 )
-
 

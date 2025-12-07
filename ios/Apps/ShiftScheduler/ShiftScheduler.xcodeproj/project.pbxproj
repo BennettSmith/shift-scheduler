@@ -220,8 +220,6 @@
 			mainGroup = 489EEDE52EE4F53A00DA77A9;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				488984482EE53DBB00ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Domain" */,
-				4889844B2EE53DEB00ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Data" */,
 				4889844E2EE53E3100ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Presentation" */,
 				488984512EE541C200ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Bootstrap" */,
 			);
@@ -614,14 +612,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		488984482EE53DBB00ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Domain" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../Packages/Troop900Domain;
-		};
-		4889844B2EE53DEB00ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Data" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../Packages/Troop900Data;
-		};
 		4889844E2EE53E3100ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Presentation" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../Packages/Troop900Presentation;

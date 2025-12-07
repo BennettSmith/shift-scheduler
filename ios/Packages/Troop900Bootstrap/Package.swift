@@ -14,7 +14,9 @@ let package = Package(
         ),
     ],
     dependencies: [
-        // Local data package (for dependency injection / wiring)
+        // Local packages (for dependency injection / wiring)
+        .package(path: "../Troop900Domain"),
+        .package(path: "../Troop900Application"),
         .package(path: "../Troop900Data"),
         // Firebase Core for configuring FirebaseApp
         .package(
@@ -26,6 +28,8 @@ let package = Package(
         .target(
             name: "Troop900Bootstrap",
             dependencies: [
+                "Troop900Domain",
+                "Troop900Application",
                 "Troop900Data",
                 .product(name: "FirebaseCore", package: "firebase-ios-sdk")
             ],

@@ -14,8 +14,9 @@ let package = Package(
         ),
     ],
     dependencies: [
-        // Local domain package
+        // Local packages
         .package(path: "../Troop900Domain"),
+        .package(path: "../Troop900Application"),
         // Firebase iOS SDK for Auth, Firestore, Functions
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
@@ -32,6 +33,7 @@ let package = Package(
             name: "Troop900Data",
             dependencies: [
                 "Troop900Domain",
+                "Troop900Application",
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseFunctions", package: "firebase-ios-sdk")
