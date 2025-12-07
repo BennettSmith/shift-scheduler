@@ -19,6 +19,9 @@ public final class MockAuthRepository: AuthRepository, @unchecked Sendable {
     public var signInWithGoogleResult: Result<String, Error>?
     public var signOutError: Error?
     
+    /// Values to emit from observeAuthState() stream
+    public var authStateValues: [String?] = []
+    
     // MARK: - Call Tracking
     
     public var signInWithAppleCallCount = 0
@@ -75,7 +78,15 @@ public final class MockAuthRepository: AuthRepository, @unchecked Sendable {
     
     public func observeAuthState() -> AsyncStream<String?> {
         AsyncStream { continuation in
-            continuation.yield(_currentUserId)
+            if !authStateValues.isEmpty {
+                // Emit configured values
+                for value in authStateValues {
+                    continuation.yield(value)
+                }
+            } else {
+                // Default: emit current user ID
+                continuation.yield(_currentUserId)
+            }
             continuation.finish()
         }
     }
@@ -103,6 +114,7 @@ public final class MockAuthRepository: AuthRepository, @unchecked Sendable {
         signInWithAppleResult = nil
         signInWithGoogleResult = nil
         signOutError = nil
+        authStateValues.removeAll()
         signInWithAppleCallCount = 0
         signInWithAppleCalledWith.removeAll()
         signInWithGoogleCallCount = 0

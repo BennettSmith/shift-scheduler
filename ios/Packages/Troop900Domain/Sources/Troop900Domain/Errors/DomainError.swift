@@ -197,13 +197,97 @@ public enum DomainError: Error, Sendable {
     public var debugMessage: String {
         switch self {
         case .unknown(let error):
-            return "Unknown error: \(error.localizedDescription)"
+            return "DomainError.unknown: \(error.localizedDescription)"
         case .invalidInput(let message):
-            return "Invalid input: \(message)"
+            return "DomainError.invalidInput: \(message)"
         case .operationFailed(let message):
-            return "Operation failed: \(message)"
-        default:
-            return "\(self)"
+            return "DomainError.operationFailed: \(message)"
+        case .notAuthenticated:
+            return "DomainError.notAuthenticated"
+        case .unauthorized:
+            return "DomainError.unauthorized"
+        case .invalidCredentials:
+            return "DomainError.invalidCredentials"
+        case .userNotFound:
+            return "DomainError.userNotFound"
+        case .userAlreadyExists:
+            return "DomainError.userAlreadyExists"
+        case .userNotClaimed:
+            return "DomainError.userNotClaimed"
+        case .userAccountInactive:
+            return "DomainError.userAccountInactive"
+        case .invalidClaimCode:
+            return "DomainError.invalidClaimCode"
+        case .householdNotFound:
+            return "DomainError.householdNotFound"
+        case .householdLinkCodeInvalid:
+            return "DomainError.householdLinkCodeInvalid"
+        case .userNotInHousehold:
+            return "DomainError.userNotInHousehold"
+        case .cannotManageHousehold:
+            return "DomainError.cannotManageHousehold"
+        case .shiftNotFound:
+            return "DomainError.shiftNotFound"
+        case .shiftFull:
+            return "DomainError.shiftFull"
+        case .shiftNotPublished:
+            return "DomainError.shiftNotPublished"
+        case .shiftCancelled:
+            return "DomainError.shiftCancelled"
+        case .shiftInPast:
+            return "DomainError.shiftInPast"
+        case .shiftAlreadyStarted:
+            return "DomainError.shiftAlreadyStarted"
+        case .invalidShiftTime:
+            return "DomainError.invalidShiftTime"
+        case .assignmentNotFound:
+            return "DomainError.assignmentNotFound"
+        case .alreadyAssignedToShift:
+            return "DomainError.alreadyAssignedToShift"
+        case .assignmentAlreadyCancelled:
+            return "DomainError.assignmentAlreadyCancelled"
+        case .cannotCancelAssignment:
+            return "DomainError.cannotCancelAssignment"
+        case .assignmentNotActive:
+            return "DomainError.assignmentNotActive"
+        case .attendanceRecordNotFound:
+            return "DomainError.attendanceRecordNotFound"
+        case .alreadyCheckedIn:
+            return "DomainError.alreadyCheckedIn"
+        case .alreadyCheckedOut:
+            return "DomainError.alreadyCheckedOut"
+        case .notCheckedIn:
+            return "DomainError.notCheckedIn"
+        case .invalidCheckInTime:
+            return "DomainError.invalidCheckInTime"
+        case .invalidQRCode:
+            return "DomainError.invalidQRCode"
+        case .inviteCodeNotFound:
+            return "DomainError.inviteCodeNotFound"
+        case .inviteCodeExpired:
+            return "DomainError.inviteCodeExpired"
+        case .inviteCodeAlreadyUsed:
+            return "DomainError.inviteCodeAlreadyUsed"
+        case .inviteCodeInvalid:
+            return "DomainError.inviteCodeInvalid"
+        case .seasonNotFound:
+            return "DomainError.seasonNotFound"
+        case .noActiveSeason:
+            return "DomainError.noActiveSeason"
+        case .seasonAlreadyActive:
+            return "DomainError.seasonAlreadyActive"
+        case .invalidSeasonDates:
+            return "DomainError.invalidSeasonDates"
+        case .templateNotFound:
+            return "DomainError.templateNotFound"
+        case .templateInactive:
+            return "DomainError.templateInactive"
+        case .messageNotFound:
+            return "DomainError.messageNotFound"
+        case .invalidMessageRecipients:
+            return "DomainError.invalidMessageRecipients"
+        case .networkError:
+            return "DomainError.networkError"
         }
     }
 }
