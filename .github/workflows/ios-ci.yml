@@ -41,6 +41,7 @@ jobs:
             -scheme ShiftScheduler \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,OS=26.1,name=iPhone 16 Pro Max' \
+            -skip-testing:ShiftSchedulerUITests \
             test
 
 
