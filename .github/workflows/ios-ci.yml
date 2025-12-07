@@ -54,4 +54,3 @@ jobs:
             -skip-testing:ShiftSchedulerUITests \
             test
 
-
