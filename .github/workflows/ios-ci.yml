@@ -24,12 +24,21 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      - name: Cache Xcode DerivedData
+        uses: actions/cache@v4
+        with:
+          path: ios/DerivedData
+          key: ${{ runner.os }}-xcode-deriveddata-${{ hashFiles('ios/ShiftScheduler.xcodeproj/project.pbxproj', 'ios/ShiftScheduler.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-deriveddata-
+
       - name: Build
         run: |
           cd ios
           xcodebuild \
             -scheme ShiftScheduler \
             -sdk iphonesimulator \
+            -derivedDataPath DerivedData \
             -destination 'platform=iOS Simulator,OS=26.1,name=iPhone 16 Pro Max' \
             clean build
 
@@ -40,6 +49,7 @@ jobs:
           xcodebuild \
             -scheme ShiftScheduler \
             -sdk iphonesimulator \
+            -derivedDataPath DerivedData \
             -destination 'platform=iOS Simulator,OS=26.1,name=iPhone 16 Pro Max' \
             -skip-testing:ShiftSchedulerUITests \
             test
