@@ -10,6 +10,7 @@ struct SheetsShowcase: View {
     @State private var showSheet = false
     @State private var showConfirmation = false
     @State private var showSuccess = false
+    @State private var selectedPerson = 0
     
     var body: some View {
         ScrollView {
@@ -122,8 +123,12 @@ struct SheetsShowcase: View {
                         .font(DSTypography.headline)
                     
                     VStack(spacing: DSSpacing.sm) {
-                        DSSelectionRow(title: "Sarah Smith (me)", trailingText: "Parent", isSelected: true) { }
-                        DSSelectionRow(title: "Alex Smith", trailingText: "Scout", isSelected: false) { }
+                        DSSelectionRow(title: "Sarah Smith (me)", trailingText: "Parent", isSelected: selectedPerson == 0) {
+                            selectedPerson = 0
+                        }
+                        DSSelectionRow(title: "Alex Smith", trailingText: "Scout", isSelected: selectedPerson == 1) {
+                            selectedPerson = 1
+                        }
                     }
                     
                     Spacer()

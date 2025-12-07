@@ -87,7 +87,7 @@ struct DesignSystemTests {
         #expect(DSIcon.home.rawValue == "house")
         #expect(DSIcon.homeFill.rawValue == "house.fill")
         #expect(DSIcon.calendar.rawValue == "calendar")
-        #expect(DSIcon.calendarFill.rawValue == "calendar.fill")
+        // Note: calendar has no .fill variant in SF Symbols
         #expect(DSIcon.checkIn.rawValue == "checkmark.circle")
         #expect(DSIcon.checkInFill.rawValue == "checkmark.circle.fill")
         #expect(DSIcon.profile.rawValue == "person")
@@ -101,7 +101,7 @@ struct DesignSystemTests {
         #expect(TabBarIcon.home.inactive == .home)
         #expect(TabBarIcon.home.active == .homeFill)
         #expect(TabBarIcon.schedule.inactive == .calendar)
-        #expect(TabBarIcon.schedule.active == .calendarFill)
+        #expect(TabBarIcon.schedule.active == .calendar) // Same icon - no fill variant exists
     }
     
     // MARK: - Status Type Tests

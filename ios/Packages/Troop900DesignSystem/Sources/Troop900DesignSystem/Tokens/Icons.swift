@@ -14,10 +14,8 @@ public enum DSIcon: String, CaseIterable {
     /// Home tab (active)
     case homeFill = "house.fill"
     
-    /// Schedule tab (inactive)
+    /// Schedule tab (calendar icon - no fill variant exists in SF Symbols)
     case calendar = "calendar"
-    /// Schedule tab (active)
-    case calendarFill = "calendar.fill"
     
     /// Check-In tab (inactive)
     case checkIn = "checkmark.circle"
@@ -225,7 +223,7 @@ public struct TabBarIcon {
     public let active: DSIcon
     
     public static let home = TabBarIcon(inactive: .home, active: .homeFill)
-    public static let schedule = TabBarIcon(inactive: .calendar, active: .calendarFill)
+    public static let schedule = TabBarIcon(inactive: .calendar, active: .calendar)
     public static let checkIn = TabBarIcon(inactive: .checkIn, active: .checkInFill)
     public static let profile = TabBarIcon(inactive: .profile, active: .profileFill)
     public static let committee = TabBarIcon(inactive: .committee, active: .committeeFill)

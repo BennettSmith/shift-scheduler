@@ -15,7 +15,7 @@ struct IconsShowcase: View {
                 showcaseSection("Tab Bar Icons") {
                     HStack(spacing: DSSpacing.xl) {
                         iconPair(inactive: .home, active: .homeFill, label: "Home")
-                        iconPair(inactive: .calendar, active: .calendarFill, label: "Schedule")
+                        iconPair(inactive: .calendar, active: .calendar, label: "Schedule")
                         iconPair(inactive: .checkIn, active: .checkInFill, label: "Check-In")
                         iconPair(inactive: .profile, active: .profileFill, label: "Profile")
                         iconPair(inactive: .committee, active: .committeeFill, label: "Committee")

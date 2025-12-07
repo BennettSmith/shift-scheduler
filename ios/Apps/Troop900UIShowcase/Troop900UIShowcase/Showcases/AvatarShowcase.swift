@@ -82,6 +82,31 @@ struct AvatarShowcase: View {
                     }
                 }
                 
+                // Avatar with Images
+                showcaseSection("Avatar with Images") {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: DSSpacing.lg) {
+                            VStack {
+                                DSAvatar(.image(Image(systemName: "person.crop.circle.fill")), size: .large)
+                                Text("System").font(DSTypography.caption2)
+                            }
+                            VStack {
+                                DSAvatar(.image(Image(systemName: "photo.circle.fill")), size: .large)
+                                Text("Photo").font(DSTypography.caption2)
+                            }
+                            VStack {
+                                DSAvatar(.image(Image(systemName: "star.circle.fill")), size: .large)
+                                Text("Star").font(DSTypography.caption2)
+                            }
+                        }
+                        .foregroundColor(DSColors.textSecondary)
+                    }
+                    
+                    Text("Use .image(Image(\"your-asset\")) with bundled images or AsyncImage for remote URLs")
+                        .font(DSTypography.caption1)
+                        .foregroundColor(DSColors.textTertiary)
+                }
+                
                 // Custom Colors
                 showcaseSection("Custom Colors") {
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -110,14 +135,14 @@ struct AvatarShowcase: View {
                 
                 // Profile Headers
                 showcaseSection("Profile Headers") {
-                    DSCard {
+                    DSCard(alignment: .center) {
                         DSProfileHeader(
                             name: "Sarah Smith",
                             subtitle: "Parent • Smith Family"
                         )
                     }
                     
-                    DSCard {
+                    DSCard(alignment: .center) {
                         DSProfileHeader(
                             name: "Alex Smith",
                             subtitle: "Scout • Smith Family",

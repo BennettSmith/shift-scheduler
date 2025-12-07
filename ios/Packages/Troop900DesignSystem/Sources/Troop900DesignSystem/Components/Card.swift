@@ -9,20 +9,23 @@ public struct DSCard<Content: View>: View {
     private let content: Content
     private let backgroundColor: Color
     private let hasShadow: Bool
+    private let alignment: Alignment
     
     public init(
         backgroundColor: Color = DSColors.backgroundElevated,
         hasShadow: Bool = true,
+        alignment: Alignment = .leading,
         @ViewBuilder content: () -> Content
     ) {
         self.content = content()
         self.backgroundColor = backgroundColor
         self.hasShadow = hasShadow
+        self.alignment = alignment
     }
     
     public var body: some View {
         content
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, alignment: alignment)
             .padding(DSSpacing.md)
             .background(backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: DSRadius.md))

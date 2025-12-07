@@ -19,6 +19,10 @@ struct ContentView: View {
                     NavigationLink("Icons", destination: IconsShowcase())
                 }
                 
+                Section("Navigation") {
+                    NavigationLink("Tab Bar Demo", destination: TabBarShowcase())
+                }
+                
                 Section("Buttons") {
                     NavigationLink("Buttons", destination: ButtonsShowcase())
                 }
