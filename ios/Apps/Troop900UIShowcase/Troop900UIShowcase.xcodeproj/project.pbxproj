@@ -1,0 +1,606 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		48693E4C2EE5512A002F3831 /* Troop900DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 48693E4B2EE5512A002F3831 /* Troop900DesignSystem */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4889846E2EE54E5100ACED5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 488984582EE54E5000ACED5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4889845F2EE54E5000ACED5A;
+			remoteInfo = Troop900UIShowcase;
+		};
+		488984782EE54E5100ACED5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 488984582EE54E5000ACED5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4889845F2EE54E5000ACED5A;
+			remoteInfo = Troop900UIShowcase;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		488984602EE54E5000ACED5A /* Troop900UIShowcase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Troop900UIShowcase.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4889846D2EE54E5100ACED5A /* Troop900UIShowcaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Troop900UIShowcaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		488984772EE54E5100ACED5A /* Troop900UIShowcaseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Troop900UIShowcaseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		488984622EE54E5000ACED5A /* Troop900UIShowcase */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Troop900UIShowcase;
+			sourceTree = "<group>";
+		};
+		488984702EE54E5100ACED5A /* Troop900UIShowcaseTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Troop900UIShowcaseTests;
+			sourceTree = "<group>";
+		};
+		4889847A2EE54E5100ACED5A /* Troop900UIShowcaseUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Troop900UIShowcaseUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4889845D2EE54E5000ACED5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48693E4C2EE5512A002F3831 /* Troop900DesignSystem in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4889846A2EE54E5100ACED5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		488984742EE54E5100ACED5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		488984572EE54E5000ACED5A = {
+			isa = PBXGroup;
+			children = (
+				488984622EE54E5000ACED5A /* Troop900UIShowcase */,
+				488984702EE54E5100ACED5A /* Troop900UIShowcaseTests */,
+				4889847A2EE54E5100ACED5A /* Troop900UIShowcaseUITests */,
+				488984612EE54E5000ACED5A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		488984612EE54E5000ACED5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				488984602EE54E5000ACED5A /* Troop900UIShowcase.app */,
+				4889846D2EE54E5100ACED5A /* Troop900UIShowcaseTests.xctest */,
+				488984772EE54E5100ACED5A /* Troop900UIShowcaseUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4889845F2EE54E5000ACED5A /* Troop900UIShowcase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 488984812EE54E5100ACED5A /* Build configuration list for PBXNativeTarget "Troop900UIShowcase" */;
+			buildPhases = (
+				4889845C2EE54E5000ACED5A /* Sources */,
+				4889845D2EE54E5000ACED5A /* Frameworks */,
+				4889845E2EE54E5000ACED5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				488984622EE54E5000ACED5A /* Troop900UIShowcase */,
+			);
+			name = Troop900UIShowcase;
+			packageProductDependencies = (
+				48693E4B2EE5512A002F3831 /* Troop900DesignSystem */,
+			);
+			productName = Troop900UIShowcase;
+			productReference = 488984602EE54E5000ACED5A /* Troop900UIShowcase.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4889846C2EE54E5100ACED5A /* Troop900UIShowcaseTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 488984842EE54E5100ACED5A /* Build configuration list for PBXNativeTarget "Troop900UIShowcaseTests" */;
+			buildPhases = (
+				488984692EE54E5100ACED5A /* Sources */,
+				4889846A2EE54E5100ACED5A /* Frameworks */,
+				4889846B2EE54E5100ACED5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4889846F2EE54E5100ACED5A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				488984702EE54E5100ACED5A /* Troop900UIShowcaseTests */,
+			);
+			name = Troop900UIShowcaseTests;
+			packageProductDependencies = (
+			);
+			productName = Troop900UIShowcaseTests;
+			productReference = 4889846D2EE54E5100ACED5A /* Troop900UIShowcaseTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		488984762EE54E5100ACED5A /* Troop900UIShowcaseUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 488984872EE54E5100ACED5A /* Build configuration list for PBXNativeTarget "Troop900UIShowcaseUITests" */;
+			buildPhases = (
+				488984732EE54E5100ACED5A /* Sources */,
+				488984742EE54E5100ACED5A /* Frameworks */,
+				488984752EE54E5100ACED5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				488984792EE54E5100ACED5A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				4889847A2EE54E5100ACED5A /* Troop900UIShowcaseUITests */,
+			);
+			name = Troop900UIShowcaseUITests;
+			packageProductDependencies = (
+			);
+			productName = Troop900UIShowcaseUITests;
+			productReference = 488984772EE54E5100ACED5A /* Troop900UIShowcaseUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		488984582EE54E5000ACED5A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2610;
+				LastUpgradeCheck = 2610;
+				TargetAttributes = {
+					4889845F2EE54E5000ACED5A = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
+					4889846C2EE54E5100ACED5A = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = 4889845F2EE54E5000ACED5A;
+					};
+					488984762EE54E5100ACED5A = {
+						CreatedOnToolsVersion = 26.1.1;
+						TestTargetID = 4889845F2EE54E5000ACED5A;
+					};
+				};
+			};
+			buildConfigurationList = 4889845B2EE54E5000ACED5A /* Build configuration list for PBXProject "Troop900UIShowcase" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 488984572EE54E5000ACED5A;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				48693E4A2EE5512A002F3831 /* XCLocalSwiftPackageReference "../../Packages/Troop900DesignSystem" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 488984612EE54E5000ACED5A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4889845F2EE54E5000ACED5A /* Troop900UIShowcase */,
+				4889846C2EE54E5100ACED5A /* Troop900UIShowcaseTests */,
+				488984762EE54E5100ACED5A /* Troop900UIShowcaseUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4889845E2EE54E5000ACED5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4889846B2EE54E5100ACED5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		488984752EE54E5100ACED5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4889845C2EE54E5000ACED5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		488984692EE54E5100ACED5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		488984732EE54E5100ACED5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4889846F2EE54E5100ACED5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4889845F2EE54E5000ACED5A /* Troop900UIShowcase */;
+			targetProxy = 4889846E2EE54E5100ACED5A /* PBXContainerItemProxy */;
+		};
+		488984792EE54E5100ACED5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4889845F2EE54E5000ACED5A /* Troop900UIShowcase */;
+			targetProxy = 488984782EE54E5100ACED5A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4889847F2EE54E5100ACED5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 542B5646HG;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		488984802EE54E5100ACED5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 542B5646HG;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		488984822EE54E5100ACED5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 542B5646HG;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.bennettsmith.Troop900UIShowcase;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		488984832EE54E5100ACED5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 542B5646HG;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.bennettsmith.Troop900UIShowcase;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		488984852EE54E5100ACED5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 542B5646HG;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.bennettsmith.Troop900UIShowcaseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Troop900UIShowcase.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Troop900UIShowcase";
+			};
+			name = Debug;
+		};
+		488984862EE54E5100ACED5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 542B5646HG;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.bennettsmith.Troop900UIShowcaseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Troop900UIShowcase.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Troop900UIShowcase";
+			};
+			name = Release;
+		};
+		488984882EE54E5100ACED5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 542B5646HG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.bennettsmith.Troop900UIShowcaseUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Troop900UIShowcase;
+			};
+			name = Debug;
+		};
+		488984892EE54E5100ACED5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 542B5646HG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.bennettsmith.Troop900UIShowcaseUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Troop900UIShowcase;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4889845B2EE54E5000ACED5A /* Build configuration list for PBXProject "Troop900UIShowcase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4889847F2EE54E5100ACED5A /* Debug */,
+				488984802EE54E5100ACED5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		488984812EE54E5100ACED5A /* Build configuration list for PBXNativeTarget "Troop900UIShowcase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				488984822EE54E5100ACED5A /* Debug */,
+				488984832EE54E5100ACED5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		488984842EE54E5100ACED5A /* Build configuration list for PBXNativeTarget "Troop900UIShowcaseTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				488984852EE54E5100ACED5A /* Debug */,
+				488984862EE54E5100ACED5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		488984872EE54E5100ACED5A /* Build configuration list for PBXNativeTarget "Troop900UIShowcaseUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				488984882EE54E5100ACED5A /* Debug */,
+				488984892EE54E5100ACED5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		48693E4A2EE5512A002F3831 /* XCLocalSwiftPackageReference "../../Packages/Troop900DesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Packages/Troop900DesignSystem;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		48693E4B2EE5512A002F3831 /* Troop900DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Troop900DesignSystem;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 488984582EE54E5000ACED5A /* Project object */;
+}
