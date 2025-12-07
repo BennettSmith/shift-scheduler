@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 import PackageDescription
 
 let package = Package(
@@ -16,11 +16,6 @@ let package = Package(
     dependencies: [
         // Local domain package
         .package(path: "../Troop900Domain"),
-        // Swift Testing for tests
-        .package(
-            url: "https://github.com/apple/swift-testing.git",
-            from: "0.10.0"
-        )
     ],
     targets: [
         .target(
@@ -34,7 +29,6 @@ let package = Package(
             name: "Troop900ApplicationTests",
             dependencies: [
                 "Troop900Application",
-                .product(name: "Testing", package: "swift-testing")
             ],
             path: "Tests/Troop900ApplicationTests"
         ),
