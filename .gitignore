@@ -20,11 +20,11 @@ yarn-error.log*
 *.cache
 
 # iOS / Xcode
-ios/build/
-ios/DerivedData/
+ios/**/build/
+ios/**/DerivedData/
 ios/.swiftpm/
 ios/*.xcworkspace/xcuserdata/
-ios/ShiftScheduler.xcodeproj/xcuserdata/
+ios/**/ShiftScheduler.xcodeproj/xcuserdata/
 
 # Swift Package Manager
 .build/
