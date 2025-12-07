@@ -14,15 +14,6 @@
             symbolName = "UIColorBreakForOutOfRangeColorComponents"
             moduleName = "">
             <Locations>
-               <Location
-                  uuid = "74F9020E-E6CE-485E-B0DB-F4E63B758F8C - f26c3364c30b7088"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "UIColorBreakForOutOfRangeColorComponents"
-                  moduleName = "UIKitCore"
-                  usesParentBreakpointCondition = "Yes">
-               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
