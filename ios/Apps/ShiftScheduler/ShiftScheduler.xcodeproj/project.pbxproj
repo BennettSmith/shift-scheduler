@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4851AE152EE4F84000D71589 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4851AE142EE4F84000D71589 /* FirebaseAnalytics */; };
 		4851AE1A2EE5009E00D71589 /* Troop900Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 4851AE192EE5009E00D71589 /* Troop900Domain */; };
 		4851AE1D2EE5027900D71589 /* Troop900Data in Frameworks */ = {isa = PBXBuildFile; productRef = 4851AE1C2EE5027900D71589 /* Troop900Data */; };
 		4851AE202EE502A500D71589 /* Troop900Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 4851AE1F2EE502A500D71589 /* Troop900Presentation */; };
 		4889844A2EE53DBB00ACED5A /* Troop900Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 488984492EE53DBB00ACED5A /* Troop900Domain */; };
 		4889844D2EE53DEB00ACED5A /* Troop900Data in Frameworks */ = {isa = PBXBuildFile; productRef = 4889844C2EE53DEB00ACED5A /* Troop900Data */; };
 		488984502EE53E3100ACED5A /* Troop900Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 4889844F2EE53E3100ACED5A /* Troop900Presentation */; };
+		488984532EE541C200ACED5A /* Troop900Bootstrap in Frameworks */ = {isa = PBXBuildFile; productRef = 488984522EE541C200ACED5A /* Troop900Bootstrap */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,8 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4851AE152EE4F84000D71589 /* FirebaseAnalytics in Frameworks */,
 				4851AE202EE502A500D71589 /* Troop900Presentation in Frameworks */,
+				488984532EE541C200ACED5A /* Troop900Bootstrap in Frameworks */,
 				4851AE1A2EE5009E00D71589 /* Troop900Domain in Frameworks */,
 				488984502EE53E3100ACED5A /* Troop900Presentation in Frameworks */,
 				4889844A2EE53DBB00ACED5A /* Troop900Domain in Frameworks */,
@@ -129,13 +129,13 @@
 			);
 			name = ShiftScheduler;
 			packageProductDependencies = (
-				4851AE142EE4F84000D71589 /* FirebaseAnalytics */,
 				4851AE192EE5009E00D71589 /* Troop900Domain */,
 				4851AE1C2EE5027900D71589 /* Troop900Data */,
 				4851AE1F2EE502A500D71589 /* Troop900Presentation */,
 				488984492EE53DBB00ACED5A /* Troop900Domain */,
 				4889844C2EE53DEB00ACED5A /* Troop900Data */,
 				4889844F2EE53E3100ACED5A /* Troop900Presentation */,
+				488984522EE541C200ACED5A /* Troop900Bootstrap */,
 			);
 			productName = ShiftScheduler;
 			productReference = 489EEDEE2EE4F53A00DA77A9 /* ShiftScheduler.app */;
@@ -220,10 +220,10 @@
 			mainGroup = 489EEDE52EE4F53A00DA77A9;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				4851AE132EE4F84000D71589 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				488984482EE53DBB00ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Domain" */,
 				4889844B2EE53DEB00ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Data" */,
 				4889844E2EE53E3100ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Presentation" */,
+				488984512EE541C200ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Bootstrap" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 489EEDEF2EE4F53A00DA77A9 /* Products */;
@@ -626,25 +626,13 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../Packages/Troop900Presentation;
 		};
+		488984512EE541C200ACED5A /* XCLocalSwiftPackageReference "../../Packages/Troop900Bootstrap" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Packages/Troop900Bootstrap;
+		};
 /* End XCLocalSwiftPackageReference section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		4851AE132EE4F84000D71589 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 12.6.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		4851AE142EE4F84000D71589 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4851AE132EE4F84000D71589 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
 		4851AE192EE5009E00D71589 /* Troop900Domain */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Troop900Domain;
@@ -668,6 +656,10 @@
 		4889844F2EE53E3100ACED5A /* Troop900Presentation */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Troop900Presentation;
+		};
+		488984522EE541C200ACED5A /* Troop900Bootstrap */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Troop900Bootstrap;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
