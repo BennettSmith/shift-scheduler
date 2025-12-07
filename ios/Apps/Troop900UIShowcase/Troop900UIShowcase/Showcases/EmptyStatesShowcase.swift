@@ -13,49 +13,49 @@ struct EmptyStatesShowcase: View {
                 
                 // No Shifts Today
                 showcaseSection("No Shifts Today") {
-                    DSCard {
+                    DSCard(alignment: .center) {
                         DSEmptyState.noShiftsToday { }
                     }
                 }
                 
                 // No Upcoming Shifts
                 showcaseSection("No Upcoming Shifts") {
-                    DSCard {
+                    DSCard(alignment: .center) {
                         DSEmptyState.noUpcomingShifts { }
                     }
                 }
                 
                 // Lot Closed
                 showcaseSection("Lot Closed") {
-                    DSCard {
+                    DSCard(alignment: .center) {
                         DSEmptyState.lotClosed(nextOpenInfo: "The lot opens again tomorrow at 10 AM") { }
                     }
                 }
                 
                 // No Search Results
                 showcaseSection("No Search Results") {
-                    DSCard {
+                    DSCard(alignment: .center) {
                         DSEmptyState.noSearchResults(searchTerm: "John")
                     }
                 }
                 
                 // Network Error
                 showcaseSection("Network Error") {
-                    DSCard {
+                    DSCard(alignment: .center) {
                         DSEmptyState.networkError { }
                     }
                 }
                 
                 // Server Error
                 showcaseSection("Server Error") {
-                    DSCard {
+                    DSCard(alignment: .center) {
                         DSEmptyState.serverError { }
                     }
                 }
                 
                 // Custom Empty State
                 showcaseSection("Custom Empty State") {
-                    DSCard {
+                    DSCard(alignment: .center) {
                         DSEmptyState(
                             icon: .announcement,
                             title: "No Announcements",

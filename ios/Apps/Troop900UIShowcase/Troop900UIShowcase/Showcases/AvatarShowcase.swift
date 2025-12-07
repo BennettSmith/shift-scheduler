@@ -87,22 +87,22 @@ struct AvatarShowcase: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: DSSpacing.lg) {
                             VStack {
-                                DSAvatar(.image(Image(systemName: "person.crop.circle.fill")), size: .large)
-                                Text("System").font(DSTypography.caption2)
+                                remoteAvatar(url: "https://randomuser.me/api/portraits/women/44.jpg")
+                                Text("Woman").font(DSTypography.caption2)
                             }
                             VStack {
-                                DSAvatar(.image(Image(systemName: "photo.circle.fill")), size: .large)
-                                Text("Photo").font(DSTypography.caption2)
+                                remoteAvatar(url: "https://randomuser.me/api/portraits/men/32.jpg")
+                                Text("Man").font(DSTypography.caption2)
                             }
                             VStack {
-                                DSAvatar(.image(Image(systemName: "star.circle.fill")), size: .large)
-                                Text("Star").font(DSTypography.caption2)
+                                remoteAvatar(url: "https://randomuser.me/api/portraits/women/68.jpg")
+                                Text("Woman 2").font(DSTypography.caption2)
                             }
                         }
                         .foregroundColor(DSColors.textSecondary)
                     }
                     
-                    Text("Use .image(Image(\"your-asset\")) with bundled images or AsyncImage for remote URLs")
+                    Text("Photos from randomuser.me - use AsyncImage for remote URLs")
                         .font(DSTypography.caption1)
                         .foregroundColor(DSColors.textTertiary)
                 }
@@ -136,10 +136,18 @@ struct AvatarShowcase: View {
                 // Profile Headers
                 showcaseSection("Profile Headers") {
                     DSCard(alignment: .center) {
-                        DSProfileHeader(
-                            name: "Sarah Smith",
-                            subtitle: "Parent • Smith Family"
-                        )
+                        // Profile header with remote image
+                        VStack(spacing: DSSpacing.sm) {
+                            remoteAvatar(url: "https://randomuser.me/api/portraits/women/44.jpg", size: 100)
+                            
+                            Text("Sarah Smith")
+                                .font(DSTypography.title1)
+                                .foregroundColor(DSColors.textPrimary)
+                            
+                            Text("Parent • Smith Family")
+                                .font(DSTypography.body)
+                                .foregroundColor(DSColors.textSecondary)
+                        }
                     }
                     
                     DSCard(alignment: .center) {
@@ -156,7 +164,7 @@ struct AvatarShowcase: View {
                 showcaseSection("In Context: Person Row") {
                     DSGroupedList {
                         HStack(spacing: DSSpacing.md) {
-                            DSAvatar.fromName("Sarah Smith", size: .medium)
+                            remoteAvatar(url: "https://randomuser.me/api/portraits/women/44.jpg", size: 48)
                             VStack(alignment: .leading) {
                                 Text("Sarah Smith")
                                     .font(DSTypography.headline)
@@ -203,6 +211,39 @@ struct AvatarShowcase: View {
                 .foregroundColor(DSColors.textPrimary)
             
             content()
+        }
+    }
+    
+    @ViewBuilder
+    private func remoteAvatar(url: String, size: CGFloat = 64) -> some View {
+        AsyncImage(url: URL(string: url)) { phase in
+            switch phase {
+            case .empty:
+                Circle()
+                    .fill(DSColors.neutral200)
+                    .frame(width: size, height: size)
+                    .overlay {
+                        ProgressView()
+                    }
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: size, height: size)
+                    .clipShape(Circle())
+            case .failure:
+                Circle()
+                    .fill(DSColors.primaryLight)
+                    .frame(width: size, height: size)
+                    .overlay {
+                        Image(systemName: "person.fill")
+                            .foregroundColor(DSColors.primary)
+                    }
+            @unknown default:
+                Circle()
+                    .fill(DSColors.primaryLight)
+                    .frame(width: size, height: size)
+            }
         }
     }
 }

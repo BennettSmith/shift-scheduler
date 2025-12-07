@@ -49,7 +49,7 @@ struct CardsShowcase: View {
                         }
                     }
                     
-                    DSSectionCard(title: "Leaderboards", actionTitle: "View All") {
+                    DSSectionCard(title: "Leaderboards", actionTitle: "View All", action: { }) {
                         Text("Content with action button")
                             .font(DSTypography.body)
                             .foregroundColor(DSColors.textSecondary)

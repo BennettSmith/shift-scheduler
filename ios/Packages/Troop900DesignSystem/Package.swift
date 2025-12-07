@@ -24,7 +24,10 @@ let package = Package(
         .target(
             name: "Troop900DesignSystem",
             dependencies: [],
-            path: "Sources/Troop900DesignSystem"
+            path: "Sources/Troop900DesignSystem",
+            resources: [
+                .process("Resources")
+            ]
         ),
         .testTarget(
             name: "Troop900DesignSystemTests",

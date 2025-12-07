@@ -1,10 +1,8 @@
 import SwiftUI
-#if canImport(UIKit)
-import UIKit
-#endif
 
 // MARK: - Design System Colors
 // Based on Troop 900 iOS UI Design Specification
+// Adaptive colors use Asset Catalog for proper light/dark mode transitions
 
 /// The complete color palette for the Troop 900 Tree Lot app.
 /// All colors are defined with their semantic purpose.
@@ -19,11 +17,11 @@ public enum DSColors {
     /// Use for pressed states and emphasis
     public static let primaryDark = Color(hex: 0xE65100)
     
-    /// Primary light color (#FFF3E0) / Dark mode: darker orange tint
+    /// Primary light color - adapts for dark mode
     /// Use for backgrounds and highlights
-    public static let primaryLight = Color(adaptive: (light: 0xFFF3E0, dark: 0x3D2200))
+    public static let primaryLight = Color("PrimaryLight", bundle: .module)
     
-    // MARK: - Neutrals (Raw Values)
+    // MARK: - Neutrals
     
     /// Neutral 900 (#1A1A1A)
     public static let neutral900 = Color(hex: 0x1A1A1A)
@@ -37,55 +35,55 @@ public enum DSColors {
     /// Neutral 300 (#B0B0B0)
     public static let neutral300 = Color(hex: 0xB0B0B0)
     
-    /// Neutral 200 (#E5E5E5)
-    public static let neutral200 = Color(hex: 0xE5E5E5)
+    /// Neutral 200 - adapts for dark mode
+    public static let neutral200 = Color("Neutral200", bundle: .module)
     
-    /// Neutral 100 (#F5F5F5)
-    public static let neutral100 = Color(adaptive: (light: 0xF5F5F5, dark: 0x1C1C1E))
+    /// Neutral 100 - adapts for dark mode
+    public static let neutral100 = Color("Neutral100", bundle: .module)
     
     /// Neutral 0 / White (#FFFFFF)
     public static let neutral0 = Color(hex: 0xFFFFFF)
     
     // MARK: - Semantic Colors
     
-    /// Success color (#2E7D32) / Dark mode: brighter green
+    /// Success color - adapts for dark mode (brighter in dark)
     /// Checked in, confirmed, fully staffed
-    public static let success = Color(adaptive: (light: 0x2E7D32, dark: 0x4CAF50))
+    public static let success = Color("Success", bundle: .module)
     
-    /// Success light background
-    public static let successLight = Color(adaptive: (light: 0xE8F5E9, dark: 0x1B3D1F))
+    /// Success light background - adapts for dark mode
+    public static let successLight = Color("SuccessLight", bundle: .module)
     
     /// Warning color (#F9A825)
     /// Needs attention, understaffed
     public static let warning = Color(hex: 0xF9A825)
     
-    /// Warning light background
-    public static let warningLight = Color(adaptive: (light: 0xFFF8E1, dark: 0x3D3000))
+    /// Warning light background - adapts for dark mode
+    public static let warningLight = Color("WarningLight", bundle: .module)
     
-    /// Error color (#C62828) / Dark mode: brighter red
+    /// Error color - adapts for dark mode (brighter in dark)
     /// Critical, errors, cancellations
-    public static let error = Color(adaptive: (light: 0xC62828, dark: 0xEF5350))
+    public static let error = Color("Error", bundle: .module)
     
-    /// Error light background
-    public static let errorLight = Color(adaptive: (light: 0xFFEBEE, dark: 0x3D1A1A))
+    /// Error light background - adapts for dark mode
+    public static let errorLight = Color("ErrorLight", bundle: .module)
     
-    /// Info color (#1565C0) / Dark mode: brighter blue
+    /// Info color - adapts for dark mode (brighter in dark)
     /// Informational states
-    public static let info = Color(adaptive: (light: 0x1565C0, dark: 0x42A5F5))
+    public static let info = Color("Info", bundle: .module)
     
-    /// Info light background
-    public static let infoLight = Color(adaptive: (light: 0xE3F2FD, dark: 0x0D2137))
+    /// Info light background - adapts for dark mode
+    public static let infoLight = Color("InfoLight", bundle: .module)
     
     // MARK: - Text Colors (Adaptive)
     
     /// Primary text color - adapts to light/dark mode
-    public static let textPrimary = Color(adaptive: (light: 0x1A1A1A, dark: 0xFFFFFF))
+    public static let textPrimary = Color("TextPrimary", bundle: .module)
     
     /// Secondary text color - adapts to light/dark mode
-    public static let textSecondary = Color(adaptive: (light: 0x4A4A4A, dark: 0xB0B0B0))
+    public static let textSecondary = Color("TextSecondary", bundle: .module)
     
     /// Tertiary/placeholder text color - adapts to light/dark mode
-    public static let textTertiary = Color(adaptive: (light: 0x8A8A8A, dark: 0x8A8A8A))
+    public static let textTertiary = Color("TextTertiary", bundle: .module)
     
     /// Text color for use on dark/primary backgrounds
     public static let textOnPrimary = Color(hex: 0xFFFFFF)
@@ -93,18 +91,18 @@ public enum DSColors {
     // MARK: - Background Colors (Adaptive)
     
     /// Default page/screen background - adapts to light/dark mode
-    public static let backgroundPage = Color(adaptive: (light: 0xFFFFFF, dark: 0x000000))
+    public static let backgroundPage = Color("BackgroundPage", bundle: .module)
     
     /// Card/surface background - adapts to light/dark mode
-    public static let backgroundCard = Color(adaptive: (light: 0xF5F5F5, dark: 0x1C1C1E))
+    public static let backgroundCard = Color("BackgroundCard", bundle: .module)
     
     /// Elevated surface background - adapts to light/dark mode
-    public static let backgroundElevated = Color(adaptive: (light: 0xFFFFFF, dark: 0x2C2C2E))
+    public static let backgroundElevated = Color("BackgroundElevated", bundle: .module)
     
     // MARK: - Divider/Border Colors (Adaptive)
     
     /// Divider color - adapts to light/dark mode
-    public static let divider = Color(adaptive: (light: 0xE5E5E5, dark: 0x38383A))
+    public static let divider = Color("Divider", bundle: .module)
 }
 
 // MARK: - Color Extension for Hex Values
@@ -131,25 +129,6 @@ public extension Color {
             blue: Double(hex & 0xFF) / 255.0,
             opacity: alpha
         )
-    }
-    
-    /// Initialize an adaptive Color that changes based on light/dark mode
-    /// - Parameter adaptive: A tuple containing (light mode hex, dark mode hex)
-    init(adaptive: (light: UInt, dark: UInt)) {
-        #if canImport(UIKit)
-        self.init(UIColor { traitCollection in
-            let hex = traitCollection.userInterfaceStyle == .dark ? adaptive.dark : adaptive.light
-            return UIColor(
-                red: CGFloat((hex >> 16) & 0xFF) / 255.0,
-                green: CGFloat((hex >> 8) & 0xFF) / 255.0,
-                blue: CGFloat(hex & 0xFF) / 255.0,
-                alpha: 1.0
-            )
-        })
-        #else
-        // Fallback to light mode for non-UIKit platforms
-        self.init(hex: adaptive.light)
-        #endif
     }
 }
 

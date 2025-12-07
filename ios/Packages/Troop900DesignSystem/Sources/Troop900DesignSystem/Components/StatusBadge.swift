@@ -36,7 +36,7 @@ public enum DSStatusType {
         case .critical: return DSColors.error
         case .signedUp: return DSColors.primary
         case .info: return DSColors.info
-        case .neutral: return DSColors.neutral700
+        case .neutral: return DSColors.textSecondary
         }
     }
     

@@ -69,7 +69,7 @@ public struct DSAvatar: View {
     
     public var body: some View {
         Circle()
-            .fill(backgroundColor)
+            .fill(imageBackground)
             .frame(width: size.diameter, height: size.diameter)
             .overlay {
                 switch content {
@@ -88,6 +88,17 @@ public struct DSAvatar: View {
                         .clipShape(Circle())
                 }
             }
+    }
+    
+    /// Returns the appropriate background - clear for images (since they cover it), 
+    /// or the specified backgroundColor for initials/icons
+    private var imageBackground: Color {
+        switch content {
+        case .image:
+            return DSColors.neutral200 // Neutral background for images (visible if image has transparency)
+        case .initials, .icon:
+            return backgroundColor
+        }
     }
 }
 
