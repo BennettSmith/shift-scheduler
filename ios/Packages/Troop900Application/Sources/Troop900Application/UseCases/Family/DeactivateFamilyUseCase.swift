@@ -55,8 +55,6 @@ public final class DeactivateFamilyUseCase: DeactivateFamilyUseCaseProtocol, Sen
         
         // Cancel future assignments if requested
         if request.cancelFutureAssignments {
-            let now = Date()
-            
             for member in members {
                 // Get all assignments for this member
                 let assignments = try await assignmentRepository.getAssignmentsForUser(userId: member.id)
