@@ -11,7 +11,15 @@ import Testing
 struct ShiftSchedulerTests {
 
     @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+        // Simple sanity check to verify tests are wired up.
+        #expect(1 + 1 == 2)
+    }
+
+    @Test func initialViewIsHealthy() async throws {
+        // This is a placeholder structural test; as we flesh out the app,
+        // we can assert on real view model state instead.
+        let isHealthy = true
+        #expect(isHealthy)
     }
 
 }
