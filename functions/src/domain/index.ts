@@ -1,5 +1,6 @@
 // Domain layer for Cloud Functions.
-// Place entities, value objects, repository interfaces, and business rules here.
+// Place entities, value objects, repository interfaces,
+// and business rules here.
 
 export interface DomainPlaceholder {
   readonly ok: boolean;
