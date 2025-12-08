@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Coverage Report - Troop900Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .stat-detail {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .category-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .category-header:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #654b8f 100%);
+        }
+        
+        .category-name {
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .category-stats {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .category-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .category-content.active {
+            display: block;
+        }
+        
+        .usecase-item {
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f9f9fb;
+            border-radius: 6px;
+        }
+        
+        .usecase-item.perfect {
+            border-left-color: #34c759;
+        }
+        
+        .usecase-item.excellent {
+            border-left-color: #30d158;
+        }
+        
+        .usecase-item.good {
+            border-left-color: #ffd60a;
+        }
+        
+        .usecase-item.fair {
+            border-left-color: #ff9f0a;
+        }
+        
+        .usecase-item.poor {
+            border-left-color: #ff3b30;
+        }
+        
+        .usecase-name {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .coverage-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .coverage-badge.perfect { background: #34c759; }
+        .coverage-badge.excellent { background: #30d158; }
+        .coverage-badge.good { background: #ffd60a; color: #000; }
+        .coverage-badge.fair { background: #ff9f0a; }
+        .coverage-badge.poor { background: #ff3b30; }
+        
+        .coverage-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .coverage-metric {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .coverage-bar {
+            height: 8px;
+            background: #e5e5e7;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .coverage-bar-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .coverage-bar-fill.perfect { background: #34c759; }
+        .coverage-bar-fill.excellent { background: #30d158; }
+        .coverage-bar-fill.good { background: #ffd60a; }
+        .coverage-bar-fill.fair { background: #ff9f0a; }
+        .coverage-bar-fill.poor { background: #ff3b30; }
+        
+        .uncovered-regions {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            border-radius: 4px;
+        }
+        
+        .uncovered-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #856404;
+        }
+        
+        .uncovered-list {
+            font-size: 0.9em;
+            color: #856404;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Code Coverage Report</h1>
+            <div class="subtitle">Troop900Application Use Cases</div>
+        </header>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Overall Coverage</div>
+                <div class="stat-value" style="color: #ffd60a">91.2%</div>
+                <div class="stat-detail">Combined line & branch coverage</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Line Coverage</div>
+                <div class="stat-value">86.1%</div>
+                <div class="stat-detail">722/839 lines</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Branch Coverage</div>
+                <div class="stat-value">96.4%</div>
+                <div class="stat-detail">669/694 branches</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Use Cases</div>
+                <div class="stat-value">47</div>
+                <div class="stat-detail">Total analyzed</div>
+            </div>
+        </div>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterByLevel('all')">All Use Cases</button>
+            <button class="filter-btn" onclick="filterByLevel('perfect')">🎯 Perfect (100%)</button>
+            <button class="filter-btn" onclick="filterByLevel('excellent')">✅ Excellent (95%+)</button>
+            <button class="filter-btn" onclick="filterByLevel('good')">👍 Good (85-95%)</button>
+            <button class="filter-btn" onclick="filterByLevel('fair')">⚠️ Fair (70-85%)</button>
+            <button class="filter-btn" onclick="filterByLevel('poor')">🔴 Poor (<70%)</button>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Admin</div>
+                <div class="category-stats">2 use cases | 86.8% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GenerateInviteCodesUseCase
+                        <span class="coverage-badge good">89.3%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 11/14 (78.6%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 78.57142857142857%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 9/9 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item fair" data-level="fair">
+                    <div class="usecase-name">
+                        GetLeaderboardUseCase
+                        <span class="coverage-badge fair">80.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 3/5 (60.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 60.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 3/3 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Attendance</div>
+                <div class="category-stats">7 use cases | 93.9% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item excellent" data-level="excellent">
+                    <div class="usecase-name">
+                        AddWalkInAssignmentUseCase
+                        <span class="coverage-badge excellent">96.2%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 24/26 (92.3%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 92.3076923076923%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 25/25 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        CheckInUseCase
+                        <span class="coverage-badge good">90.9%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 9/11 (81.8%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 81.81818181818183%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 8/8 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        CheckOutUseCase
+                        <span class="coverage-badge good">87.5%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 6/8 (75.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 75.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 5/5 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetAttendanceHistoryUseCase
+                        <span class="coverage-badge good">93.3%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 13/15 (86.7%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 86.66666666666667%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 10/10 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetShiftAttendanceDetailsUseCase
+                        <span class="coverage-badge good">94.6%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 27/29 (93.1%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 93.10344827586206%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 25/26 (96.2%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 96.15384615384616%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 1 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 91, Col 57<br>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        MarkNoShowUseCase
+                        <span class="coverage-badge good">94.1%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 15/17 (88.2%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 88.23529411764706%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 15/15 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        UpdateAttendanceRecordUseCase
+                        <span class="coverage-badge good">94.4%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 16/18 (88.9%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 88.88888888888889%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 16/16 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Auth</div>
+                <div class="category-stats">5 use cases | 85.7% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetCurrentUserUseCase
+                        <span class="coverage-badge good">91.7%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 10/12 (83.3%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 83.33333333333334%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 8/8 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item fair" data-level="fair">
+                    <div class="usecase-name">
+                        ObserveAuthStateUseCase
+                        <span class="coverage-badge fair">75.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 2/4 (50.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 50.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 2/2 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        SignInWithAppleUseCase
+                        <span class="coverage-badge good">85.7%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 5/7 (71.4%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 71.42857142857143%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 4/4 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        SignInWithGoogleUseCase
+                        <span class="coverage-badge good">85.7%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 5/7 (71.4%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 71.42857142857143%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 4/4 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item fair" data-level="fair">
+                    <div class="usecase-name">
+                        SignOutUseCase
+                        <span class="coverage-badge fair">80.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 3/5 (60.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 60.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 3/3 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Automation</div>
+                <div class="category-stats">1 use cases | 95.2% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item excellent" data-level="excellent">
+                    <div class="usecase-name">
+                        SendShiftRemindersUseCase
+                        <span class="coverage-badge excellent">95.2%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 19/21 (90.5%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 90.47619047619048%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 19/19 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Family</div>
+                <div class="category-stats">5 use cases | 91.2% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        AddFamilyMemberUseCase
+                        <span class="coverage-badge good">85.7%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 5/7 (71.4%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 71.42857142857143%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 4/4 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        DeactivateFamilyUseCase
+                        <span class="coverage-badge good">92.9%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 19/21 (90.5%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 90.47619047619048%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 20/21 (95.2%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 95.23809523809523%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 1 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 63, Col 88<br>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetHouseholdMembersUseCase
+                        <span class="coverage-badge good">90.9%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 9/11 (81.8%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 81.81818181818183%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 7/7 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        LinkScoutToHouseholdUseCase
+                        <span class="coverage-badge good">93.3%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 13/15 (86.7%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 86.66666666666667%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 14/14 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        RegenerateHouseholdLinkCodeUseCase
+                        <span class="coverage-badge good">90.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 8/10 (80.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 80.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 7/7 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Messaging</div>
+                <div class="category-stats">2 use cases | 92.3% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetMessagesUseCase
+                        <span class="coverage-badge good">85.7%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 5/7 (71.4%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 71.42857142857143%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 4/4 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        SendMessageUseCase
+                        <span class="coverage-badge good">94.7%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 17/19 (89.5%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 89.47368421052632%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 13/13 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Onboarding</div>
+                <div class="category-stats">2 use cases | 88.9% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        ClaimProfileUseCase
+                        <span class="coverage-badge good">87.5%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 6/8 (75.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 75.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 5/5 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        ProcessInviteCodeUseCase
+                        <span class="coverage-badge good">90.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 8/10 (80.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 80.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 5/5 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Privacy</div>
+                <div class="category-stats">2 use cases | 93.3% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        ExportUserDataUseCase
+                        <span class="coverage-badge good">89.9%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 20/22 (90.9%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 90.9090909090909%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 16/18 (88.9%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 88.88888888888889%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 2 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 58, Col 89<br>Line 86, Col 50<br>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item excellent" data-level="excellent">
+                    <div class="usecase-name">
+                        PermanentlyDeleteUserDataUseCase
+                        <span class="coverage-badge excellent">96.2%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 24/26 (92.3%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 92.3076923076923%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 22/22 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Profile</div>
+                <div class="category-stats">3 use cases | 92.9% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        DeleteAccountUseCase
+                        <span class="coverage-badge good">94.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 22/25 (88.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 88.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 20/20 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        UpdateDisplayNameUseCase
+                        <span class="coverage-badge good">92.9%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 12/14 (85.7%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 85.71428571428571%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 12/12 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        UpdateProfilePhotoUseCase
+                        <span class="coverage-badge good">90.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 8/10 (80.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 80.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 7/7 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Schedule</div>
+                <div class="category-stats">4 use cases | 89.1% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item excellent" data-level="excellent">
+                    <div class="usecase-name">
+                        CreateShiftUseCase
+                        <span class="coverage-badge excellent">95.2%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 19/21 (90.5%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 90.47619047619048%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 21/21 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GenerateSeasonScheduleUseCase
+                        <span class="coverage-badge good">88.7%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 44/48 (91.7%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 91.66666666666666%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 36/42 (85.7%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 85.71428571428571%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 6 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 142, Col 52<br>Line 143, Col 47<br>Line 146, Col 14<br>Line 149, Col 50<br>Line 150, Col 45<br>Line 153, Col 14<br>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item fair" data-level="fair">
+                    <div class="usecase-name">
+                        PublishScheduleUseCase
+                        <span class="coverage-badge fair">82.4%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 28/35 (80.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 80.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 28/33 (84.8%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 84.84848484848484%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 5 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 134, Col 44<br>Line 136, Col 74<br>Line 137, Col 39<br>Line 141, Col 20<br>Line 141, Col 49<br>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        UpdateDraftShiftUseCase
+                        <span class="coverage-badge good">92.1%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 35/39 (89.7%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 89.74358974358975%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 34/36 (94.4%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 94.44444444444444%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 2 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 47, Col 14<br>Line 51, Col 14<br>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Shifts</div>
+                <div class="category-stats">7 use cases | 91.4% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        CancelAssignmentUseCase
+                        <span class="coverage-badge good">90.9%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 9/11 (81.8%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 81.81818181818183%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 9/9 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetMyShiftsUseCase
+                        <span class="coverage-badge good">88.5%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 10/13 (76.9%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 76.92307692307693%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 9/9 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetShiftDetailsUseCase
+                        <span class="coverage-badge good">93.8%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 14/16 (87.5%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 87.5%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 13/13 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetWeekScheduleUseCase
+                        <span class="coverage-badge good">88.5%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 10/13 (76.9%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 76.92307692307693%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 8/8 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        ObserveShiftAssignmentsUseCase
+                        <span class="coverage-badge good">90.9%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 16/18 (88.9%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 88.88888888888889%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 13/14 (92.9%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 92.85714285714286%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 1 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 43, Col 25<br>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item fair" data-level="fair">
+                    <div class="usecase-name">
+                        ObserveShiftUseCase
+                        <span class="coverage-badge fair">75.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 2/4 (50.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 50.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 2/2 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill fair" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item excellent" data-level="excellent">
+                    <div class="usecase-name">
+                        SignUpForShiftUseCase
+                        <span class="coverage-badge excellent">96.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 23/25 (92.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 92.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 22/22 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Staffing</div>
+                <div class="category-stats">2 use cases | 88.1% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetStaffingAlertsUseCase
+                        <span class="coverage-badge good">86.3%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 20/23 (87.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 86.95652173913044%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 18/21 (85.7%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 85.71428571428571%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 3 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 58, Col 117<br>Line 70, Col 95<br>Line 99, Col 32<br>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetWeekScheduleWithStaffingUseCase
+                        <span class="coverage-badge good">90.2%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 24/28 (85.7%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 85.71428571428571%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 18/19 (94.7%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 94.73684210526315%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 1 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 76, Col 17<br>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Statistics</div>
+                <div class="category-stats">3 use cases | 92.6% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item excellent" data-level="excellent">
+                    <div class="usecase-name">
+                        GenerateScoutBucksReportUseCase
+                        <span class="coverage-badge excellent">96.0%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 23/25 (92.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 92.0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 23/23 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill excellent" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetPersonalStatsUseCase
+                        <span class="coverage-badge good">89.4%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 31/38 (81.6%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 81.57894736842105%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 35/36 (97.2%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 97.22222222222221%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 1 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 123, Col 101<br>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        GetSeasonStatisticsUseCase
+                        <span class="coverage-badge good">94.7%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 17/19 (89.5%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 89.47368421052632%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 17/17 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <div class="category-name">Templates</div>
+                <div class="category-stats">2 use cases | 93.0% coverage</div>
+            </div>
+            <div class="category-content active">
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        CreateShiftTemplateUseCase
+                        <span class="coverage-badge good">94.1%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 15/17 (88.2%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 88.23529411764706%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 14/14 (100.0%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 100.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="usecase-item good" data-level="good">
+                    <div class="usecase-name">
+                        UpdateShiftTemplateUseCase
+                        <span class="coverage-badge good">92.7%</span>
+                    </div>
+                    <div class="coverage-details">
+                        <div>
+                            <div class="coverage-metric">
+                                Line Coverage: 38/42 (90.5%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 90.47619047619048%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="coverage-metric">
+                                Branch Coverage: 37/39 (94.9%)
+                            </div>
+                            <div class="coverage-bar">
+                                <div class="coverage-bar-fill good" style="width: 94.87179487179486%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uncovered-regions">
+                        <div class="uncovered-title">⚠️ 2 Uncovered Region(s):</div>
+                        <div class="uncovered-list">
+Line 40, Col 14<br>Line 44, Col 14<br>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    
+    <script>
+        function toggleCategory(header) {
+            const content = header.nextElementSibling;
+            content.classList.toggle('active');
+        }
+        
+        function filterByLevel(level) {
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide use cases
+            document.querySelectorAll('.usecase-item').forEach(item => {
+                if (level === 'all' || item.dataset.level === level) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide empty categories
+            document.querySelectorAll('.category-section').forEach(section => {
+                const visibleItems = section.querySelectorAll('.usecase-item[style="display: block;"], .usecase-item:not([style])');
+                const hasVisibleItems = level === 'all' || 
+                    Array.from(section.querySelectorAll('.usecase-item')).some(item => 
+                        item.style.display !== 'none' && item.dataset.level === level
+                    );
+                
+                if (level === 'all' || hasVisibleItems) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

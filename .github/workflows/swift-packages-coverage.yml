@@ -1,0 +1,176 @@
+name: Swift Packages - Tests & Coverage
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'ios/Packages/**'
+      - 'scripts/**'
+      - '.github/workflows/swift-packages-coverage.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'ios/Packages/**'
+      - 'scripts/**'
+
+jobs:
+  test-and-coverage:
+    name: Test & Coverage - ${{ matrix.package }}
+    runs-on: macos-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - Troop900Application
+          - Troop900Domain
+          - Troop900Data
+          - Troop900Presentation
+          - Troop900DesignSystem
+          - Troop900Bootstrap
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Cache Swift packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ios/Packages/${{ matrix.package }}/.build
+          key: ${{ runner.os }}-spm-${{ matrix.package }}-${{ hashFiles('ios/Packages/${{ matrix.package }}/Package.swift', 'ios/Packages/${{ matrix.package }}/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-${{ matrix.package }}-
+      
+      - name: Run Tests with Coverage
+        id: test
+        continue-on-error: true
+        run: |
+          cd ios/Packages/${{ matrix.package }}
+          swift test --enable-code-coverage
+        
+      - name: Check if coverage exists
+        id: coverage_check
+        run: |
+          if [ -d "ios/Packages/${{ matrix.package }}/.build" ]; then
+            echo "has_coverage=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_coverage=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Generate Coverage Reports
+        if: steps.coverage_check.outputs.has_coverage == 'true'
+        run: |
+          # Generate text report
+          python3 scripts/analyze_swift_coverage.py ios/Packages/${{ matrix.package }} || true
+          
+          # Generate HTML report
+          python3 scripts/generate_html_coverage.py ios/Packages/${{ matrix.package }} || true
+      
+      - name: Extract Coverage Summary
+        if: steps.coverage_check.outputs.has_coverage == 'true'
+        id: coverage_summary
+        run: |
+          REPORT_FILE="ios/Packages/${{ matrix.package }}/COVERAGE_REPORT.md"
+          if [ -f "$REPORT_FILE" ]; then
+            # Extract overall coverage percentage
+            OVERALL=$(grep "Combined Coverage Score:" "$REPORT_FILE" | head -1 | grep -oE '[0-9]+\.[0-9]+%' | head -1)
+            LINE_COV=$(grep "Overall Line Coverage:" "$REPORT_FILE" | head -1 | grep -oE '[0-9]+\.[0-9]+%' | head -1)
+            BRANCH_COV=$(grep "Overall Branch Coverage:" "$REPORT_FILE" | head -1 | grep -oE '[0-9]+\.[0-9]+%' | head -1)
+            
+            echo "overall=${OVERALL:-N/A}" >> $GITHUB_OUTPUT
+            echo "line=${LINE_COV:-N/A}" >> $GITHUB_OUTPUT
+            echo "branch=${BRANCH_COV:-N/A}" >> $GITHUB_OUTPUT
+            
+            # Create summary for GitHub
+            echo "### Coverage for ${{ matrix.package }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Overall:** ${OVERALL:-N/A}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Line Coverage:** ${LINE_COV:-N/A}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Branch Coverage:** ${BRANCH_COV:-N/A}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "overall=N/A" >> $GITHUB_OUTPUT
+            echo "line=N/A" >> $GITHUB_OUTPUT
+            echo "branch=N/A" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Upload Coverage Reports
+        if: steps.coverage_check.outputs.has_coverage == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-${{ matrix.package }}
+          path: |
+            ios/Packages/${{ matrix.package }}/COVERAGE_REPORT.md
+            ios/Packages/${{ matrix.package }}/coverage_report.html
+            ios/Packages/${{ matrix.package }}/COVERAGE_ANALYSIS_SUMMARY.md
+          retention-days: 30
+          if-no-files-found: ignore
+      
+      - name: Comment Coverage on PR
+        if: github.event_name == 'pull_request' && steps.coverage_check.outputs.has_coverage == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const package = '${{ matrix.package }}';
+            const overall = '${{ steps.coverage_summary.outputs.overall }}';
+            const line = '${{ steps.coverage_summary.outputs.line }}';
+            const branch = '${{ steps.coverage_summary.outputs.branch }}';
+            
+            const body = `## 📊 Coverage Report: ${package}
+            
+            | Metric | Coverage |
+            |--------|----------|
+            | Overall | ${overall} |
+            | Line | ${line} |
+            | Branch | ${branch} |
+            
+            <details>
+            <summary>📄 View detailed reports</summary>
+            
+            Coverage reports are available in the workflow artifacts.
+            </details>`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+      
+      - name: Fail if tests failed
+        if: steps.test.outcome == 'failure'
+        run: exit 1
+
+  coverage-summary:
+    name: Coverage Summary
+    runs-on: ubuntu-latest
+    needs: test-and-coverage
+    if: always()
+    
+    steps:
+      - name: Create Summary
+        run: |
+          echo "# 📊 Swift Packages Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All package tests completed. Check individual job outputs for detailed coverage reports." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Tested Packages" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Troop900Application" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Troop900Domain" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Troop900Data" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Troop900Presentation" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Troop900DesignSystem" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Troop900Bootstrap" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Download coverage reports from workflow artifacts." >> $GITHUB_STEP_SUMMARY
