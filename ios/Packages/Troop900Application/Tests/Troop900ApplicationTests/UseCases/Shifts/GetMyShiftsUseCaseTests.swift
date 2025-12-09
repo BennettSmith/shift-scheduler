@@ -27,10 +27,10 @@ struct GetMyShiftsUseCaseTests {
         // No assignments in repository
         
         // When
-        let shifts = try await useCase.execute(userId: userId)
+        let assignments = try await useCase.execute(userId: userId)
         
         // Then
-        #expect(shifts.isEmpty)
+        #expect(assignments.isEmpty)
         #expect(mockAssignmentRepository.getAssignmentsForUserCallCount == 1)
         #expect(mockAssignmentRepository.getAssignmentsForUserCalledWith[0].value == userId)
     }
@@ -68,10 +68,13 @@ struct GetMyShiftsUseCaseTests {
         mockAssignmentRepository.assignmentsById["assignment-2"] = assignment2
         
         // When
-        let shifts = try await useCase.execute(userId: userId)
+        let assignments = try await useCase.execute(userId: userId)
         
         // Then
-        #expect(shifts.count == 2)
+        #expect(assignments.count == 2)
+        // Verify both assignment IDs and shift IDs are present
+        #expect(assignments.contains { $0.id == "assignment-1" && $0.shiftId == "shift-1" })
+        #expect(assignments.contains { $0.id == "assignment-2" && $0.shiftId == "shift-2" })
     }
     
     @Test("Get my shifts only includes active assignments")
@@ -99,11 +102,12 @@ struct GetMyShiftsUseCaseTests {
         mockAssignmentRepository.assignmentsById["assignment-2"] = cancelledAssignment
         
         // When
-        let shifts = try await useCase.execute(userId: userId)
+        let assignments = try await useCase.execute(userId: userId)
         
         // Then
-        #expect(shifts.count == 1)
-        #expect(shifts[0].id == "shift-1")
+        #expect(assignments.count == 1)
+        #expect(assignments[0].id == "assignment-1")
+        #expect(assignments[0].shiftId == "shift-1")
     }
     
     @Test("Get my shifts sorts by start time")
@@ -144,16 +148,16 @@ struct GetMyShiftsUseCaseTests {
         mockAssignmentRepository.assignmentsById["assignment-2"] = assignment2
         
         // When
-        let shifts = try await useCase.execute(userId: userId)
+        let assignments = try await useCase.execute(userId: userId)
         
         // Then
-        #expect(shifts.count == 2)
-        #expect(shifts[0].id == "earlier-shift")
-        #expect(shifts[1].id == "later-shift")
+        #expect(assignments.count == 2)
+        #expect(assignments[0].shiftId == "earlier-shift")
+        #expect(assignments[1].shiftId == "later-shift")
     }
     
-    @Test("Get my shifts includes shift summary with time range")
-    func getMyShiftsIncludesTimeRange() async throws {
+    @Test("Get my shifts includes assignment ID for check-in operations")
+    func getMyShiftsIncludesAssignmentId() async throws {
         // Given
         let userId = "user-1"
         let shiftDate = DateTestHelpers.tomorrow
@@ -174,11 +178,15 @@ struct GetMyShiftsUseCaseTests {
         mockAssignmentRepository.assignmentsById["assignment-1"] = assignment
         
         // When
-        let shifts = try await useCase.execute(userId: userId)
+        let assignments = try await useCase.execute(userId: userId)
         
         // Then
-        #expect(shifts.count == 1)
-        #expect(shifts[0].timeRange.isEmpty == false)
+        #expect(assignments.count == 1)
+        // The `id` field is the assignment ID (needed for CheckInRequest, CancelAssignmentRequest)
+        #expect(assignments[0].id == "assignment-1")
+        // The `shiftId` field is also available (needed for CheckInRequest)
+        #expect(assignments[0].shiftId == "shift-1")
+        #expect(assignments[0].timeRange.isEmpty == false)
     }
     
     @Test("Get my shifts handles missing shift gracefully")
@@ -205,11 +213,37 @@ struct GetMyShiftsUseCaseTests {
         mockAssignmentRepository.assignmentsById["assignment-2"] = assignmentToMissing
         
         // When
-        let shifts = try await useCase.execute(userId: userId)
+        let assignments = try await useCase.execute(userId: userId)
         
-        // Then - should only return the shift that exists
-        #expect(shifts.count == 1)
-        #expect(shifts[0].id == "existing-shift")
+        // Then - should only return the assignment with existing shift
+        #expect(assignments.count == 1)
+        #expect(assignments[0].id == "assignment-1")
+        #expect(assignments[0].shiftId == "existing-shift")
+    }
+    
+    @Test("Get my shifts includes assignment status and type")
+    func getMyShiftsIncludesAssignmentDetails() async throws {
+        // Given
+        let userId = "user-1"
+        let shift = TestFixtures.createShift(id: "shift-1")
+        let assignment = TestFixtures.createAssignment(
+            id: "assignment-1",
+            shiftId: "shift-1",
+            userId: userId,
+            assignmentType: .scout,
+            status: .confirmed
+        )
+        
+        mockShiftRepository.shiftsById["shift-1"] = shift
+        mockAssignmentRepository.assignmentsById["assignment-1"] = assignment
+        
+        // When
+        let assignments = try await useCase.execute(userId: userId)
+        
+        // Then
+        #expect(assignments.count == 1)
+        #expect(assignments[0].assignmentStatus == .confirmed)
+        #expect(assignments[0].assignmentType == .scout)
     }
     
     // MARK: - Error Tests
