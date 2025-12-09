@@ -1,22 +1,21 @@
 import Foundation
-import Troop900Domain
 
 /// Request to send a message.
 public struct SendMessageRequest: Sendable, Equatable {
     public let title: String
     public let body: String
-    public let targetAudience: TargetAudience
+    public let targetAudience: TargetAudienceType
     public let targetUserIds: [String]?
     public let targetHouseholdIds: [String]?
-    public let priority: MessagePriority
+    public let priority: MessagePriorityType
     
     public init(
         title: String,
         body: String,
-        targetAudience: TargetAudience,
+        targetAudience: TargetAudienceType,
         targetUserIds: [String]?,
         targetHouseholdIds: [String]?,
-        priority: MessagePriority
+        priority: MessagePriorityType
     ) {
         self.title = title
         self.body = body

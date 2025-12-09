@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to add a walk-in volunteer to an in-progress shift.
 /// Walk-ins are volunteers who show up without a pre-existing assignment.
@@ -17,14 +16,14 @@ public struct AddWalkInRequest: Sendable, Equatable {
     public let notes: String?
     
     /// Type of assignment (scout or parent)
-    public let assignmentType: AssignmentType
+    public let assignmentType: ParticipantType
     
     public init(
         shiftId: String,
         userId: String,
         requestingUserId: String,
         notes: String?,
-        assignmentType: AssignmentType
+        assignmentType: ParticipantType
     ) {
         self.shiftId = shiftId
         self.userId = userId

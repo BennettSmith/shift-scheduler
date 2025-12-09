@@ -1,14 +1,13 @@
 import Foundation
-import Troop900Domain
 
 public struct CreateShiftResponse: Sendable, Equatable {
     public let shiftId: String
-    public let status: ShiftStatus
+    public let status: ShiftStatusType
     public let notificationSent: Bool
     
     public init(
         shiftId: String,
-        status: ShiftStatus,
+        status: ShiftStatusType,
         notificationSent: Bool
     ) {
         self.shiftId = shiftId

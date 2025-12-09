@@ -7,20 +7,20 @@ public final class MockAuthRepository: AuthRepository, @unchecked Sendable {
     // MARK: - State
     
     /// The currently authenticated user ID
-    private var _currentUserId: String?
+    private var _currentUserId: UserId?
     
-    public var currentUserId: String? {
+    public var currentUserId: UserId? {
         _currentUserId
     }
     
     // MARK: - Configurable Results
     
-    public var signInWithAppleResult: Result<String, Error>?
-    public var signInWithGoogleResult: Result<String, Error>?
+    public var signInWithAppleResult: Result<UserId, Error>?
+    public var signInWithGoogleResult: Result<UserId, Error>?
     public var signOutError: Error?
     
     /// Values to emit from observeAuthState() stream
-    public var authStateValues: [String?] = []
+    public var authStateValues: [UserId?] = []
     
     // MARK: - Call Tracking
     
@@ -34,7 +34,7 @@ public final class MockAuthRepository: AuthRepository, @unchecked Sendable {
     
     // MARK: - AuthRepository Implementation
     
-    public func signInWithApple(identityToken: Data, nonce: String) async throws -> String {
+    public func signInWithApple(identityToken: Data, nonce: String) async throws -> UserId {
         signInWithAppleCallCount += 1
         signInWithAppleCalledWith.append((identityToken, nonce))
         
@@ -45,12 +45,12 @@ public final class MockAuthRepository: AuthRepository, @unchecked Sendable {
         }
         
         // Default: generate a user ID and sign in
-        let userId = "apple-user-\(UUID().uuidString.prefix(8))"
+        let userId = UserId(unchecked: "apple-user-\(UUID().uuidString.prefix(8))")
         _currentUserId = userId
         return userId
     }
     
-    public func signInWithGoogle(idToken: String, accessToken: String) async throws -> String {
+    public func signInWithGoogle(idToken: String, accessToken: String) async throws -> UserId {
         signInWithGoogleCallCount += 1
         signInWithGoogleCalledWith.append((idToken, accessToken))
         
@@ -61,7 +61,7 @@ public final class MockAuthRepository: AuthRepository, @unchecked Sendable {
         }
         
         // Default: generate a user ID and sign in
-        let userId = "google-user-\(UUID().uuidString.prefix(8))"
+        let userId = UserId(unchecked: "google-user-\(UUID().uuidString.prefix(8))")
         _currentUserId = userId
         return userId
     }
@@ -76,7 +76,7 @@ public final class MockAuthRepository: AuthRepository, @unchecked Sendable {
         _currentUserId = nil
     }
     
-    public func observeAuthState() -> AsyncStream<String?> {
+    public func observeAuthState() -> AsyncStream<UserId?> {
         AsyncStream { continuation in
             if !authStateValues.isEmpty {
                 // Emit configured values
@@ -94,13 +94,13 @@ public final class MockAuthRepository: AuthRepository, @unchecked Sendable {
     // MARK: - Test Helpers
     
     /// Sets the current user ID without going through sign in
-    public func setCurrentUserId(_ userId: String?) {
+    public func setCurrentUserId(_ userId: UserId?) {
         _currentUserId = userId
     }
     
     /// Simulates a user being signed in
     public func simulateSignedIn(userId: String) {
-        _currentUserId = userId
+        _currentUserId = UserId(unchecked: userId)
     }
     
     /// Simulates a user being signed out

@@ -29,7 +29,7 @@ public final class MockHouseholdRepository: HouseholdRepository, @unchecked Send
     public var getHouseholdByLinkCodeCalledWith: [String] = []
     
     public var getHouseholdsManagedByUserCallCount = 0
-    public var getHouseholdsManagedByUserCalledWith: [String] = []
+    public var getHouseholdsManagedByUserCalledWith: [UserId] = []
     
     public var createHouseholdCallCount = 0
     public var createHouseholdCalledWith: [Household] = []
@@ -64,7 +64,7 @@ public final class MockHouseholdRepository: HouseholdRepository, @unchecked Send
         return householdsByLinkCode[linkCode]
     }
     
-    public func getHouseholdsManagedByUser(userId: String) async throws -> [Household] {
+    public func getHouseholdsManagedByUser(userId: UserId) async throws -> [Household] {
         getHouseholdsManagedByUserCallCount += 1
         getHouseholdsManagedByUserCalledWith.append(userId)
         
@@ -72,7 +72,7 @@ public final class MockHouseholdRepository: HouseholdRepository, @unchecked Send
             return try result.get()
         }
         
-        return householdsById.values.filter { $0.managers.contains(userId) }
+        return householdsById.values.filter { $0.managers.contains(userId.value) }
     }
     
     public func observeHousehold(id: String) -> AsyncThrowingStream<Household, Error> {

@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to deactivate a family (household).
 /// Deactivation cancels all future shift assignments and prevents new signups.

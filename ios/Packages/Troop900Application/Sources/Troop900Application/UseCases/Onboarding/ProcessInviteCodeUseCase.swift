@@ -17,8 +17,11 @@ public final class ProcessInviteCodeUseCase: ProcessInviteCodeUseCaseProtocol, S
     }
     
     public func execute(request: ProcessInviteCodeRequest) async throws -> ProcessInviteCodeResponse {
+        // Validate and convert boundary ID to domain ID type
+        let userId = try UserId(request.userId)
+        
         // Call service to process invite code (Cloud Function handles validation and assignment)
-        let result = try await onboardingService.processInviteCode(code: request.code, userId: request.userId)
+        let result = try await onboardingService.processInviteCode(code: request.code, userId: userId)
         
         // Fetch household name if successful
         var householdName: String?
@@ -28,11 +31,14 @@ public final class ProcessInviteCodeUseCase: ProcessInviteCodeUseCaseProtocol, S
             }
         }
         
+        // Convert domain role to boundary role
+        let role = result.userRole.map { UserRoleType(from: $0) }
+        
         return ProcessInviteCodeResponse(
             success: result.success,
             householdId: result.householdId,
             householdName: householdName,
-            role: result.userRole,
+            role: role,
             message: result.message
         )
     }

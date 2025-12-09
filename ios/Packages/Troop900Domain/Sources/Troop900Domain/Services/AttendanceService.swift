@@ -12,7 +12,7 @@ public protocol AttendanceService: Sendable {
     ///   - assignmentId: The assignment's ID.
     ///   - notes: Optional notes about the shift.
     /// - Returns: The check-out result.
-    func checkOut(assignmentId: String, notes: String?) async throws -> CheckOutServiceResponse
+    func checkOut(assignmentId: AssignmentId, notes: String?) async throws -> CheckOutServiceResponse
     
     /// Admin manual check-in (for fixing issues or late arrivals).
     /// - Parameter request: The admin check-in request.
@@ -26,15 +26,15 @@ public protocol AttendanceService: Sendable {
 }
 
 /// Request to check in to a shift.
-public struct CheckInServiceRequest: Sendable, Codable {
-    public let assignmentId: String
-    public let shiftId: String
+public struct CheckInServiceRequest: Sendable {
+    public let assignmentId: AssignmentId
+    public let shiftId: ShiftId
     public let qrCodeData: String?
     public let location: GeoLocation?
     
     public init(
-        assignmentId: String,
-        shiftId: String,
+        assignmentId: AssignmentId,
+        shiftId: ShiftId,
         qrCodeData: String?,
         location: GeoLocation?
     ) {
@@ -46,12 +46,12 @@ public struct CheckInServiceRequest: Sendable, Codable {
 }
 
 /// Response from check-in operation.
-public struct CheckInServiceResponse: Sendable, Codable {
+public struct CheckInServiceResponse: Sendable {
     public let success: Bool
-    public let attendanceRecordId: String
+    public let attendanceRecordId: AttendanceRecordId
     public let checkInTime: Date
     
-    public init(success: Bool, attendanceRecordId: String, checkInTime: Date) {
+    public init(success: Bool, attendanceRecordId: AttendanceRecordId, checkInTime: Date) {
         self.success = success
         self.attendanceRecordId = attendanceRecordId
         self.checkInTime = checkInTime
@@ -59,7 +59,7 @@ public struct CheckInServiceResponse: Sendable, Codable {
 }
 
 /// Response from check-out operation.
-public struct CheckOutServiceResponse: Sendable, Codable {
+public struct CheckOutServiceResponse: Sendable {
     public let success: Bool
     public let checkOutTime: Date
     public let hoursWorked: Double
@@ -72,17 +72,17 @@ public struct CheckOutServiceResponse: Sendable, Codable {
 }
 
 /// Request for admin to manually check in a user.
-public struct AdminCheckInRequest: Sendable, Codable {
-    public let assignmentId: String
-    public let shiftId: String
-    public let adminUserId: String
+public struct AdminCheckInRequest: Sendable {
+    public let assignmentId: AssignmentId
+    public let shiftId: ShiftId
+    public let adminUserId: UserId
     public let overrideTime: Date?
     public let notes: String?
     
     public init(
-        assignmentId: String,
-        shiftId: String,
-        adminUserId: String,
+        assignmentId: AssignmentId,
+        shiftId: ShiftId,
+        adminUserId: UserId,
         overrideTime: Date?,
         notes: String?
     ) {
@@ -95,15 +95,15 @@ public struct AdminCheckInRequest: Sendable, Codable {
 }
 
 /// Request for admin to manually check out a user.
-public struct AdminCheckOutRequest: Sendable, Codable {
-    public let assignmentId: String
-    public let adminUserId: String
+public struct AdminCheckOutRequest: Sendable {
+    public let assignmentId: AssignmentId
+    public let adminUserId: UserId
     public let overrideTime: Date?
     public let notes: String?
     
     public init(
-        assignmentId: String,
-        adminUserId: String,
+        assignmentId: AssignmentId,
+        adminUserId: UserId,
         overrideTime: Date?,
         notes: String?
     ) {

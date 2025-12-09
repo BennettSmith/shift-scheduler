@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to export all user data (GDPR/CCPA compliance).
 public struct ExportUserDataRequest: Sendable, Equatable {

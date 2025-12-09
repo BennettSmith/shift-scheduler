@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to permanently delete all user data (right to be forgotten).
 /// This is an admin-only operation for GDPR/CCPA compliance.

@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after successful sign-in.
 public struct SignInResponse: Sendable, Equatable {

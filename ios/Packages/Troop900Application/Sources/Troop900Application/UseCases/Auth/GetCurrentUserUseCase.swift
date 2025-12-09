@@ -30,13 +30,16 @@ public final class GetCurrentUserUseCase: GetCurrentUserUseCaseProtocol, Sendabl
         let user = try await userRepository.getUser(id: userId)
         
         // Fetch all households the user belongs to
-        var households: [Household] = []
+        var households: [HouseholdInfo] = []
         for householdId in user.households {
             if let household = try? await householdRepository.getHousehold(id: householdId) {
-                households.append(household)
+                households.append(HouseholdInfo(from: household))
             }
         }
         
-        return CurrentUserResponse(user: user, households: households)
+        return CurrentUserResponse(
+            user: UserInfo(from: user),
+            households: households
+        )
     }
 }

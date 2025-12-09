@@ -27,8 +27,12 @@ public final class ExportUserDataUseCase: ExportUserDataUseCaseProtocol, Sendabl
     }
     
     public func execute(request: ExportUserDataRequest) async throws -> ExportUserDataResponse {
+        // Validate and convert boundary IDs to domain ID types
+        let userId = try UserId(request.userId)
+        let requestingUserId = try UserId(request.requestingUserId)
+        
         // Validate requesting user has permission
-        let requestingUser = try await userRepository.getUser(id: request.requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserId)
         let isAdmin = requestingUser.role.isLeadership
         let isSelf = request.userId == request.requestingUserId
         
@@ -37,11 +41,11 @@ public final class ExportUserDataUseCase: ExportUserDataUseCaseProtocol, Sendabl
         }
         
         // Get user to export
-        let user = try await userRepository.getUser(id: request.userId)
+        let user = try await userRepository.getUser(id: userId)
         
         // Export profile
         let profile = ExportedProfile(
-            userId: user.id,
+            userId: user.id.value,
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
@@ -66,10 +70,10 @@ public final class ExportUserDataUseCase: ExportUserDataUseCaseProtocol, Sendabl
         }
         
         // Export assignments
-        let assignments = try await assignmentRepository.getAssignmentsForUser(userId: user.id)
+        let assignments = try await assignmentRepository.getAssignmentsForUser(userId: userId)
         let exportedAssignments = assignments.map { assignment in
             ExportedAssignment(
-                assignmentId: assignment.id,
+                assignmentId: assignment.id.value,
                 shiftDate: assignment.assignedAt, // Would ideally get actual shift date
                 shiftLabel: nil,
                 assignmentType: assignment.assignmentType.rawValue,
@@ -79,10 +83,10 @@ public final class ExportUserDataUseCase: ExportUserDataUseCaseProtocol, Sendabl
         }
         
         // Export attendance records
-        let attendanceRecords = try await attendanceRepository.getAttendanceRecordsForUser(userId: user.id)
+        let attendanceRecords = try await attendanceRepository.getAttendanceRecordsForUser(userId: userId)
         let exportedAttendance = attendanceRecords.map { record in
             ExportedAttendanceRecord(
-                recordId: record.id,
+                recordId: record.id.value,
                 shiftDate: record.checkInTime ?? Date(),
                 checkInTime: record.checkInTime,
                 checkOutTime: record.checkOutTime,

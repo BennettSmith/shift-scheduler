@@ -29,7 +29,7 @@ struct AddWalkInAssignmentUseCaseTests {
     private func createInProgressShift(id: String) -> Shift {
         let now = Date()
         return Shift(
-            id: id,
+            id: ShiftId(unchecked: id),
             date: now.startOfDay,
             startTime: now.addingTimeInterval(-3600), // Started 1 hour ago
             endTime: now.addingTimeInterval(7200), // Ends in 2 hours
@@ -159,15 +159,15 @@ struct AddWalkInAssignmentUseCaseTests {
         // Then
         #expect(mockAssignmentRepository.createAssignmentCallCount == 1)
         let createdAssignment = mockAssignmentRepository.createAssignmentCalledWith[0]
-        #expect(createdAssignment.shiftId == shiftId)
-        #expect(createdAssignment.userId == walkInUserId)
+        #expect(createdAssignment.shiftId.value == shiftId)
+        #expect(createdAssignment.userId.value == walkInUserId)
         #expect(createdAssignment.assignmentType == .parent)
-        #expect(createdAssignment.assignedBy == committeeUserId)
+        #expect(createdAssignment.assignedBy?.value == committeeUserId)
         
         #expect(mockAttendanceRepository.createAttendanceRecordCallCount == 1)
         let createdAttendance = mockAttendanceRepository.createAttendanceRecordCalledWith[0]
-        #expect(createdAttendance.shiftId == shiftId)
-        #expect(createdAttendance.userId == walkInUserId)
+        #expect(createdAttendance.shiftId.value == shiftId)
+        #expect(createdAttendance.userId.value == walkInUserId)
         #expect(createdAttendance.status == .checkedIn)
         #expect(createdAttendance.checkInMethod == .manual)
     }

@@ -28,7 +28,7 @@ public final class AddFamilyMemberUseCase: AddFamilyMemberUseCaseProtocol, Senda
         
         return AddFamilyMemberResponse(
             success: result.success,
-            userId: result.userId,
+            userId: result.userId?.value,
             claimCode: result.claimCode,
             message: result.message
         )

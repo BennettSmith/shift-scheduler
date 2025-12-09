@@ -2,7 +2,7 @@ import Foundation
 
 /// Represents a user in the system (scout, parent, or leadership).
 public struct User: Identifiable, Equatable, Sendable, Codable {
-    public let id: String
+    public let id: UserId
     public let email: String
     public let firstName: String
     public let lastName: String
@@ -18,7 +18,7 @@ public struct User: Identifiable, Equatable, Sendable, Codable {
     public let updatedAt: Date
     
     public init(
-        id: String,
+        id: UserId,
         email: String,
         firstName: String,
         lastName: String,

@@ -58,7 +58,7 @@ struct AddFamilyMemberUseCaseTests {
         
         mockFamilyManagementService.addFamilyMemberResult = .success(AddFamilyMemberResult(
             success: true,
-            userId: "new-user-123",
+            userId: UserId(unchecked: "new-user-123"),
             claimCode: "CLAIM123",
             message: "Successfully added"
         ))

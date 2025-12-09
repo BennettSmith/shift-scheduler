@@ -26,8 +26,15 @@ public final class SignUpForShiftUseCase: SignUpForShiftUseCaseProtocol, Sendabl
     }
     
     public func execute(request: SignUpForShiftRequest) async throws -> SignUpForShiftResponse {
+        // Validate and convert boundary IDs to domain ID types
+        let shiftId = try ShiftId(request.shiftId)
+        let userId = try UserId(request.userId)
+        
+        // Convert boundary type to domain type
+        let assignmentType = request.assignmentType.toDomain()
+        
         // Validate shift exists and is available
-        let shift = try await shiftRepository.getShift(id: request.shiftId)
+        let shift = try await shiftRepository.getShift(id: shiftId)
         
         guard shift.status.canAcceptSignups else {
             throw DomainError.shiftNotPublished
@@ -38,33 +45,33 @@ public final class SignUpForShiftUseCase: SignUpForShiftUseCaseProtocol, Sendabl
         }
         
         // Validate user can sign up
-        let user = try await userRepository.getUser(id: request.userId)
+        let user = try await userRepository.getUser(id: userId)
         
         guard user.canSignUpForShifts else {
             throw DomainError.userAccountInactive
         }
         
         // Check if user is already assigned
-        let existingAssignments = try await assignmentRepository.getAssignmentsForShift(shiftId: request.shiftId)
-        if existingAssignments.contains(where: { $0.userId == request.userId && $0.isActive }) {
+        let existingAssignments = try await assignmentRepository.getAssignmentsForShift(shiftId: shiftId)
+        if existingAssignments.contains(where: { $0.userId == userId && $0.isActive }) {
             throw DomainError.alreadyAssignedToShift
         }
         
         // Check if shift has space for the assignment type
-        switch request.assignmentType {
+        switch assignmentType {
         case .scout where !shift.needsScouts:
             throw DomainError.shiftFull
         case .parent where !shift.needsParents:
             throw DomainError.shiftFull
-        default:
-            break
+        case .scout, .parent:
+            break // Has space
         }
         
         // Call service to sign up (Cloud Function handles transaction)
         let serviceRequest = ShiftSignupServiceRequest(
-            shiftId: request.shiftId,
-            userId: request.userId,
-            assignmentType: request.assignmentType,
+            shiftId: shiftId,
+            userId: userId,
+            assignmentType: assignmentType,
             notes: request.notes
         )
         
@@ -72,7 +79,7 @@ public final class SignUpForShiftUseCase: SignUpForShiftUseCaseProtocol, Sendabl
         
         return SignUpForShiftResponse(
             success: serviceResponse.success,
-            assignmentId: serviceResponse.assignmentId,
+            assignmentId: serviceResponse.assignmentId.value,
             message: serviceResponse.message
         )
     }

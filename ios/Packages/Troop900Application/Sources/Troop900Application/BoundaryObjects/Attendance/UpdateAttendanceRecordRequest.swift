@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to update an attendance record (admin override).
 /// Used by committee to fix incorrect attendance records.
@@ -17,7 +16,7 @@ public struct UpdateAttendanceRecordRequest: Sendable, Equatable {
     public let checkOutTime: Date?
     
     /// New status (if updating)
-    public let status: AttendanceStatus?
+    public let status: AttendanceStatusType?
     
     /// New hours worked (if updating)
     public let hoursWorked: Double?
@@ -33,7 +32,7 @@ public struct UpdateAttendanceRecordRequest: Sendable, Equatable {
         requestingUserId: String,
         checkInTime: Date?,
         checkOutTime: Date?,
-        status: AttendanceStatus?,
+        status: AttendanceStatusType?,
         hoursWorked: Double?,
         correctionNotes: String?,
         overrideReason: String

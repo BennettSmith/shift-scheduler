@@ -2,10 +2,10 @@ import Foundation
 
 /// Represents an attendance record for a shift assignment.
 public struct AttendanceRecord: Identifiable, Equatable, Sendable, Codable {
-    public let id: String
-    public let assignmentId: String
-    public let shiftId: String
-    public let userId: String
+    public let id: AttendanceRecordId
+    public let assignmentId: AssignmentId
+    public let shiftId: ShiftId
+    public let userId: UserId
     public let checkInTime: Date?
     public let checkOutTime: Date?
     public let checkInMethod: CheckInMethod
@@ -15,10 +15,10 @@ public struct AttendanceRecord: Identifiable, Equatable, Sendable, Codable {
     public let notes: String?
     
     public init(
-        id: String,
-        assignmentId: String,
-        shiftId: String,
-        userId: String,
+        id: AttendanceRecordId,
+        assignmentId: AssignmentId,
+        shiftId: ShiftId,
+        userId: UserId,
         checkInTime: Date?,
         checkOutTime: Date?,
         checkInMethod: CheckInMethod,

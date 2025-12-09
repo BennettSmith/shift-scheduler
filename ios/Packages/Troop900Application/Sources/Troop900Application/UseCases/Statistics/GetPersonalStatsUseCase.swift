@@ -30,14 +30,17 @@ public final class GetPersonalStatsUseCase: GetPersonalStatsUseCaseProtocol, Sen
     }
     
     public func execute(userId: String, seasonId: String?) async throws -> PersonalStatsResponse {
+        // Validate and convert boundary ID to domain ID type
+        let userIdValue = try UserId(userId)
+        
         // Get user
-        let user = try await userRepository.getUser(id: userId)
+        let user = try await userRepository.getUser(id: userIdValue)
         
         // Get all attendance records for user
-        let allAttendanceRecords = try await attendanceRepository.getAttendanceRecordsForUser(userId: userId)
+        let allAttendanceRecords = try await attendanceRepository.getAttendanceRecordsForUser(userId: userIdValue)
         
         // Get all assignments for user
-        let allAssignments = try await assignmentRepository.getAssignmentsForUser(userId: userId)
+        let allAssignments = try await assignmentRepository.getAssignmentsForUser(userId: userIdValue)
         
         // Calculate current season stats
         let currentSeasonRecords = seasonId != nil ? filterRecordsBySeason(allAttendanceRecords, seasonId: seasonId!) : allAttendanceRecords
@@ -59,7 +62,7 @@ public final class GetPersonalStatsUseCase: GetPersonalStatsUseCaseProtocol, Sen
         if seasonId != nil {
             let leaderboard = try? await leaderboardService.getLeaderboard(seasonId: seasonId)
             if let leaderboard = leaderboard {
-                currentSeasonRank = leaderboard.entries.firstIndex(where: { $0.id == userId }).map { $0 + 1 }
+                currentSeasonRank = leaderboard.entries.firstIndex(where: { $0.id == userIdValue }).map { $0 + 1 }
                 totalParticipants = leaderboard.entries.count
             }
         }
@@ -74,7 +77,7 @@ public final class GetPersonalStatsUseCase: GetPersonalStatsUseCaseProtocol, Sen
         )
         
         return PersonalStatsResponse(
-            userId: user.id,
+            userId: user.id.value,
             userName: user.fullName,
             currentSeasonStats: currentSeasonStats,
             allTimeStats: allTimeStats,
@@ -124,11 +127,11 @@ public final class GetPersonalStatsUseCase: GetPersonalStatsUseCaseProtocol, Sen
         
         return Array(sortedRecords.prefix(10)).map { record in
             ShiftHistoryEntry(
-                id: record.id,
+                id: record.id.value,
                 shiftDate: record.checkInTime ?? Date(),
                 shiftLabel: nil, // Would need to fetch shift details
                 hoursWorked: record.hoursWorked,
-                status: record.status
+                status: AttendanceStatusType(from: record.status)
             )
         }
     }

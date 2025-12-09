@@ -17,39 +17,22 @@ public final class GetMyShiftsUseCase: GetMyShiftsUseCaseProtocol, Sendable {
     }
     
     public func execute(userId: String) async throws -> [ShiftSummary] {
+        // Validate and convert boundary ID to domain ID type
+        let userIdValue = try UserId(userId)
+        
         // Get active assignments for user
-        let assignments = try await assignmentRepository.getAssignmentsForUser(userId: userId)
+        let assignments = try await assignmentRepository.getAssignmentsForUser(userId: userIdValue)
         let activeAssignments = assignments.filter { $0.isActive }
         
         // Fetch shifts for assignments
         var shiftSummaries: [ShiftSummary] = []
         for assignment in activeAssignments {
             if let shift = try? await shiftRepository.getShift(id: assignment.shiftId) {
-                shiftSummaries.append(ShiftSummary(
-                    id: shift.id,
-                    date: shift.date,
-                    startTime: shift.startTime,
-                    endTime: shift.endTime,
-                    requiredScouts: shift.requiredScouts,
-                    requiredParents: shift.requiredParents,
-                    currentScouts: shift.currentScouts,
-                    currentParents: shift.currentParents,
-                    location: shift.location,
-                    label: shift.label,
-                    status: shift.status,
-                    staffingStatus: shift.staffingStatus,
-                    timeRange: formatTimeRange(start: shift.startTime, end: shift.endTime)
-                ))
+                shiftSummaries.append(ShiftSummary(from: shift))
             }
         }
         
         // Sort by date
         return shiftSummaries.sorted { $0.startTime < $1.startTime }
-    }
-    
-    private func formatTimeRange(start: Date, end: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return "\(formatter.string(from: start)) - \(formatter.string(from: end))"
     }
 }

@@ -54,7 +54,7 @@ struct UpdateAttendanceRecordUseCaseTests {
         // Then
         #expect(mockAttendanceRepository.updateAttendanceRecordCallCount == 1)
         let updatedRecord = mockAttendanceRepository.updateAttendanceRecordCalledWith[0]
-        #expect(updatedRecord.id == recordId)
+        #expect(updatedRecord.id.value == recordId)
         #expect(updatedRecord.status == .checkedOut)
         #expect(updatedRecord.hoursWorked == 3.5)
         #expect(updatedRecord.checkInMethod == .adminOverride)
@@ -186,10 +186,10 @@ struct UpdateAttendanceRecordUseCaseTests {
         
         let committeeUser = TestFixtures.createCommittee(id: committeeUserId, firstName: "Admin", lastName: "User")
         let existingRecord = AttendanceRecord(
-            id: recordId,
-            assignmentId: "assignment-1",
-            shiftId: "shift-1",
-            userId: "volunteer-1",
+            id: AttendanceRecordId(unchecked: recordId),
+            assignmentId: AssignmentId(unchecked: "assignment-1"),
+            shiftId: ShiftId(unchecked: "shift-1"),
+            userId: UserId(unchecked: "volunteer-1"),
             checkInTime: Date(),
             checkOutTime: nil,
             checkInMethod: .qrCode,

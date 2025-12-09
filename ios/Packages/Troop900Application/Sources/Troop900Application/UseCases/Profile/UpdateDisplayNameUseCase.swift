@@ -16,8 +16,11 @@ public final class UpdateDisplayNameUseCase: UpdateDisplayNameUseCaseProtocol, S
     }
     
     public func execute(request: UpdateDisplayNameRequest) async throws {
+        // Validate and convert boundary ID to domain ID type
+        let userId = try UserId(request.userId)
+        
         // Validate user exists
-        let user = try await userRepository.getUser(id: request.userId)
+        let user = try await userRepository.getUser(id: userId)
         
         // Validate names are not empty
         let trimmedFirstName = request.firstName.trimmingCharacters(in: .whitespacesAndNewlines)

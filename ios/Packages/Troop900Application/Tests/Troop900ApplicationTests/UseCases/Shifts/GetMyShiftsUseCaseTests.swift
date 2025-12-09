@@ -32,7 +32,7 @@ struct GetMyShiftsUseCaseTests {
         // Then
         #expect(shifts.isEmpty)
         #expect(mockAssignmentRepository.getAssignmentsForUserCallCount == 1)
-        #expect(mockAssignmentRepository.getAssignmentsForUserCalledWith[0] == userId)
+        #expect(mockAssignmentRepository.getAssignmentsForUserCalledWith[0].value == userId)
     }
     
     @Test("Get my shifts returns user's assigned shifts")

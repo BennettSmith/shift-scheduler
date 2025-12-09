@@ -23,32 +23,39 @@ public final class CheckInUseCase: CheckInUseCaseProtocol, Sendable {
     }
     
     public func execute(request: CheckInRequest) async throws -> CheckInResponse {
+        // Step 1: Validate and convert boundary IDs to domain ID types
+        let assignmentId = try AssignmentId(request.assignmentId)
+        let shiftId = try ShiftId(request.shiftId)
+        
+        // Step 2: Convert boundary types to domain types
+        let location = request.location.map { GeoLocation(from: $0) }
+        
         // Validate assignment exists and is active
-        let assignment = try await assignmentRepository.getAssignment(id: request.assignmentId)
+        let assignment = try await assignmentRepository.getAssignment(id: assignmentId)
         
         guard assignment.isActive else {
             throw DomainError.assignmentNotActive
         }
         
         // Check if already checked in
-        if let existingRecord = try? await attendanceRepository.getAttendanceRecordByAssignment(assignmentId: request.assignmentId),
+        if let existingRecord = try? await attendanceRepository.getAttendanceRecordByAssignment(assignmentId: assignmentId),
            existingRecord.isCheckedIn {
             throw DomainError.alreadyCheckedIn
         }
         
         // Call service to check in (Cloud Function handles validation and creation)
         let serviceRequest = CheckInServiceRequest(
-            assignmentId: request.assignmentId,
-            shiftId: request.shiftId,
+            assignmentId: assignmentId,
+            shiftId: shiftId,
             qrCodeData: request.qrCodeData,
-            location: request.location
+            location: location
         )
         
         let serviceResponse = try await attendanceService.checkIn(request: serviceRequest)
         
         return CheckInResponse(
             success: serviceResponse.success,
-            attendanceRecordId: serviceResponse.attendanceRecordId,
+            attendanceRecordId: serviceResponse.attendanceRecordId.value,
             checkInTime: serviceResponse.checkInTime,
             message: "Successfully checked in!"
         )

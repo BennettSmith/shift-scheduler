@@ -28,7 +28,7 @@ struct GetCurrentUserUseCaseTests {
         let userId = "user-123"
         let user = TestFixtures.createUser(id: userId, households: [])
         
-        mockAuthRepository.setCurrentUserId(userId)
+        mockAuthRepository.setCurrentUserId(UserId(unchecked: userId))
         mockUserRepository.usersById[userId] = user
         
         // When
@@ -47,7 +47,7 @@ struct GetCurrentUserUseCaseTests {
         let user = TestFixtures.createUser(id: userId, households: [householdId])
         let household = TestFixtures.createHousehold(id: householdId, name: "Smith Family")
         
-        mockAuthRepository.setCurrentUserId(userId)
+        mockAuthRepository.setCurrentUserId(UserId(unchecked: userId))
         mockUserRepository.usersById[userId] = user
         mockHouseholdRepository.householdsById[householdId] = household
         
@@ -73,7 +73,7 @@ struct GetCurrentUserUseCaseTests {
             mockHouseholdRepository.householdsById[householdId] = household
         }
         
-        mockAuthRepository.setCurrentUserId(userId)
+        mockAuthRepository.setCurrentUserId(UserId(unchecked: userId))
         mockUserRepository.usersById[userId] = user
         
         // When
@@ -95,7 +95,7 @@ struct GetCurrentUserUseCaseTests {
         mockHouseholdRepository.householdsById["household-1"] = TestFixtures.createHousehold(id: "household-1")
         mockHouseholdRepository.householdsById["household-3"] = TestFixtures.createHousehold(id: "household-3")
         
-        mockAuthRepository.setCurrentUserId(userId)
+        mockAuthRepository.setCurrentUserId(UserId(unchecked: userId))
         mockUserRepository.usersById[userId] = user
         
         // When
@@ -127,7 +127,7 @@ struct GetCurrentUserUseCaseTests {
     func getCurrentUserFailsWhenUserNotFound() async throws {
         // Given
         let userId = "user-123"
-        mockAuthRepository.setCurrentUserId(userId)
+        mockAuthRepository.setCurrentUserId(UserId(unchecked: userId))
         // User not in repository
         
         // When/Then
@@ -140,7 +140,7 @@ struct GetCurrentUserUseCaseTests {
     func getCurrentUserPropagatesUserRepositoryError() async throws {
         // Given
         let userId = "user-123"
-        mockAuthRepository.setCurrentUserId(userId)
+        mockAuthRepository.setCurrentUserId(UserId(unchecked: userId))
         mockUserRepository.getUserResult = .failure(DomainError.networkError)
         
         // When/Then

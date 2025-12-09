@@ -26,7 +26,7 @@ public final class SignInWithGoogleUseCase: SignInWithGoogleUseCaseProtocol, Sen
         let needsOnboarding = user?.isClaimed == false || user == nil
         
         return SignInResponse(
-            userId: userId,
+            userId: userId.value,
             isNewUser: isNewUser,
             needsOnboarding: needsOnboarding
         )

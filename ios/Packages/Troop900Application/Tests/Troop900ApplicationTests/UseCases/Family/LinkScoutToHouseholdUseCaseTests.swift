@@ -70,7 +70,7 @@ struct LinkScoutToHouseholdUseCaseTests {
         #expect(response.success == true)
         #expect(response.householdId == targetHouseholdId)
         #expect(mockFamilyManagementService.linkScoutToHouseholdCallCount == 1)
-        #expect(mockFamilyManagementService.linkScoutToHouseholdCalledWith[0].scoutId == scoutId)
+        #expect(mockFamilyManagementService.linkScoutToHouseholdCalledWith[0].scoutId.value == scoutId)
         #expect(mockFamilyManagementService.linkScoutToHouseholdCalledWith[0].linkCode == linkCode)
     }
     

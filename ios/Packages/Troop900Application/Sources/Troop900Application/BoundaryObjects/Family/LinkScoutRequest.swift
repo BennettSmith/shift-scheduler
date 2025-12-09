@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to link an existing scout to an additional household.
 /// Used when a scout is part of multiple households (e.g., divorced parents).

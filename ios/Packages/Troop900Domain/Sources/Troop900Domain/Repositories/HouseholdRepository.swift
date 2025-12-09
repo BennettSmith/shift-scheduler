@@ -15,7 +15,7 @@ public protocol HouseholdRepository: Sendable {
     /// Get all households managed by a user.
     /// - Parameter userId: The user's ID.
     /// - Returns: An array of households the user can manage.
-    func getHouseholdsManagedByUser(userId: String) async throws -> [Household]
+    func getHouseholdsManagedByUser(userId: UserId) async throws -> [Household]
     
     /// Observe a household by ID for real-time updates.
     /// - Parameter id: The household's ID.

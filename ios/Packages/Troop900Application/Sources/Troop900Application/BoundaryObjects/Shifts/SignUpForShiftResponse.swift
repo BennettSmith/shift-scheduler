@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after signing up for a shift.
 public struct SignUpForShiftResponse: Sendable, Equatable {

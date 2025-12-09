@@ -18,6 +18,8 @@ public final class GetMessagesUseCase: GetMessagesUseCaseProtocol, Sendable {
         let messages = try await messageRepository.getMessagesForUser(userId: userId)
         let unreadCount = messages.filter { !$0.isRead }.count
         
-        return MessagesResponse(messages: messages, unreadCount: unreadCount)
+        let messageInfos = messages.map { MessageInfo(from: $0) }
+        
+        return MessagesResponse(messages: messageInfos, unreadCount: unreadCount)
     }
 }

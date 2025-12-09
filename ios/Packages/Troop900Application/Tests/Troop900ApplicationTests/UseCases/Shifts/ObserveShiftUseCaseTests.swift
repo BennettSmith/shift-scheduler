@@ -34,7 +34,7 @@ struct ObserveShiftUseCaseTests {
         }
         
         #expect(receivedShift != nil)
-        #expect(receivedShift?.id == shiftId)
+        #expect(receivedShift?.id.value == shiftId)
         #expect(receivedShift?.label == "Test Shift")
     }
     

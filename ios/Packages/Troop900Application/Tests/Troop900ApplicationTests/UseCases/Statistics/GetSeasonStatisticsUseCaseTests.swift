@@ -66,7 +66,7 @@ struct GetSeasonStatisticsUseCaseTests {
         mockUserRepository.usersById[committeeId] = committeeUser
         
         let activeEntry = MockLeaderboardService.createLeaderboardEntry(id: "active", totalShifts: 5, rank: 1)
-        let inactiveEntry = LeaderboardEntry(id: "inactive", name: "Inactive", totalHours: 0, totalShifts: 0, rank: 2)
+        let inactiveEntry = LeaderboardEntry(id: UserId(unchecked: "inactive"), name: "Inactive", totalHours: 0, totalShifts: 0, rank: 2)
         
         mockLeaderboardService.getLeaderboardResult = .success(LeaderboardResult(
             entries: [activeEntry, inactiveEntry],

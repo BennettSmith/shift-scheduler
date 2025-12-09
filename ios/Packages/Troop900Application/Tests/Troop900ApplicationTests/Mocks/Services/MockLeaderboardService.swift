@@ -21,7 +21,7 @@ public final class MockLeaderboardService: LeaderboardService, @unchecked Sendab
     public var getLeaderboardCalledWith: [String?] = []
     
     public var getUserStatisticsCallCount = 0
-    public var getUserStatisticsCalledWith: [(userId: String, seasonId: String?)] = []
+    public var getUserStatisticsCalledWith: [(userId: UserId, seasonId: String?)] = []
     
     // MARK: - LeaderboardService Implementation
     
@@ -41,7 +41,7 @@ public final class MockLeaderboardService: LeaderboardService, @unchecked Sendab
         )
     }
     
-    public func getUserStatistics(userId: String, seasonId: String?) async throws -> UserStatistics {
+    public func getUserStatistics(userId: UserId, seasonId: String?) async throws -> UserStatistics {
         getUserStatisticsCallCount += 1
         getUserStatisticsCalledWith.append((userId, seasonId))
         
@@ -50,7 +50,7 @@ public final class MockLeaderboardService: LeaderboardService, @unchecked Sendab
         }
         
         // Return pre-configured stats or default
-        if let stats = userStatisticsById[userId] {
+        if let stats = userStatisticsById[userId.value] {
             return stats
         }
         
@@ -73,7 +73,7 @@ public final class MockLeaderboardService: LeaderboardService, @unchecked Sendab
     
     /// Adds user statistics
     public func addUserStatistics(_ stats: UserStatistics) {
-        userStatisticsById[stats.userId] = stats
+        userStatisticsById[stats.userId.value] = stats
     }
     
     /// Creates a default leaderboard entry
@@ -85,7 +85,7 @@ public final class MockLeaderboardService: LeaderboardService, @unchecked Sendab
         rank: Int = 1
     ) -> LeaderboardEntry {
         LeaderboardEntry(
-            id: id,
+            id: UserId(unchecked: id),
             name: name,
             totalHours: totalHours,
             totalShifts: totalShifts,

@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response indicating whether account can be deleted and any blockers.
 public struct DeleteAccountEligibilityResponse: Sendable, Equatable {

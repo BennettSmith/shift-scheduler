@@ -18,22 +18,22 @@ public final class MockAttendanceRepository: AttendanceRepository, @unchecked Se
     public var getAttendanceRecordByAssignmentResult: Result<AttendanceRecord?, Error>?
     public var getAttendanceRecordsForShiftResult: Result<[AttendanceRecord], Error>?
     public var getAttendanceRecordsForUserResult: Result<[AttendanceRecord], Error>?
-    public var createAttendanceRecordResult: Result<String, Error>?
+    public var createAttendanceRecordResult: Result<AttendanceRecordId, Error>?
     public var updateAttendanceRecordError: Error?
     
     // MARK: - Call Tracking
     
     public var getAttendanceRecordCallCount = 0
-    public var getAttendanceRecordCalledWith: [String] = []
+    public var getAttendanceRecordCalledWith: [AttendanceRecordId] = []
     
     public var getAttendanceRecordByAssignmentCallCount = 0
-    public var getAttendanceRecordByAssignmentCalledWith: [String] = []
+    public var getAttendanceRecordByAssignmentCalledWith: [AssignmentId] = []
     
     public var getAttendanceRecordsForShiftCallCount = 0
-    public var getAttendanceRecordsForShiftCalledWith: [String] = []
+    public var getAttendanceRecordsForShiftCalledWith: [ShiftId] = []
     
     public var getAttendanceRecordsForUserCallCount = 0
-    public var getAttendanceRecordsForUserCalledWith: [String] = []
+    public var getAttendanceRecordsForUserCalledWith: [UserId] = []
     
     public var createAttendanceRecordCallCount = 0
     public var createAttendanceRecordCalledWith: [AttendanceRecord] = []
@@ -43,7 +43,7 @@ public final class MockAttendanceRepository: AttendanceRepository, @unchecked Se
     
     // MARK: - AttendanceRepository Implementation
     
-    public func getAttendanceRecord(id: String) async throws -> AttendanceRecord {
+    public func getAttendanceRecord(id: AttendanceRecordId) async throws -> AttendanceRecord {
         getAttendanceRecordCallCount += 1
         getAttendanceRecordCalledWith.append(id)
         
@@ -51,13 +51,13 @@ public final class MockAttendanceRepository: AttendanceRepository, @unchecked Se
             return try result.get()
         }
         
-        guard let record = recordsById[id] else {
+        guard let record = recordsById[id.value] else {
             throw DomainError.attendanceRecordNotFound
         }
         return record
     }
     
-    public func getAttendanceRecordByAssignment(assignmentId: String) async throws -> AttendanceRecord? {
+    public func getAttendanceRecordByAssignment(assignmentId: AssignmentId) async throws -> AttendanceRecord? {
         getAttendanceRecordByAssignmentCallCount += 1
         getAttendanceRecordByAssignmentCalledWith.append(assignmentId)
         
@@ -65,10 +65,10 @@ public final class MockAttendanceRepository: AttendanceRepository, @unchecked Se
             return try result.get()
         }
         
-        return recordsByAssignmentId[assignmentId]
+        return recordsByAssignmentId[assignmentId.value]
     }
     
-    public func getAttendanceRecordsForShift(shiftId: String) async throws -> [AttendanceRecord] {
+    public func getAttendanceRecordsForShift(shiftId: ShiftId) async throws -> [AttendanceRecord] {
         getAttendanceRecordsForShiftCallCount += 1
         getAttendanceRecordsForShiftCalledWith.append(shiftId)
         
@@ -79,7 +79,7 @@ public final class MockAttendanceRepository: AttendanceRepository, @unchecked Se
         return recordsById.values.filter { $0.shiftId == shiftId }
     }
     
-    public func getAttendanceRecordsForUser(userId: String) async throws -> [AttendanceRecord] {
+    public func getAttendanceRecordsForUser(userId: UserId) async throws -> [AttendanceRecord] {
         getAttendanceRecordsForUserCallCount += 1
         getAttendanceRecordsForUserCalledWith.append(userId)
         
@@ -90,9 +90,9 @@ public final class MockAttendanceRepository: AttendanceRepository, @unchecked Se
         return recordsById.values.filter { $0.userId == userId }
     }
     
-    public func observeAttendanceRecordByAssignment(assignmentId: String) -> AsyncThrowingStream<AttendanceRecord?, Error> {
+    public func observeAttendanceRecordByAssignment(assignmentId: AssignmentId) -> AsyncThrowingStream<AttendanceRecord?, Error> {
         AsyncThrowingStream { continuation in
-            continuation.yield(recordsByAssignmentId[assignmentId])
+            continuation.yield(recordsByAssignmentId[assignmentId.value])
             continuation.finish()
         }
     }
@@ -105,11 +105,11 @@ public final class MockAttendanceRepository: AttendanceRepository, @unchecked Se
             throw error
         }
         
-        recordsById[record.id] = record
-        recordsByAssignmentId[record.assignmentId] = record
+        recordsById[record.id.value] = record
+        recordsByAssignmentId[record.assignmentId.value] = record
     }
     
-    public func createAttendanceRecord(_ record: AttendanceRecord) async throws -> String {
+    public func createAttendanceRecord(_ record: AttendanceRecord) async throws -> AttendanceRecordId {
         createAttendanceRecordCallCount += 1
         createAttendanceRecordCalledWith.append(record)
         
@@ -117,8 +117,8 @@ public final class MockAttendanceRepository: AttendanceRepository, @unchecked Se
             return try result.get()
         }
         
-        recordsById[record.id] = record
-        recordsByAssignmentId[record.assignmentId] = record
+        recordsById[record.id.value] = record
+        recordsByAssignmentId[record.assignmentId.value] = record
         return record.id
     }
     
@@ -126,8 +126,8 @@ public final class MockAttendanceRepository: AttendanceRepository, @unchecked Se
     
     /// Adds a record to all appropriate indexes
     public func addRecord(_ record: AttendanceRecord) {
-        recordsById[record.id] = record
-        recordsByAssignmentId[record.assignmentId] = record
+        recordsById[record.id.value] = record
+        recordsByAssignmentId[record.assignmentId.value] = record
     }
     
     /// Resets all state and call tracking

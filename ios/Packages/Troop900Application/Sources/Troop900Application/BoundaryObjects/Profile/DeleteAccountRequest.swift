@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to delete a user's account.
 /// This is a soft delete - data is marked inactive but not immediately removed.

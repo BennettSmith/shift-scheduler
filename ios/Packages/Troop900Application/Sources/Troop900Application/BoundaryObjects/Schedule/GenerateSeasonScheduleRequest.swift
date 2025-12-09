@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 public struct GenerateSeasonScheduleRequest: Sendable, Equatable {
     public let seasonId: String

@@ -20,20 +20,15 @@ public final class ObserveShiftAssignmentsUseCase: ObserveShiftAssignmentsUseCas
         AsyncThrowingStream { continuation in
             let task = Task {
                 do {
-                    for try await assignments in assignmentRepository.observeAssignmentsForShift(shiftId: shiftId) {
+                    // Validate and convert boundary ID to domain ID type
+                    let shiftIdValue = try ShiftId(shiftId)
+                    
+                    for try await assignments in assignmentRepository.observeAssignmentsForShift(shiftId: shiftIdValue) {
                         var assignmentInfos: [AssignmentInfo] = []
                         
                         for assignment in assignments where assignment.isActive {
                             if let user = try? await userRepository.getUser(id: assignment.userId) {
-                                assignmentInfos.append(AssignmentInfo(
-                                    id: assignment.id,
-                                    userId: assignment.userId,
-                                    userName: user.fullName,
-                                    assignmentType: assignment.assignmentType,
-                                    status: assignment.status,
-                                    notes: assignment.notes,
-                                    assignedAt: assignment.assignedAt
-                                ))
+                                assignmentInfos.append(AssignmentInfo(from: assignment, userName: user.fullName))
                             }
                         }
                         

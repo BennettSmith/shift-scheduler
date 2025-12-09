@@ -21,7 +21,7 @@ public final class MockShiftRepository: ShiftRepository, @unchecked Sendable {
     public var getShiftsForSeasonResult: Result<[Shift], Error>?
     
     /// Override result for createShift
-    public var createShiftResult: Result<String, Error>?
+    public var createShiftResult: Result<ShiftId, Error>?
     
     /// Override result for updateShift
     public var updateShiftError: Error?
@@ -32,7 +32,7 @@ public final class MockShiftRepository: ShiftRepository, @unchecked Sendable {
     // MARK: - Call Tracking
     
     public var getShiftCallCount = 0
-    public var getShiftCalledWith: [String] = []
+    public var getShiftCalledWith: [ShiftId] = []
     
     public var getShiftsForDateRangeCallCount = 0
     public var getShiftsForDateRangeCalledWith: [(start: Date, end: Date)] = []
@@ -47,11 +47,11 @@ public final class MockShiftRepository: ShiftRepository, @unchecked Sendable {
     public var updateShiftCalledWith: [Shift] = []
     
     public var deleteShiftCallCount = 0
-    public var deleteShiftCalledWith: [String] = []
+    public var deleteShiftCalledWith: [ShiftId] = []
     
     // MARK: - ShiftRepository Implementation
     
-    public func getShift(id: String) async throws -> Shift {
+    public func getShift(id: ShiftId) async throws -> Shift {
         getShiftCallCount += 1
         getShiftCalledWith.append(id)
         
@@ -59,7 +59,7 @@ public final class MockShiftRepository: ShiftRepository, @unchecked Sendable {
             return try result.get()
         }
         
-        guard let shift = shiftsById[id] else {
+        guard let shift = shiftsById[id.value] else {
             throw DomainError.shiftNotFound
         }
         return shift
@@ -90,9 +90,9 @@ public final class MockShiftRepository: ShiftRepository, @unchecked Sendable {
             .sorted { $0.date < $1.date }
     }
     
-    public func observeShift(id: String) -> AsyncThrowingStream<Shift, Error> {
+    public func observeShift(id: ShiftId) -> AsyncThrowingStream<Shift, Error> {
         AsyncThrowingStream { continuation in
-            if let shift = shiftsById[id] {
+            if let shift = shiftsById[id.value] {
                 continuation.yield(shift)
             }
             continuation.finish()
@@ -117,10 +117,10 @@ public final class MockShiftRepository: ShiftRepository, @unchecked Sendable {
             throw error
         }
         
-        shiftsById[shift.id] = shift
+        shiftsById[shift.id.value] = shift
     }
     
-    public func createShift(_ shift: Shift) async throws -> String {
+    public func createShift(_ shift: Shift) async throws -> ShiftId {
         createShiftCallCount += 1
         createShiftCalledWith.append(shift)
         
@@ -128,11 +128,11 @@ public final class MockShiftRepository: ShiftRepository, @unchecked Sendable {
             return try result.get()
         }
         
-        shiftsById[shift.id] = shift
+        shiftsById[shift.id.value] = shift
         return shift.id
     }
     
-    public func deleteShift(id: String) async throws {
+    public func deleteShift(id: ShiftId) async throws {
         deleteShiftCallCount += 1
         deleteShiftCalledWith.append(id)
         
@@ -140,10 +140,15 @@ public final class MockShiftRepository: ShiftRepository, @unchecked Sendable {
             throw error
         }
         
-        shiftsById.removeValue(forKey: id)
+        shiftsById.removeValue(forKey: id.value)
     }
     
     // MARK: - Test Helpers
+    
+    /// Adds a shift to the storage
+    public func addShift(_ shift: Shift) {
+        shiftsById[shift.id.value] = shift
+    }
     
     /// Resets all state and call tracking
     public func reset() {

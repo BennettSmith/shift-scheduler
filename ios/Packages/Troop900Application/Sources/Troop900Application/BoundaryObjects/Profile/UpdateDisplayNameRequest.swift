@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to update a user's display name.
 public struct UpdateDisplayNameRequest: Sendable, Equatable {

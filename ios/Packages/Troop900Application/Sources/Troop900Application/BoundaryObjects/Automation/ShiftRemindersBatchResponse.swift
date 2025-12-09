@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response from batch shift reminder job.
 public struct ShiftRemindersBatchResponse: Sendable, Equatable {

@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response containing exported user data.
 public struct ExportUserDataResponse: Sendable, Equatable {

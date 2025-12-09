@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 public struct PublishScheduleRequest: Sendable, Equatable {
     public let seasonId: String

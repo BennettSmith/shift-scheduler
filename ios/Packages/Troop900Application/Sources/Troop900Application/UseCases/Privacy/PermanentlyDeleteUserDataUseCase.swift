@@ -28,8 +28,12 @@ public final class PermanentlyDeleteUserDataUseCase: PermanentlyDeleteUserDataUs
     }
     
     public func execute(request: PermanentDeleteRequest) async throws -> PermanentDeleteResponse {
+        // Validate and convert boundary IDs to domain ID types
+        let adminUserId = try UserId(request.adminUserId)
+        let userId = try UserId(request.userId)
+        
         // Validate admin permission
-        let admin = try await userRepository.getUser(id: request.adminUserId)
+        let admin = try await userRepository.getUser(id: adminUserId)
         guard admin.role.isLeadership else {
             throw DomainError.unauthorized
         }
@@ -40,7 +44,7 @@ public final class PermanentlyDeleteUserDataUseCase: PermanentlyDeleteUserDataUs
         }
         
         // Get user to delete
-        let user = try await userRepository.getUser(id: request.userId)
+        let user = try await userRepository.getUser(id: userId)
         
         // Ensure user is already deactivated (safety check)
         guard user.accountStatus == .inactive else {
@@ -56,7 +60,7 @@ public final class PermanentlyDeleteUserDataUseCase: PermanentlyDeleteUserDataUs
         )
         
         // Delete attendance records
-        let attendanceRecords = try await attendanceRepository.getAttendanceRecordsForUser(userId: user.id)
+        let attendanceRecords = try await attendanceRepository.getAttendanceRecordsForUser(userId: userId)
         for _ in attendanceRecords {
             // In real implementation, would have deleteAttendanceRecord method
             // For now, we're just counting
@@ -70,7 +74,7 @@ public final class PermanentlyDeleteUserDataUseCase: PermanentlyDeleteUserDataUs
         }
         
         // Delete assignments
-        let assignments = try await assignmentRepository.getAssignmentsForUser(userId: user.id)
+        let assignments = try await assignmentRepository.getAssignmentsForUser(userId: userId)
         for assignment in assignments {
             try await assignmentRepository.deleteAssignment(id: assignment.id)
             deletedCounts = DeletedRecordCounts(
@@ -86,8 +90,8 @@ public final class PermanentlyDeleteUserDataUseCase: PermanentlyDeleteUserDataUs
         for householdId in user.households {
             if let household = try? await householdRepository.getHousehold(id: householdId) {
                 // Remove user from household members
-                let updatedMembers = household.members.filter { $0 != user.id }
-                let updatedManagers = household.managers.filter { $0 != user.id }
+                let updatedMembers = household.members.filter { $0 != user.id.value }
+                let updatedManagers = household.managers.filter { $0 != user.id.value }
                 
                 let updatedHousehold = Household(
                     id: household.id,

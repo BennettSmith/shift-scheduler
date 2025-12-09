@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 public struct UpdateShiftTemplateRequest: Sendable, Equatable {
     public let templateId: String

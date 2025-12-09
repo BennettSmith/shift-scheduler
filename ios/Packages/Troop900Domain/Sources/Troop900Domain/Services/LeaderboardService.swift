@@ -12,11 +12,11 @@ public protocol LeaderboardService: Sendable {
     ///   - userId: The user's ID.
     ///   - seasonId: The season's ID, or nil for all-time statistics.
     /// - Returns: The user's statistics.
-    func getUserStatistics(userId: String, seasonId: String?) async throws -> UserStatistics
+    func getUserStatistics(userId: UserId, seasonId: String?) async throws -> UserStatistics
 }
 
 /// Result containing leaderboard data.
-public struct LeaderboardResult: Sendable, Codable {
+public struct LeaderboardResult: Sendable {
     public let entries: [LeaderboardEntry]
     public let seasonId: String?
     public let generatedAt: Date
@@ -29,14 +29,14 @@ public struct LeaderboardResult: Sendable, Codable {
 }
 
 /// A single entry in the leaderboard.
-public struct LeaderboardEntry: Sendable, Codable, Identifiable {
-    public let id: String // User ID
+public struct LeaderboardEntry: Sendable, Identifiable {
+    public let id: UserId
     public let name: String
     public let totalHours: Double
     public let totalShifts: Int
     public let rank: Int
     
-    public init(id: String, name: String, totalHours: Double, totalShifts: Int, rank: Int) {
+    public init(id: UserId, name: String, totalHours: Double, totalShifts: Int, rank: Int) {
         self.id = id
         self.name = name
         self.totalHours = totalHours
@@ -46,8 +46,8 @@ public struct LeaderboardEntry: Sendable, Codable, Identifiable {
 }
 
 /// Statistics for a specific user.
-public struct UserStatistics: Sendable, Codable {
-    public let userId: String
+public struct UserStatistics: Sendable {
+    public let userId: UserId
     public let totalHours: Double
     public let totalShifts: Int
     public let completedShifts: Int
@@ -55,7 +55,7 @@ public struct UserStatistics: Sendable, Codable {
     public let rank: Int?
     
     public init(
-        userId: String,
+        userId: UserId,
         totalHours: Double,
         totalShifts: Int,
         completedShifts: Int,

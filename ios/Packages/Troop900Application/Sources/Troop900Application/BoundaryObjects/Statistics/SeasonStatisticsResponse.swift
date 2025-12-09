@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response containing comprehensive season-wide statistics for committee.
 public struct SeasonStatisticsResponse: Sendable, Equatable {
@@ -152,7 +151,7 @@ public struct AttendanceStats: Sendable, Equatable {
 public struct TopVolunteerEntry: Sendable, Equatable, Identifiable {
     public let id: String // User ID
     public let name: String
-    public let role: UserRole
+    public let role: UserRoleType
     public let totalHours: Double
     public let totalShifts: Int
     public let rank: Int
@@ -160,7 +159,7 @@ public struct TopVolunteerEntry: Sendable, Equatable, Identifiable {
     public init(
         id: String,
         name: String,
-        role: UserRole,
+        role: UserRoleType,
         totalHours: Double,
         totalShifts: Int,
         rank: Int

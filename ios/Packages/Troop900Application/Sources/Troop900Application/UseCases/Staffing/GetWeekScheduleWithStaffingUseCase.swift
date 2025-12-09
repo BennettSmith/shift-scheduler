@@ -21,8 +21,11 @@ public final class GetWeekScheduleWithStaffingUseCase: GetWeekScheduleWithStaffi
     }
     
     public func execute(request: WeekScheduleRequest, requestingUserId: String) async throws -> WeekScheduleWithStaffingResponse {
+        // Validate and convert boundary ID to domain ID type
+        let requestingUserIdValue = try UserId(requestingUserId)
+        
         // Validate requesting user has permission (must be committee)
-        let requestingUser = try await userRepository.getUser(id: requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserIdValue)
         guard requestingUser.role.isLeadership else {
             throw DomainError.unauthorized
         }
@@ -49,18 +52,18 @@ public final class GetWeekScheduleWithStaffingUseCase: GetWeekScheduleWithStaffi
             let dayShifts = shifts.filter { calendar.isDate($0.date, inSameDayAs: date) }
             
             let shiftSummaries = dayShifts.map { shift in
-                // Calculate staffing levels
-                let scoutLevel = StaffingLevel.calculate(
+                // Calculate staffing levels using domain StaffingLevel
+                let scoutLevel = StaffingLevel(
                     current: shift.currentScouts,
                     required: shift.requiredScouts
                 )
-                let parentLevel = StaffingLevel.calculate(
+                let parentLevel = StaffingLevel(
                     current: shift.currentParents,
                     required: shift.requiredParents
                 )
                 
                 // Overall staffing is the worst of scout or parent staffing
-                let overallLevel = min(scoutLevel.priority, parentLevel.priority) == scoutLevel.priority ? scoutLevel : parentLevel
+                let overallLevel = scoutLevel.priority <= parentLevel.priority ? scoutLevel : parentLevel
                 
                 let openSlots = (shift.requiredScouts - shift.currentScouts) + (shift.requiredParents - shift.currentParents)
                 
@@ -77,22 +80,23 @@ public final class GetWeekScheduleWithStaffingUseCase: GetWeekScheduleWithStaffi
                     break
                 }
                 
+                // Convert domain StaffingLevel to boundary StaffingLevelType
                 return ShiftStaffingSummary(
-                    id: shift.id,
+                    id: shift.id.value,
                     date: shift.date,
                     startTime: shift.startTime,
                     endTime: shift.endTime,
                     location: shift.location,
                     label: shift.label,
-                    status: shift.status,
+                    status: ShiftStatusType(from: shift.status),
                     timeRange: formatTimeRange(start: shift.startTime, end: shift.endTime),
                     requiredScouts: shift.requiredScouts,
                     currentScouts: shift.currentScouts,
-                    scoutStaffingLevel: scoutLevel,
+                    scoutStaffingLevel: StaffingLevelType(from: scoutLevel),
                     requiredParents: shift.requiredParents,
                     currentParents: shift.currentParents,
-                    parentStaffingLevel: parentLevel,
-                    overallStaffingLevel: overallLevel,
+                    parentStaffingLevel: StaffingLevelType(from: parentLevel),
+                    overallStaffingLevel: StaffingLevelType(from: overallLevel),
                     openSlots: openSlots
                 )
             }

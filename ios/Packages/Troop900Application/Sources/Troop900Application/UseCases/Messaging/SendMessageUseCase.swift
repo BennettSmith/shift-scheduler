@@ -38,14 +38,18 @@ public final class SendMessageUseCase: SendMessageUseCaseProtocol, Sendable {
             break
         }
         
+        // Convert boundary types to domain types
+        let targetAudience = request.targetAudience.toDomain()
+        let priority = request.priority.toDomain()
+        
         // Call service to send message
         return try await messagingService.sendMessage(
             title: request.title,
             body: request.body,
-            targetAudience: request.targetAudience,
+            targetAudience: targetAudience,
             targetUserIds: request.targetUserIds,
             targetHouseholdIds: request.targetHouseholdIds,
-            priority: request.priority
+            priority: priority
         )
     }
 }

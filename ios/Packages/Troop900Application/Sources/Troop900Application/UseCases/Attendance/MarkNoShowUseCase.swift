@@ -24,17 +24,21 @@ public final class MarkNoShowUseCase: MarkNoShowUseCaseProtocol, Sendable {
     }
     
     public func execute(request: MarkNoShowRequest) async throws {
+        // Step 1: Validate and convert boundary IDs to domain ID types
+        let assignmentId = try AssignmentId(request.assignmentId)
+        let requestingUserId = try UserId(request.requestingUserId)
+        
         // Validate requesting user has permission (must be committee)
-        let requestingUser = try await userRepository.getUser(id: request.requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserId)
         guard requestingUser.role.isLeadership else {
             throw DomainError.unauthorized
         }
         
         // Validate assignment exists
-        let assignment = try await assignmentRepository.getAssignment(id: request.assignmentId)
+        let assignment = try await assignmentRepository.getAssignment(id: assignmentId)
         
         // Check if attendance record already exists
-        if let existingRecord = try? await attendanceRepository.getAttendanceRecordByAssignment(assignmentId: request.assignmentId) {
+        if let existingRecord = try? await attendanceRepository.getAttendanceRecordByAssignment(assignmentId: assignmentId) {
             // Update existing record to no-show
             let adminNotes = [
                 existingRecord.notes,
@@ -62,7 +66,7 @@ public final class MarkNoShowUseCase: MarkNoShowUseCaseProtocol, Sendable {
             try await attendanceRepository.updateAttendanceRecord(updatedRecord)
         } else {
             // Create new attendance record with no-show status
-            let recordId = UUID().uuidString
+            let recordId = AttendanceRecordId(unchecked: UUID().uuidString)
             let adminNotes = [
                 "Marked as no-show by \(requestingUser.fullName)",
                 request.notes

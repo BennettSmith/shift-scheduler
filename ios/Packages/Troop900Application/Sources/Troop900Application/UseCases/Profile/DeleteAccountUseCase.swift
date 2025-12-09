@@ -26,15 +26,18 @@ public final class DeleteAccountUseCase: DeleteAccountUseCaseProtocol, Sendable 
     }
     
     public func checkEligibility(userId: String) async throws -> DeleteAccountEligibilityResponse {
+        // Validate and convert boundary ID to domain ID type
+        let userIdValue = try UserId(userId)
+        
         // Get user
-        let user = try await userRepository.getUser(id: userId)
+        let user = try await userRepository.getUser(id: userIdValue)
         
         var blockers: [String] = []
         var futureAssignmentsCount = 0
         let hasActiveRoles = user.role.isLeadership
         
         // Check for future assignments
-        let assignments = try await assignmentRepository.getAssignmentsForUser(userId: userId)
+        let assignments = try await assignmentRepository.getAssignmentsForUser(userId: userIdValue)
         let futureAssignments = assignments.filter { assignment in
             assignment.isActive // Would ideally check shift date
         }
@@ -51,7 +54,7 @@ public final class DeleteAccountUseCase: DeleteAccountUseCaseProtocol, Sendable 
         }
         
         // Blocker: Household manager
-        let managedHouseholds = try await householdRepository.getHouseholdsManagedByUser(userId: userId)
+        let managedHouseholds = try await householdRepository.getHouseholdsManagedByUser(userId: userIdValue)
         if !managedHouseholds.isEmpty {
             blockers.append("You manage \(managedHouseholds.count) household(s). Please transfer management first.")
         }
@@ -73,6 +76,9 @@ public final class DeleteAccountUseCase: DeleteAccountUseCaseProtocol, Sendable 
     }
     
     public func execute(request: DeleteAccountRequest) async throws {
+        // Validate and convert boundary ID to domain ID type
+        let userIdValue = try UserId(request.userId)
+        
         // Validate confirmation
         guard request.confirmed else {
             throw DomainError.invalidInput("Account deletion must be confirmed")
@@ -86,7 +92,7 @@ public final class DeleteAccountUseCase: DeleteAccountUseCaseProtocol, Sendable 
         }
         
         // Get user
-        let user = try await userRepository.getUser(id: request.userId)
+        let user = try await userRepository.getUser(id: userIdValue)
         
         // Soft delete: Mark account as inactive
         let updatedUser = User(

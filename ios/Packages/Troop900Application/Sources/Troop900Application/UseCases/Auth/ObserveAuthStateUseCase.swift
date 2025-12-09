@@ -15,6 +15,17 @@ public final class ObserveAuthStateUseCase: ObserveAuthStateUseCaseProtocol, Sen
     }
     
     public func execute() -> AsyncStream<String?> {
-        authRepository.observeAuthState()
+        AsyncStream { continuation in
+            let task = Task {
+                for await userId in authRepository.observeAuthState() {
+                    continuation.yield(userId?.value)
+                }
+                continuation.finish()
+            }
+            
+            continuation.onTermination = { @Sendable _ in
+                task.cancel()
+            }
+        }
     }
 }

@@ -81,8 +81,8 @@ public final class SendShiftRemindersUseCase: SendShiftRemindersUseCaseProtocol,
             totalFailures += failedNotifications
             
             reminderEntries.append(ShiftReminderEntry(
-                id: shift.id,
-                shiftId: shift.id,
+                id: shift.id.value,
+                shiftId: shift.id.value,
                 shiftDate: shift.date,
                 shiftLabel: shift.label,
                 recipientCount: userIds.count,

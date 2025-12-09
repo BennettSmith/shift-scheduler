@@ -2,7 +2,7 @@ import Foundation
 
 /// Represents a scheduled shift at the tree lot.
 public struct Shift: Identifiable, Equatable, Sendable, Codable {
-    public let id: String
+    public let id: ShiftId
     public let date: Date
     public let startTime: Date
     public let endTime: Date
@@ -19,7 +19,7 @@ public struct Shift: Identifiable, Equatable, Sendable, Codable {
     public let createdAt: Date
     
     public init(
-        id: String,
+        id: ShiftId,
         date: Date,
         startTime: Date,
         endTime: Date,

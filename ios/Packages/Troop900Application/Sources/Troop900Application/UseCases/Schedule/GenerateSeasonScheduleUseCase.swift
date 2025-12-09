@@ -153,7 +153,7 @@ public final class GenerateSeasonScheduleUseCase: GenerateSeasonScheduleUseCaseP
         ) ?? date
         
         return Shift(
-            id: UUID().uuidString,
+            id: ShiftId(unchecked: UUID().uuidString),
             date: calendar.startOfDay(for: date),
             startTime: startTime,
             endTime: endTime,

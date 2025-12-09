@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response containing detailed attendance information for a shift.
 /// Used by committee to review and manage shift attendance.

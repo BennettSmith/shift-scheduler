@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to update a user's profile photo.
 public struct UpdateProfilePhotoRequest: Sendable, Equatable {

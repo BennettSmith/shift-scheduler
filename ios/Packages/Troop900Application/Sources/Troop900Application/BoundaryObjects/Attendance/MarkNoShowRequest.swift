@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to mark a volunteer as a no-show for a shift.
 public struct MarkNoShowRequest: Sendable, Equatable {

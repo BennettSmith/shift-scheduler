@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 public struct UpdateShiftRequest: Sendable, Equatable {
     public let shiftId: String

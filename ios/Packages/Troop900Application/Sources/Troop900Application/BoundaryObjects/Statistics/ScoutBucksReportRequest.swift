@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to generate Scout Bucks report for end-of-season.
 public struct ScoutBucksReportRequest: Sendable, Equatable {

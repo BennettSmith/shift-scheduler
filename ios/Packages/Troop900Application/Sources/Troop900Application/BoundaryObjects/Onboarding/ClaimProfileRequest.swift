@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to claim a pre-created profile.
 public struct ClaimProfileRequest: Sendable, Equatable {

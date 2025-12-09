@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to get a week's schedule.
 public struct WeekScheduleRequest: Sendable, Equatable {

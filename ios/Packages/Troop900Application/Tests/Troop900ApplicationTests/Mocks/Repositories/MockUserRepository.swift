@@ -21,13 +21,13 @@ public final class MockUserRepository: UserRepository, @unchecked Sendable {
     public var getUserByEmailResult: Result<User?, Error>?
     public var getUserByClaimCodeResult: Result<User?, Error>?
     public var getUsersByHouseholdResult: Result<[User], Error>?
-    public var createUserResult: Result<String, Error>?
+    public var createUserResult: Result<UserId, Error>?
     public var updateUserError: Error?
     
     // MARK: - Call Tracking
     
     public var getUserCallCount = 0
-    public var getUserCalledWith: [String] = []
+    public var getUserCalledWith: [UserId] = []
     
     public var getUserByEmailCallCount = 0
     public var getUserByEmailCalledWith: [String] = []
@@ -46,7 +46,7 @@ public final class MockUserRepository: UserRepository, @unchecked Sendable {
     
     // MARK: - UserRepository Implementation
     
-    public func getUser(id: String) async throws -> User {
+    public func getUser(id: UserId) async throws -> User {
         getUserCallCount += 1
         getUserCalledWith.append(id)
         
@@ -54,7 +54,7 @@ public final class MockUserRepository: UserRepository, @unchecked Sendable {
             return try result.get()
         }
         
-        guard let user = usersById[id] else {
+        guard let user = usersById[id.value] else {
             throw DomainError.userNotFound
         }
         return user
@@ -93,9 +93,9 @@ public final class MockUserRepository: UserRepository, @unchecked Sendable {
         return usersById.values.filter { $0.households.contains(householdId) }
     }
     
-    public func observeUser(id: String) -> AsyncThrowingStream<User, Error> {
+    public func observeUser(id: UserId) -> AsyncThrowingStream<User, Error> {
         AsyncThrowingStream { continuation in
-            if let user = usersById[id] {
+            if let user = usersById[id.value] {
                 continuation.yield(user)
             }
             continuation.finish()
@@ -110,14 +110,14 @@ public final class MockUserRepository: UserRepository, @unchecked Sendable {
             throw error
         }
         
-        usersById[user.id] = user
+        usersById[user.id.value] = user
         usersByEmail[user.email.lowercased()] = user
         if let claimCode = user.claimCode {
             usersByClaimCode[claimCode] = user
         }
     }
     
-    public func createUser(_ user: User) async throws -> String {
+    public func createUser(_ user: User) async throws -> UserId {
         createUserCallCount += 1
         createUserCalledWith.append(user)
         
@@ -125,7 +125,7 @@ public final class MockUserRepository: UserRepository, @unchecked Sendable {
             return try result.get()
         }
         
-        usersById[user.id] = user
+        usersById[user.id.value] = user
         usersByEmail[user.email.lowercased()] = user
         if let claimCode = user.claimCode {
             usersByClaimCode[claimCode] = user
@@ -137,7 +137,7 @@ public final class MockUserRepository: UserRepository, @unchecked Sendable {
     
     /// Adds a user to all appropriate indexes
     public func addUser(_ user: User) {
-        usersById[user.id] = user
+        usersById[user.id.value] = user
         usersByEmail[user.email.lowercased()] = user
         if let claimCode = user.claimCode {
             usersByClaimCode[claimCode] = user

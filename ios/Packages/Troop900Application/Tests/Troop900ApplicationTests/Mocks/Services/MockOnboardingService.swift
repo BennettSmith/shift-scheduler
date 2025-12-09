@@ -12,14 +12,14 @@ public final class MockOnboardingService: OnboardingService, @unchecked Sendable
     // MARK: - Call Tracking
     
     public var processInviteCodeCallCount = 0
-    public var processInviteCodeCalledWith: [(code: String, userId: String)] = []
+    public var processInviteCodeCalledWith: [(code: String, userId: UserId)] = []
     
     public var claimProfileCallCount = 0
-    public var claimProfileCalledWith: [(claimCode: String, userId: String)] = []
+    public var claimProfileCalledWith: [(claimCode: String, userId: UserId)] = []
     
     // MARK: - OnboardingService Implementation
     
-    public func processInviteCode(code: String, userId: String) async throws -> InviteCodeResult {
+    public func processInviteCode(code: String, userId: UserId) async throws -> InviteCodeResult {
         processInviteCodeCallCount += 1
         processInviteCodeCalledWith.append((code, userId))
         
@@ -36,7 +36,7 @@ public final class MockOnboardingService: OnboardingService, @unchecked Sendable
         )
     }
     
-    public func claimProfile(claimCode: String, userId: String) async throws -> ClaimProfileResult {
+    public func claimProfile(claimCode: String, userId: UserId) async throws -> ClaimProfileResult {
         claimProfileCallCount += 1
         claimProfileCalledWith.append((claimCode, userId))
         

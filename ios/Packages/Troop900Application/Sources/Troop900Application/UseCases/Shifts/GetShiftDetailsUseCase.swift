@@ -23,37 +23,33 @@ public final class GetShiftDetailsUseCase: GetShiftDetailsUseCaseProtocol, Senda
     }
     
     public func execute(shiftId: String, userId: String?) async throws -> ShiftDetailResponse {
-        let shift = try await shiftRepository.getShift(id: shiftId)
-        let assignments = try await assignmentRepository.getAssignmentsForShift(shiftId: shiftId)
+        // Validate and convert boundary IDs to domain ID types
+        let shiftIdValue = try ShiftId(shiftId)
+        let userIdValue = try userId.map { try UserId($0) }
+        
+        let shift = try await shiftRepository.getShift(id: shiftIdValue)
+        let assignments = try await assignmentRepository.getAssignmentsForShift(shiftId: shiftIdValue)
         
         // Build assignment info with user names
         var assignmentInfos: [AssignmentInfo] = []
         for assignment in assignments where assignment.isActive {
             if let user = try? await userRepository.getUser(id: assignment.userId) {
-                assignmentInfos.append(AssignmentInfo(
-                    id: assignment.id,
-                    userId: assignment.userId,
-                    userName: user.fullName,
-                    assignmentType: assignment.assignmentType,
-                    status: assignment.status,
-                    notes: assignment.notes,
-                    assignedAt: assignment.assignedAt
-                ))
+                assignmentInfos.append(AssignmentInfo(from: assignment, userName: user.fullName))
             }
         }
         
         // Find user's assignment if userId provided
-        let userAssignment = userId.flatMap { uid in
-            assignmentInfos.first { $0.userId == uid }
+        let userAssignment = userIdValue.flatMap { uid in
+            assignmentInfos.first { $0.userId == uid.value }
         }
         
         // Determine if user can sign up or cancel
-        let canSignUp = userId != nil && shift.status.canAcceptSignups && userAssignment == nil &&
+        let canSignUp = userIdValue != nil && shift.status.canAcceptSignups && userAssignment == nil &&
                         (shift.needsScouts || shift.needsParents)
         let canCancel = userAssignment != nil
         
         return ShiftDetailResponse(
-            shift: shift,
+            shift: ShiftDetail(from: shift),
             assignments: assignmentInfos,
             canSignUp: canSignUp,
             canCancel: canCancel,

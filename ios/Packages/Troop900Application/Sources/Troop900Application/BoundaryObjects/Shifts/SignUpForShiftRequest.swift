@@ -1,14 +1,13 @@
 import Foundation
-import Troop900Domain
 
 /// Request to sign up for a shift.
 public struct SignUpForShiftRequest: Sendable, Equatable {
     public let shiftId: String
     public let userId: String
-    public let assignmentType: AssignmentType
+    public let assignmentType: AssignmentTypeValue
     public let notes: String?
     
-    public init(shiftId: String, userId: String, assignmentType: AssignmentType, notes: String?) {
+    public init(shiftId: String, userId: String, assignmentType: AssignmentTypeValue, notes: String?) {
         self.shiftId = shiftId
         self.userId = userId
         self.assignmentType = assignmentType

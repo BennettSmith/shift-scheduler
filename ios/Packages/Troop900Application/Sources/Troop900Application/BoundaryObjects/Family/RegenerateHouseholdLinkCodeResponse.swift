@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after regenerating a household's link code.
 /// Used for security when the existing code may be compromised.

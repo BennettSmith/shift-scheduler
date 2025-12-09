@@ -15,6 +15,24 @@ public final class ObserveShiftUseCase: ObserveShiftUseCaseProtocol, Sendable {
     }
     
     public func execute(shiftId: String) -> AsyncThrowingStream<Shift, Error> {
-        shiftRepository.observeShift(id: shiftId)
+        AsyncThrowingStream { continuation in
+            let task = Task {
+                do {
+                    // Validate and convert boundary ID to domain ID type
+                    let shiftIdValue = try ShiftId(shiftId)
+                    
+                    for try await shift in shiftRepository.observeShift(id: shiftIdValue) {
+                        continuation.yield(shift)
+                    }
+                    continuation.finish()
+                } catch {
+                    continuation.finish(throwing: error)
+                }
+            }
+            
+            continuation.onTermination = { @Sendable _ in
+                task.cancel()
+            }
+        }
     }
 }

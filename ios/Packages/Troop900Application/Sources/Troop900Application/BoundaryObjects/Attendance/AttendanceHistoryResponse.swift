@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response containing a user's attendance history.
 public struct AttendanceHistoryResponse: Sendable, Equatable {
@@ -22,7 +21,7 @@ public struct AttendanceRecordSummary: Sendable, Equatable, Identifiable {
     public let checkInTime: Date?
     public let checkOutTime: Date?
     public let hoursWorked: Double?
-    public let status: AttendanceStatus
+    public let status: AttendanceStatusType
     
     public init(
         id: String,
@@ -31,7 +30,7 @@ public struct AttendanceRecordSummary: Sendable, Equatable, Identifiable {
         checkInTime: Date?,
         checkOutTime: Date?,
         hoursWorked: Double?,
-        status: AttendanceStatus
+        status: AttendanceStatusType
     ) {
         self.id = id
         self.shiftDate = shiftDate

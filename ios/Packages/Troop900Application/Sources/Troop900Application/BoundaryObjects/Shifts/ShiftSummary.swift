@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Summary information about a shift for list displays.
 public struct ShiftSummary: Sendable, Equatable, Identifiable {
@@ -13,8 +12,8 @@ public struct ShiftSummary: Sendable, Equatable, Identifiable {
     public let currentParents: Int
     public let location: String
     public let label: String?
-    public let status: ShiftStatus
-    public let staffingStatus: StaffingStatus
+    public let status: ShiftStatusType
+    public let staffingStatus: StaffingStatusType
     public let timeRange: String
     
     public init(
@@ -28,8 +27,8 @@ public struct ShiftSummary: Sendable, Equatable, Identifiable {
         currentParents: Int,
         location: String,
         label: String?,
-        status: ShiftStatus,
-        staffingStatus: StaffingStatus,
+        status: ShiftStatusType,
+        staffingStatus: StaffingStatusType,
         timeRange: String
     ) {
         self.id = id

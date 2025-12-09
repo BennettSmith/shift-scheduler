@@ -2,24 +2,24 @@ import Foundation
 
 /// Represents a user's assignment to a specific shift.
 public struct Assignment: Identifiable, Equatable, Sendable, Codable {
-    public let id: String
-    public let shiftId: String
-    public let userId: String
+    public let id: AssignmentId
+    public let shiftId: ShiftId
+    public let userId: UserId
     public let assignmentType: AssignmentType
     public let status: AssignmentStatus
     public let notes: String?
     public let assignedAt: Date
-    public let assignedBy: String?
+    public let assignedBy: UserId?
     
     public init(
-        id: String,
-        shiftId: String,
-        userId: String,
+        id: AssignmentId,
+        shiftId: ShiftId,
+        userId: UserId,
         assignmentType: AssignmentType,
         status: AssignmentStatus,
         notes: String?,
         assignedAt: Date,
-        assignedBy: String?
+        assignedBy: UserId?
     ) {
         self.id = id
         self.shiftId = shiftId

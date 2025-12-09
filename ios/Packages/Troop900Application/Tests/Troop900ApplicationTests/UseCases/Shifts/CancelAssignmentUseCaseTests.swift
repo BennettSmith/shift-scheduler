@@ -52,7 +52,7 @@ struct CancelAssignmentUseCaseTests {
         
         // Then
         #expect(mockShiftSignupService.cancelAssignmentCallCount == 1)
-        #expect(mockShiftSignupService.cancelAssignmentCalledWith[0].assignmentId == assignmentId)
+        #expect(mockShiftSignupService.cancelAssignmentCalledWith[0].assignmentId.value == assignmentId)
         #expect(mockShiftSignupService.cancelAssignmentCalledWith[0].reason == "Schedule conflict")
     }
     
@@ -141,7 +141,7 @@ struct CancelAssignmentUseCaseTests {
         let now = Date()
         let pastStartTime = now.addingTimeInterval(-3600) // 1 hour ago
         let shiftInProgress = Shift(
-            id: shiftId,
+            id: ShiftId(unchecked: shiftId),
             date: now.startOfDay,
             startTime: pastStartTime,
             endTime: now.addingTimeInterval(7200), // 2 hours from now

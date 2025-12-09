@@ -51,9 +51,9 @@ struct MarkNoShowUseCaseTests {
         // Then
         #expect(mockAttendanceRepository.createAttendanceRecordCallCount == 1)
         let createdRecord = mockAttendanceRepository.createAttendanceRecordCalledWith[0]
-        #expect(createdRecord.assignmentId == assignmentId)
-        #expect(createdRecord.shiftId == "shift-1")
-        #expect(createdRecord.userId == "volunteer-1")
+        #expect(createdRecord.assignmentId.value == assignmentId)
+        #expect(createdRecord.shiftId.value == "shift-1")
+        #expect(createdRecord.userId.value == "volunteer-1")
         #expect(createdRecord.status == .noShow)
         #expect(createdRecord.checkInMethod == .adminOverride)
         #expect(createdRecord.checkInTime == nil)
@@ -134,7 +134,7 @@ struct MarkNoShowUseCaseTests {
         #expect(mockAttendanceRepository.createAttendanceRecordCallCount == 0) // Should update, not create
         
         let updatedRecord = mockAttendanceRepository.updateAttendanceRecordCalledWith[0]
-        #expect(updatedRecord.id == "attendance-1")
+        #expect(updatedRecord.id.value == "attendance-1")
         #expect(updatedRecord.status == .noShow)
         #expect(updatedRecord.hoursWorked == nil)
         #expect(updatedRecord.notes?.contains("Marked as no-show by Admin User") == true)
@@ -154,10 +154,10 @@ struct MarkNoShowUseCaseTests {
             userId: "volunteer-1"
         )
         let existingRecord = AttendanceRecord(
-            id: "attendance-1",
-            assignmentId: assignmentId,
-            shiftId: "shift-1",
-            userId: "volunteer-1",
+            id: AttendanceRecordId(unchecked: "attendance-1"),
+            assignmentId: AssignmentId(unchecked: assignmentId),
+            shiftId: ShiftId(unchecked: "shift-1"),
+            userId: UserId(unchecked: "volunteer-1"),
             checkInTime: Date(),
             checkOutTime: nil,
             checkInMethod: .qrCode,

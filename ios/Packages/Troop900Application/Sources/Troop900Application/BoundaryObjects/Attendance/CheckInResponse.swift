@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after checking in to a shift.
 public struct CheckInResponse: Sendable, Equatable {

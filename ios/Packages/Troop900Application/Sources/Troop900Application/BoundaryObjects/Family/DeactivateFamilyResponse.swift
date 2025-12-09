@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after deactivating a family.
 public struct DeactivateFamilyResponse: Sendable, Equatable {

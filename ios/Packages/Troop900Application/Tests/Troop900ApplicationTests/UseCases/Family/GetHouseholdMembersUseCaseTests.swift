@@ -51,11 +51,11 @@ struct GetHouseholdMembersUseCaseTests {
         let response = try await useCase.execute(householdId: householdId)
         
         // Then
-        #expect(response.household.id == householdId)
+        #expect(response.householdId == householdId)
         #expect(response.members.count == 2)
         #expect(response.familyUnits.count == 1)
         
-        let memberIds = response.members.map { $0.id }
+        let memberIds = response.members.map(\.id)
         #expect(memberIds.contains(parentId))
         #expect(memberIds.contains(scoutId))
     }
@@ -71,7 +71,7 @@ struct GetHouseholdMembersUseCaseTests {
         let response = try await useCase.execute(householdId: householdId)
         
         // Then
-        #expect(response.household.id == householdId)
+        #expect(response.householdId == householdId)
         #expect(response.members.isEmpty)
     }
     

@@ -19,7 +19,7 @@ struct ObserveAuthStateUseCaseTests {
     @Test("Observe auth state returns stream from repository")
     func observeAuthStateReturnsStream() async throws {
         // Given
-        let expectedUserIds: [String?] = ["user-123", nil, "user-456"]
+        let expectedUserIds: [UserId?] = [UserId(unchecked: "user-123"), nil, UserId(unchecked: "user-456")]
         mockAuthRepository.authStateValues = expectedUserIds
         
         // When
@@ -34,7 +34,8 @@ struct ObserveAuthStateUseCaseTests {
             }
         }
         
-        #expect(receivedValues == expectedUserIds)
+        let expectedStringValues: [String?] = ["user-123", nil, "user-456"]
+        #expect(receivedValues == expectedStringValues)
     }
     
     @Test("Observe auth state emits nil for signed out state")
@@ -62,7 +63,7 @@ struct ObserveAuthStateUseCaseTests {
     func observeAuthStateEmitsUserIdForSignedIn() async throws {
         // Given
         let expectedUserId = "user-789"
-        mockAuthRepository.authStateValues = [expectedUserId]
+        mockAuthRepository.authStateValues = [UserId(unchecked: expectedUserId)]
         
         // When
         let stream = useCase.execute()
@@ -80,7 +81,7 @@ struct ObserveAuthStateUseCaseTests {
     @Test("Observe auth state tracks sign in and sign out transitions")
     func observeAuthStateTracksTransitions() async throws {
         // Given - simulate: signed out -> signed in -> signed out
-        mockAuthRepository.authStateValues = [nil, "user-123", nil]
+        mockAuthRepository.authStateValues = [nil, UserId(unchecked: "user-123"), nil]
         
         // When
         let stream = useCase.execute()

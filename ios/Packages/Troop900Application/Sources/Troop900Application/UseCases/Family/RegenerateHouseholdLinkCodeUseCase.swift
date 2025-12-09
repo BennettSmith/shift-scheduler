@@ -24,11 +24,14 @@ public final class RegenerateHouseholdLinkCodeUseCase: RegenerateHouseholdLinkCo
     }
     
     public func execute(householdId: String, requestingUserId: String) async throws -> RegenerateHouseholdLinkCodeResponse {
+        // Validate and convert boundary ID to domain ID type
+        let requestingUserIdValue = try UserId(requestingUserId)
+        
         // Validate household exists
         _ = try await householdRepository.getHousehold(id: householdId)
         
         // Validate requesting user can manage this household
-        let requestingUser = try await userRepository.getUser(id: requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserIdValue)
         guard requestingUser.canManageHouseholds.contains(householdId) else {
             throw DomainError.unauthorized
         }

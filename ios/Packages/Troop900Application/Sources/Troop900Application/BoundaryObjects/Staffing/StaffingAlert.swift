@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// An alert for an understaffed shift.
 public struct StaffingAlert: Sendable, Equatable, Identifiable {
@@ -11,7 +10,7 @@ public struct StaffingAlert: Sendable, Equatable, Identifiable {
     public let location: String
     
     /// Overall staffing level (critical or low)
-    public let staffingLevel: StaffingLevel
+    public let staffingLevel: StaffingLevelType
     
     /// Scout staffing details
     public let requiredScouts: Int
@@ -36,7 +35,7 @@ public struct StaffingAlert: Sendable, Equatable, Identifiable {
         shiftLabel: String?,
         timeRange: String,
         location: String,
-        staffingLevel: StaffingLevel,
+        staffingLevel: StaffingLevelType,
         requiredScouts: Int,
         currentScouts: Int,
         scoutShortfall: Int,

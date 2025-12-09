@@ -15,23 +15,23 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
     public var getAssignmentsForShiftResult: Result<[Assignment], Error>?
     public var getAssignmentsForUserResult: Result<[Assignment], Error>?
     public var getAssignmentsForUserInDateRangeResult: Result<[Assignment], Error>?
-    public var createAssignmentResult: Result<String, Error>?
+    public var createAssignmentResult: Result<AssignmentId, Error>?
     public var updateAssignmentError: Error?
     public var deleteAssignmentError: Error?
     
     // MARK: - Call Tracking
     
     public var getAssignmentCallCount = 0
-    public var getAssignmentCalledWith: [String] = []
+    public var getAssignmentCalledWith: [AssignmentId] = []
     
     public var getAssignmentsForShiftCallCount = 0
-    public var getAssignmentsForShiftCalledWith: [String] = []
+    public var getAssignmentsForShiftCalledWith: [ShiftId] = []
     
     public var getAssignmentsForUserCallCount = 0
-    public var getAssignmentsForUserCalledWith: [String] = []
+    public var getAssignmentsForUserCalledWith: [UserId] = []
     
     public var getAssignmentsForUserInDateRangeCallCount = 0
-    public var getAssignmentsForUserInDateRangeCalledWith: [(userId: String, start: Date, end: Date)] = []
+    public var getAssignmentsForUserInDateRangeCalledWith: [(userId: UserId, start: Date, end: Date)] = []
     
     public var createAssignmentCallCount = 0
     public var createAssignmentCalledWith: [Assignment] = []
@@ -40,11 +40,11 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
     public var updateAssignmentCalledWith: [Assignment] = []
     
     public var deleteAssignmentCallCount = 0
-    public var deleteAssignmentCalledWith: [String] = []
+    public var deleteAssignmentCalledWith: [AssignmentId] = []
     
     // MARK: - AssignmentRepository Implementation
     
-    public func getAssignment(id: String) async throws -> Assignment {
+    public func getAssignment(id: AssignmentId) async throws -> Assignment {
         getAssignmentCallCount += 1
         getAssignmentCalledWith.append(id)
         
@@ -52,13 +52,13 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
             return try result.get()
         }
         
-        guard let assignment = assignmentsById[id] else {
+        guard let assignment = assignmentsById[id.value] else {
             throw DomainError.assignmentNotFound
         }
         return assignment
     }
     
-    public func getAssignmentsForShift(shiftId: String) async throws -> [Assignment] {
+    public func getAssignmentsForShift(shiftId: ShiftId) async throws -> [Assignment] {
         getAssignmentsForShiftCallCount += 1
         getAssignmentsForShiftCalledWith.append(shiftId)
         
@@ -69,7 +69,7 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
         return assignmentsById.values.filter { $0.shiftId == shiftId }
     }
     
-    public func getAssignmentsForUser(userId: String) async throws -> [Assignment] {
+    public func getAssignmentsForUser(userId: UserId) async throws -> [Assignment] {
         getAssignmentsForUserCallCount += 1
         getAssignmentsForUserCalledWith.append(userId)
         
@@ -80,7 +80,7 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
         return assignmentsById.values.filter { $0.userId == userId }
     }
     
-    public func getAssignmentsForUserInDateRange(userId: String, start: Date, end: Date) async throws -> [Assignment] {
+    public func getAssignmentsForUserInDateRange(userId: UserId, start: Date, end: Date) async throws -> [Assignment] {
         getAssignmentsForUserInDateRangeCallCount += 1
         getAssignmentsForUserInDateRangeCalledWith.append((userId, start, end))
         
@@ -93,7 +93,7 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
         return assignmentsById.values.filter { $0.userId == userId }
     }
     
-    public func observeAssignmentsForShift(shiftId: String) -> AsyncThrowingStream<[Assignment], Error> {
+    public func observeAssignmentsForShift(shiftId: ShiftId) -> AsyncThrowingStream<[Assignment], Error> {
         AsyncThrowingStream { continuation in
             let assignments = assignmentsById.values.filter { $0.shiftId == shiftId }
             continuation.yield(Array(assignments))
@@ -101,7 +101,7 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
         }
     }
     
-    public func observeAssignmentsForUser(userId: String) -> AsyncThrowingStream<[Assignment], Error> {
+    public func observeAssignmentsForUser(userId: UserId) -> AsyncThrowingStream<[Assignment], Error> {
         AsyncThrowingStream { continuation in
             let assignments = assignmentsById.values.filter { $0.userId == userId }
             continuation.yield(Array(assignments))
@@ -117,10 +117,10 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
             throw error
         }
         
-        assignmentsById[assignment.id] = assignment
+        assignmentsById[assignment.id.value] = assignment
     }
     
-    public func createAssignment(_ assignment: Assignment) async throws -> String {
+    public func createAssignment(_ assignment: Assignment) async throws -> AssignmentId {
         createAssignmentCallCount += 1
         createAssignmentCalledWith.append(assignment)
         
@@ -128,11 +128,11 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
             return try result.get()
         }
         
-        assignmentsById[assignment.id] = assignment
+        assignmentsById[assignment.id.value] = assignment
         return assignment.id
     }
     
-    public func deleteAssignment(id: String) async throws {
+    public func deleteAssignment(id: AssignmentId) async throws {
         deleteAssignmentCallCount += 1
         deleteAssignmentCalledWith.append(id)
         
@@ -140,10 +140,15 @@ public final class MockAssignmentRepository: AssignmentRepository, @unchecked Se
             throw error
         }
         
-        assignmentsById.removeValue(forKey: id)
+        assignmentsById.removeValue(forKey: id.value)
     }
     
     // MARK: - Test Helpers
+    
+    /// Adds an assignment to the storage
+    public func addAssignment(_ assignment: Assignment) {
+        assignmentsById[assignment.id.value] = assignment
+    }
     
     /// Resets all state and call tracking
     public func reset() {

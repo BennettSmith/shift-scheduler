@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after updating profile photo.
 public struct UpdateProfilePhotoResponse: Sendable, Equatable {

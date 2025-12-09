@@ -33,8 +33,11 @@ public final class GetSeasonStatisticsUseCase: GetSeasonStatisticsUseCaseProtoco
     }
     
     public func execute(seasonId: String, requestingUserId: String) async throws -> SeasonStatisticsResponse {
+        // Validate and convert boundary ID to domain ID type
+        let requestingUserIdValue = try UserId(requestingUserId)
+        
         // Validate requesting user has permission (must be committee)
-        let requestingUser = try await userRepository.getUser(id: requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserIdValue)
         guard requestingUser.role.isLeadership else {
             throw DomainError.unauthorized
         }
@@ -96,7 +99,7 @@ public final class GetSeasonStatisticsUseCase: GetSeasonStatisticsUseCaseProtoco
         // Get top volunteers (from leaderboard)
         let topVolunteers = Array(leaderboard.entries.prefix(10)).map { entry in
             TopVolunteerEntry(
-                id: entry.id,
+                id: entry.id.value,
                 name: entry.name,
                 role: .scout, // Would need to fetch actual role
                 totalHours: entry.totalHours,

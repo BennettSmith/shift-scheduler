@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to check out from a shift.
 public struct CheckOutRequest: Sendable, Equatable {

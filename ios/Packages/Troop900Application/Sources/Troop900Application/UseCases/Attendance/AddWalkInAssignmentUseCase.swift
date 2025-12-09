@@ -30,8 +30,16 @@ public final class AddWalkInAssignmentUseCase: AddWalkInAssignmentUseCaseProtoco
     }
     
     public func execute(request: AddWalkInRequest) async throws -> AddWalkInResponse {
+        // Step 1: Validate and convert boundary IDs to domain ID types
+        let shiftId = try ShiftId(request.shiftId)
+        let userId = try UserId(request.userId)
+        let requestingUserId = try UserId(request.requestingUserId)
+        
+        // Step 2: Convert boundary enums to domain types
+        let assignmentType = AssignmentType(from: request.assignmentType)
+        
         // Validate shift exists
-        let shift = try await shiftRepository.getShift(id: request.shiftId)
+        let shift = try await shiftRepository.getShift(id: shiftId)
         
         // Validate shift is in progress or about to start
         let now = Date()
@@ -46,15 +54,15 @@ public final class AddWalkInAssignmentUseCase: AddWalkInAssignmentUseCaseProtoco
         }
         
         // Validate requesting user and permissions
-        let requestingUser = try await userRepository.getUser(id: request.requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserId)
         let isCommittee = requestingUser.role.isLeadership
         
         // If not committee, must be a checked-in parent on this shift
         var hasPermission = isCommittee
         if !isCommittee {
             // Check if requesting user is checked in for this shift
-            let requestingUserAssignments = try await assignmentRepository.getAssignmentsForUser(userId: request.requestingUserId)
-            let shiftAssignments = requestingUserAssignments.filter { $0.shiftId == request.shiftId && $0.isActive }
+            let requestingUserAssignments = try await assignmentRepository.getAssignmentsForUser(userId: requestingUserId)
+            let shiftAssignments = requestingUserAssignments.filter { $0.shiftId == shiftId && $0.isActive }
             
             if let assignment = shiftAssignments.first {
                 if let attendanceRecord = try? await attendanceRepository.getAttendanceRecordByAssignment(assignmentId: assignment.id),
@@ -69,11 +77,11 @@ public final class AddWalkInAssignmentUseCase: AddWalkInAssignmentUseCaseProtoco
         }
         
         // Validate walk-in user exists
-        let walkInUser = try await userRepository.getUser(id: request.userId)
+        let walkInUser = try await userRepository.getUser(id: userId)
         
         // Check if user already has an assignment for this shift
-        let existingAssignments = try await assignmentRepository.getAssignmentsForUser(userId: request.userId)
-        let shiftAssignments = existingAssignments.filter { $0.shiftId == request.shiftId && $0.isActive }
+        let existingAssignments = try await assignmentRepository.getAssignmentsForUser(userId: userId)
+        let shiftAssignments = existingAssignments.filter { $0.shiftId == shiftId && $0.isActive }
         
         if !shiftAssignments.isEmpty {
             return AddWalkInResponse(
@@ -86,27 +94,27 @@ public final class AddWalkInAssignmentUseCase: AddWalkInAssignmentUseCaseProtoco
         }
         
         // Create assignment for walk-in
-        let assignmentId = UUID().uuidString
+        let newAssignmentId = AssignmentId(unchecked: UUID().uuidString)
         let assignment = Assignment(
-            id: assignmentId,
-            shiftId: request.shiftId,
-            userId: request.userId,
-            assignmentType: request.assignmentType,
+            id: newAssignmentId,
+            shiftId: shiftId,
+            userId: userId,
+            assignmentType: assignmentType,
             status: .confirmed,
             notes: request.notes,
             assignedAt: now,
-            assignedBy: request.requestingUserId
+            assignedBy: requestingUserId
         )
         
         _ = try await assignmentRepository.createAssignment(assignment)
         
         // Auto-check in the walk-in
-        let attendanceRecordId = UUID().uuidString
+        let newAttendanceRecordId = AttendanceRecordId(unchecked: UUID().uuidString)
         let attendanceRecord = AttendanceRecord(
-            id: attendanceRecordId,
-            assignmentId: assignmentId,
-            shiftId: request.shiftId,
-            userId: request.userId,
+            id: newAttendanceRecordId,
+            assignmentId: newAssignmentId,
+            shiftId: shiftId,
+            userId: userId,
             checkInTime: now,
             checkOutTime: nil,
             checkInMethod: .manual,
@@ -120,8 +128,8 @@ public final class AddWalkInAssignmentUseCase: AddWalkInAssignmentUseCaseProtoco
         
         return AddWalkInResponse(
             success: true,
-            assignmentId: assignmentId,
-            attendanceRecordId: attendanceRecordId,
+            assignmentId: newAssignmentId.value,
+            attendanceRecordId: newAttendanceRecordId.value,
             message: "Successfully added \(walkInUser.firstName) as a walk-in volunteer",
             autoCheckedIn: true
         )

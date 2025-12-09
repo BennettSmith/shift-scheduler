@@ -47,7 +47,7 @@ struct CheckOutUseCaseTests {
         #expect(response.hoursWorked > 0)
         #expect(response.message.contains("Successfully checked out"))
         #expect(mockAttendanceService.checkOutCallCount == 1)
-        #expect(mockAttendanceService.checkOutCalledWith[0].assignmentId == assignmentId)
+        #expect(mockAttendanceService.checkOutCalledWith[0].assignmentId.value == assignmentId)
         #expect(mockAttendanceService.checkOutCalledWith[0].notes == "Great shift!")
     }
     

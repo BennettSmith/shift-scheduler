@@ -34,7 +34,7 @@ struct ClaimProfileUseCaseTests {
         
         mockOnboardingService.claimProfileResult = .success(ClaimProfileResult(
             success: true,
-            userId: userId,
+            userId: UserId(unchecked: userId),
             message: "Profile claimed successfully"
         ))
         mockUserRepository.usersById[userId] = claimedUser
@@ -46,14 +46,13 @@ struct ClaimProfileUseCaseTests {
         
         // Then
         #expect(response.success == true)
-        #expect(response.user?.id == userId)
-        #expect(response.user?.firstName == "John")
-        #expect(response.user?.lastName == "Smith")
-        #expect(response.user?.isClaimed == true)
+        #expect(response.profile?.userId == userId)
+        #expect(response.profile?.firstName == "John")
+        #expect(response.profile?.lastName == "Smith")
         #expect(response.message == "Profile claimed successfully")
         #expect(mockOnboardingService.claimProfileCallCount == 1)
         #expect(mockOnboardingService.claimProfileCalledWith[0].claimCode == claimCode)
-        #expect(mockOnboardingService.claimProfileCalledWith[0].userId == userId)
+        #expect(mockOnboardingService.claimProfileCalledWith[0].userId.value == userId)
     }
     
     @Test("Claim profile succeeds for scout profile")
@@ -70,7 +69,7 @@ struct ClaimProfileUseCaseTests {
         
         mockOnboardingService.claimProfileResult = .success(ClaimProfileResult(
             success: true,
-            userId: userId,
+            userId: UserId(unchecked: userId),
             message: "Scout profile linked!"
         ))
         mockUserRepository.usersById[userId] = scoutUser
@@ -82,8 +81,8 @@ struct ClaimProfileUseCaseTests {
         
         // Then
         #expect(response.success == true)
-        #expect(response.user?.role == .scout)
-        #expect(response.user?.isClaimed == true)
+        #expect(response.profile?.role == .scout)
+        #expect(response.profile != nil)
     }
     
     @Test("Claim profile handles user fetch failure gracefully")
@@ -94,7 +93,7 @@ struct ClaimProfileUseCaseTests {
         
         mockOnboardingService.claimProfileResult = .success(ClaimProfileResult(
             success: true,
-            userId: userId,
+            userId: UserId(unchecked: userId),
             message: "Profile claimed"
         ))
         // User not in repository - getUser will throw DomainError.userNotFound
@@ -107,10 +106,10 @@ struct ClaimProfileUseCaseTests {
         
         // Then
         #expect(response.success == true)
-        #expect(response.user == nil) // User fetch threw error, caught by try?
+        #expect(response.profile == nil) // User fetch threw error, caught by try?
         #expect(response.message == "Profile claimed")
         #expect(mockUserRepository.getUserCallCount == 1) // Verify fetch was attempted
-        #expect(mockUserRepository.getUserCalledWith[0] == userId)
+        #expect(mockUserRepository.getUserCalledWith[0].value == userId)
     }
     
     // MARK: - Failure Tests
@@ -134,7 +133,7 @@ struct ClaimProfileUseCaseTests {
         
         // Then
         #expect(response.success == false)
-        #expect(response.user == nil)
+        #expect(response.profile == nil)
         #expect(response.message == "Invalid claim code")
     }
     
@@ -179,7 +178,7 @@ struct ClaimProfileUseCaseTests {
         
         // Then
         #expect(response.success == false)
-        #expect(response.user == nil)
+        #expect(response.profile == nil)
         #expect(mockUserRepository.getUserCallCount == 0) // Should not fetch user
     }
     

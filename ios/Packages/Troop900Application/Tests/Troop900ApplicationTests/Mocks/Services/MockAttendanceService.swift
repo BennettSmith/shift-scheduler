@@ -17,7 +17,7 @@ public final class MockAttendanceService: AttendanceService, @unchecked Sendable
     public var checkInCalledWith: [CheckInServiceRequest] = []
     
     public var checkOutCallCount = 0
-    public var checkOutCalledWith: [(assignmentId: String, notes: String?)] = []
+    public var checkOutCalledWith: [(assignmentId: AssignmentId, notes: String?)] = []
     
     public var adminManualCheckInCallCount = 0
     public var adminManualCheckInCalledWith: [AdminCheckInRequest] = []
@@ -38,12 +38,12 @@ public final class MockAttendanceService: AttendanceService, @unchecked Sendable
         // Default success response
         return CheckInServiceResponse(
             success: true,
-            attendanceRecordId: "attendance-\(UUID().uuidString.prefix(8))",
+            attendanceRecordId: AttendanceRecordId(unchecked: "attendance-\(UUID().uuidString.prefix(8))"),
             checkInTime: Date()
         )
     }
     
-    public func checkOut(assignmentId: String, notes: String?) async throws -> CheckOutServiceResponse {
+    public func checkOut(assignmentId: AssignmentId, notes: String?) async throws -> CheckOutServiceResponse {
         checkOutCallCount += 1
         checkOutCalledWith.append((assignmentId, notes))
         
@@ -70,7 +70,7 @@ public final class MockAttendanceService: AttendanceService, @unchecked Sendable
         // Default success response
         return CheckInServiceResponse(
             success: true,
-            attendanceRecordId: "attendance-\(UUID().uuidString.prefix(8))",
+            attendanceRecordId: AttendanceRecordId(unchecked: "attendance-\(UUID().uuidString.prefix(8))"),
             checkInTime: request.overrideTime ?? Date()
         )
     }

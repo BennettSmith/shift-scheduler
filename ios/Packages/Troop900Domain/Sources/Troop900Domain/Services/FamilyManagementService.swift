@@ -12,7 +12,7 @@ public protocol FamilyManagementService: Sendable {
     ///   - scoutId: The scout's user ID.
     ///   - linkCode: The household link code.
     /// - Returns: The result of linking the scout.
-    func linkScoutToHousehold(scoutId: String, linkCode: String) async throws -> LinkScoutResult
+    func linkScoutToHousehold(scoutId: UserId, linkCode: String) async throws -> LinkScoutResult
     
     /// Regenerate a household's link code.
     /// - Parameter householdId: The household's ID.
@@ -21,11 +21,11 @@ public protocol FamilyManagementService: Sendable {
     
     /// Deactivate a family unit or household member.
     /// - Parameter request: The deactivation request.
-    func deactivateFamily(request: DeactivateFamilyRequest) async throws
+    func deactivateFamily(request: FamilyDeactivationRequest) async throws
 }
 
 /// Request to add a new family member.
-public struct AddFamilyMemberRequest: Sendable, Codable {
+public struct AddFamilyMemberRequest: Sendable {
     public let householdId: String
     public let firstName: String
     public let lastName: String
@@ -51,13 +51,13 @@ public struct AddFamilyMemberRequest: Sendable, Codable {
 }
 
 /// Result of adding a family member.
-public struct AddFamilyMemberResult: Sendable, Codable {
+public struct AddFamilyMemberResult: Sendable {
     public let success: Bool
-    public let userId: String?
+    public let userId: UserId?
     public let claimCode: String?
     public let message: String
     
-    public init(success: Bool, userId: String?, claimCode: String?, message: String) {
+    public init(success: Bool, userId: UserId?, claimCode: String?, message: String) {
         self.success = success
         self.userId = userId
         self.claimCode = claimCode
@@ -66,7 +66,7 @@ public struct AddFamilyMemberResult: Sendable, Codable {
 }
 
 /// Result of linking a scout to a household.
-public struct LinkScoutResult: Sendable, Codable {
+public struct LinkScoutResult: Sendable {
     public let success: Bool
     public let householdId: String?
     public let message: String
@@ -79,11 +79,11 @@ public struct LinkScoutResult: Sendable, Codable {
 }
 
 /// Request to deactivate a family unit or member.
-public struct DeactivateFamilyRequest: Sendable, Codable {
-    public let userId: String
+public struct FamilyDeactivationRequest: Sendable {
+    public let userId: UserId
     public let reason: String?
     
-    public init(userId: String, reason: String?) {
+    public init(userId: UserId, reason: String?) {
         self.userId = userId
         self.reason = reason
     }

@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 public struct ShiftTemplateDetail: Sendable, Equatable, Identifiable {
     public let id: String

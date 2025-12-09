@@ -15,7 +15,7 @@ public final class MockShiftSignupService: ShiftSignupService, @unchecked Sendab
     public var signUpCalledWith: [ShiftSignupServiceRequest] = []
     
     public var cancelAssignmentCallCount = 0
-    public var cancelAssignmentCalledWith: [(assignmentId: String, reason: String?)] = []
+    public var cancelAssignmentCalledWith: [(assignmentId: AssignmentId, reason: String?)] = []
     
     // MARK: - ShiftSignupService Implementation
     
@@ -30,12 +30,12 @@ public final class MockShiftSignupService: ShiftSignupService, @unchecked Sendab
         // Default success response
         return ShiftSignupServiceResponse(
             success: true,
-            assignmentId: "assignment-\(UUID().uuidString.prefix(8))",
+            assignmentId: AssignmentId(unchecked: "assignment-\(UUID().uuidString.prefix(8))"),
             message: "Successfully signed up for shift"
         )
     }
     
-    public func cancelAssignment(assignmentId: String, reason: String?) async throws {
+    public func cancelAssignment(assignmentId: AssignmentId, reason: String?) async throws {
         cancelAssignmentCallCount += 1
         cancelAssignmentCalledWith.append((assignmentId, reason))
         

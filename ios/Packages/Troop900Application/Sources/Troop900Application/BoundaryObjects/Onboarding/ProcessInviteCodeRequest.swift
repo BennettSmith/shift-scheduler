@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to process an invite code.
 public struct ProcessInviteCodeRequest: Sendable, Equatable {

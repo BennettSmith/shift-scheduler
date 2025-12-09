@@ -82,7 +82,7 @@ struct UpdateDisplayNameUseCaseTests {
         
         // Then
         let updatedUser = mockUserRepository.updateUserCalledWith[0]
-        #expect(updatedUser.id == userId)
+        #expect(updatedUser.id.value == userId)
         #expect(updatedUser.email == user.email)
         #expect(updatedUser.role == user.role)
         #expect(updatedUser.households == user.households)

@@ -27,7 +27,7 @@ struct SignInWithGoogleUseCaseTests {
         let accessToken = "test-access-token"
         let expectedUserId = "user-456"
         
-        mockAuthRepository.signInWithGoogleResult = .success(expectedUserId)
+        mockAuthRepository.signInWithGoogleResult = .success(UserId(unchecked: expectedUserId))
         // No user in repository = new user
         
         // When
@@ -48,7 +48,7 @@ struct SignInWithGoogleUseCaseTests {
         let expectedUserId = "user-456"
         let unclaimedUser = TestFixtures.createUser(id: expectedUserId, isClaimed: false)
         
-        mockAuthRepository.signInWithGoogleResult = .success(expectedUserId)
+        mockAuthRepository.signInWithGoogleResult = .success(UserId(unchecked: expectedUserId))
         mockUserRepository.usersById[expectedUserId] = unclaimedUser
         
         // When
@@ -68,7 +68,7 @@ struct SignInWithGoogleUseCaseTests {
         let expectedUserId = "user-456"
         let claimedUser = TestFixtures.createUser(id: expectedUserId, isClaimed: true)
         
-        mockAuthRepository.signInWithGoogleResult = .success(expectedUserId)
+        mockAuthRepository.signInWithGoogleResult = .success(UserId(unchecked: expectedUserId))
         mockUserRepository.usersById[expectedUserId] = claimedUser
         
         // When
@@ -103,7 +103,7 @@ struct SignInWithGoogleUseCaseTests {
         let accessToken = "test-access-token"
         let expectedUserId = "user-456"
         
-        mockAuthRepository.signInWithGoogleResult = .success(expectedUserId)
+        mockAuthRepository.signInWithGoogleResult = .success(UserId(unchecked: expectedUserId))
         mockUserRepository.getUserResult = .failure(DomainError.userNotFound)
         
         // When - should not throw, treats error as new user (use case uses try?)
@@ -114,6 +114,6 @@ struct SignInWithGoogleUseCaseTests {
         #expect(response.isNewUser == true)
         #expect(response.needsOnboarding == true)
         #expect(mockUserRepository.getUserCallCount == 1) // Verify fetch was attempted
-        #expect(mockUserRepository.getUserCalledWith[0] == expectedUserId)
+        #expect(mockUserRepository.getUserCalledWith[0].value == expectedUserId)
     }
 }

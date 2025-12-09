@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after permanently deleting user data.
 public struct PermanentDeleteResponse: Sendable, Equatable {
@@ -34,16 +33,14 @@ public struct PermanentDeleteResponse: Sendable, Equatable {
 }
 
 /// Counts of deleted records by type.
+/// This is an inert data carrier - all values are stored properties.
 public struct DeletedRecordCounts: Sendable, Equatable, Codable {
     public let userProfile: Int
     public let assignments: Int
     public let attendanceRecords: Int
     public let messages: Int
     public let otherRecords: Int
-    
-    public var total: Int {
-        userProfile + assignments + attendanceRecords + messages + otherRecords
-    }
+    public let total: Int
     
     public init(
         userProfile: Int,
@@ -57,5 +54,6 @@ public struct DeletedRecordCounts: Sendable, Equatable, Codable {
         self.attendanceRecords = attendanceRecords
         self.messages = messages
         self.otherRecords = otherRecords
+        self.total = userProfile + assignments + attendanceRecords + messages + otherRecords
     }
 }

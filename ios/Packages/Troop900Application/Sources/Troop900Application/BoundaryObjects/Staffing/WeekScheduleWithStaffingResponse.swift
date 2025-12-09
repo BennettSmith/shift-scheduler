@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response containing a week's schedule with enhanced staffing indicators.
 public struct WeekScheduleWithStaffingResponse: Sendable, Equatable {

@@ -16,8 +16,11 @@ public final class UpdateProfilePhotoUseCase: UpdateProfilePhotoUseCaseProtocol,
     }
     
     public func execute(request: UpdateProfilePhotoRequest) async throws -> UpdateProfilePhotoResponse {
+        // Validate and convert boundary ID to domain ID type
+        let userId = try UserId(request.userId)
+        
         // Validate user exists
-        let user = try await userRepository.getUser(id: request.userId)
+        let user = try await userRepository.getUser(id: userId)
         
         // Validate photo data size (max 10MB)
         let maxSize = 10 * 1024 * 1024 // 10MB
@@ -49,8 +52,8 @@ public final class UpdateProfilePhotoUseCase: UpdateProfilePhotoUseCaseProtocol,
         
         // For now, we'll create placeholder URLs
         let timestamp = Int(Date().timeIntervalSince1970)
-        let photoUrl = "https://storage.example.com/profiles/\(user.id)/photo_\(timestamp).\(request.fileExtension)"
-        let thumbnailUrl = "https://storage.example.com/profiles/\(user.id)/thumb_\(timestamp).\(request.fileExtension)"
+        let photoUrl = "https://storage.example.com/profiles/\(user.id.value)/photo_\(timestamp).\(request.fileExtension)"
+        let thumbnailUrl = "https://storage.example.com/profiles/\(user.id.value)/thumb_\(timestamp).\(request.fileExtension)"
         
         // Note: In real implementation, UserRepository would have updateProfilePhoto method
         // For now, this would be handled by a cloud function or backend service

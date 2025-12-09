@@ -5,7 +5,7 @@ public protocol UserRepository: Sendable {
     /// Get a user by ID.
     /// - Parameter id: The user's ID.
     /// - Returns: The user entity.
-    func getUser(id: String) async throws -> User
+    func getUser(id: UserId) async throws -> User
     
     /// Get a user by email address.
     /// - Parameter email: The user's email address.
@@ -25,7 +25,7 @@ public protocol UserRepository: Sendable {
     /// Observe a user by ID for real-time updates.
     /// - Parameter id: The user's ID.
     /// - Returns: A stream of user entities.
-    func observeUser(id: String) -> AsyncThrowingStream<User, Error>
+    func observeUser(id: UserId) -> AsyncThrowingStream<User, Error>
     
     /// Update a user entity.
     /// - Parameter user: The user entity to update.
@@ -34,5 +34,5 @@ public protocol UserRepository: Sendable {
     /// Create a new user entity.
     /// - Parameter user: The user entity to create.
     /// - Returns: The created user's ID.
-    func createUser(_ user: User) async throws -> String
+    func createUser(_ user: User) async throws -> UserId
 }

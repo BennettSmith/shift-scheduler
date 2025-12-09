@@ -17,7 +17,10 @@ public final class GetAttendanceHistoryUseCase: GetAttendanceHistoryUseCaseProto
     }
     
     public func execute(userId: String) async throws -> AttendanceHistoryResponse {
-        let records = try await attendanceRepository.getAttendanceRecordsForUser(userId: userId)
+        // Step 1: Validate and convert boundary ID to domain ID type
+        let userIdValue = try UserId(userId)
+        
+        let records = try await attendanceRepository.getAttendanceRecordsForUser(userId: userIdValue)
         
         var summaries: [AttendanceRecordSummary] = []
         var totalHours: Double = 0
@@ -26,13 +29,13 @@ public final class GetAttendanceHistoryUseCase: GetAttendanceHistoryUseCaseProto
         for record in records {
             if let shift = try? await shiftRepository.getShift(id: record.shiftId) {
                 summaries.append(AttendanceRecordSummary(
-                    id: record.id,
+                    id: record.id.value,
                     shiftDate: shift.date,
                     shiftLabel: shift.label,
                     checkInTime: record.checkInTime,
                     checkOutTime: record.checkOutTime,
                     hoursWorked: record.hoursWorked,
-                    status: record.status
+                    status: AttendanceStatusType(from: record.status)
                 ))
                 
                 if let hours = record.hoursWorked {

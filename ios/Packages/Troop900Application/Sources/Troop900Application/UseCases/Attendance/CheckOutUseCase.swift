@@ -20,15 +20,18 @@ public final class CheckOutUseCase: CheckOutUseCaseProtocol, Sendable {
     }
     
     public func execute(request: CheckOutRequest) async throws -> CheckOutResponse {
+        // Step 1: Validate and convert boundary IDs to domain ID types
+        let assignmentId = try AssignmentId(request.assignmentId)
+        
         // Validate user is checked in
-        guard let attendanceRecord = try? await attendanceRepository.getAttendanceRecordByAssignment(assignmentId: request.assignmentId),
+        guard let attendanceRecord = try? await attendanceRepository.getAttendanceRecordByAssignment(assignmentId: assignmentId),
               attendanceRecord.isCheckedIn else {
             throw DomainError.notCheckedIn
         }
         
         // Call service to check out (Cloud Function handles calculation and update)
         let serviceResponse = try await attendanceService.checkOut(
-            assignmentId: request.assignmentId,
+            assignmentId: assignmentId,
             notes: request.notes
         )
         

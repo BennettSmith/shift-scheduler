@@ -31,9 +31,7 @@ struct GenerateInviteCodesUseCaseTests {
         
         // Then
         #expect(response.codes.count == 1)
-        #expect(response.codes[0].householdId == "household-1")
         #expect(response.codes[0].role == .parent)
-        #expect(response.codes[0].isUsed == false)
         #expect(response.codes[0].code.count == 8)
         #expect(response.message.contains("1"))
         #expect(mockInviteCodeRepository.createInviteCodeCallCount == 1)
@@ -60,9 +58,8 @@ struct GenerateInviteCodesUseCaseTests {
         let codeCounts = Set(response.codes.map { $0.code })
         #expect(codeCounts.count == 5)
         
-        // Verify all codes have the same role and household
+        // Verify all codes have the same role
         for code in response.codes {
-            #expect(code.householdId == "household-1")
             #expect(code.role == .scout)
         }
     }

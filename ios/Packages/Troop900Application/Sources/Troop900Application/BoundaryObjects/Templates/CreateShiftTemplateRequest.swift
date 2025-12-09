@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 public struct CreateShiftTemplateRequest: Sendable, Equatable {
     public let name: String

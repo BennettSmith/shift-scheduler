@@ -25,7 +25,7 @@ public enum TestFixtures {
         updatedAt: Date = Date()
     ) -> User {
         User(
-            id: id,
+            id: UserId(unchecked: id),
             email: email,
             firstName: firstName,
             lastName: lastName,
@@ -123,7 +123,7 @@ public enum TestFixtures {
         let end = endTime ?? shiftDate.addingHours(13)
         
         return Shift(
-            id: id,
+            id: ShiftId(unchecked: id),
             date: shiftDate,
             startTime: start,
             endTime: end,
@@ -191,14 +191,14 @@ public enum TestFixtures {
         assignedBy: String? = nil
     ) -> Assignment {
         Assignment(
-            id: id,
-            shiftId: shiftId,
-            userId: userId,
+            id: AssignmentId(unchecked: id),
+            shiftId: ShiftId(unchecked: shiftId),
+            userId: UserId(unchecked: userId),
             assignmentType: assignmentType,
             status: status,
             notes: notes,
             assignedAt: assignedAt,
-            assignedBy: assignedBy
+            assignedBy: assignedBy.map { UserId(unchecked: $0) }
         )
     }
     
@@ -236,10 +236,10 @@ public enum TestFixtures {
         notes: String? = nil
     ) -> AttendanceRecord {
         AttendanceRecord(
-            id: id,
-            assignmentId: assignmentId,
-            shiftId: shiftId,
-            userId: userId,
+            id: AttendanceRecordId(unchecked: id),
+            assignmentId: AssignmentId(unchecked: assignmentId),
+            shiftId: ShiftId(unchecked: shiftId),
+            userId: UserId(unchecked: userId),
             checkInTime: checkInTime,
             checkOutTime: checkOutTime,
             checkInMethod: checkInMethod,

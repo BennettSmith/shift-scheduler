@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after adding a walk-in volunteer to a shift.
 public struct AddWalkInResponse: Sendable, Equatable {

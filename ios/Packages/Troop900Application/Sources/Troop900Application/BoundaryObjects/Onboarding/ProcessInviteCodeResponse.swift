@@ -1,19 +1,18 @@
 import Foundation
-import Troop900Domain
 
 /// Response after processing an invite code.
 public struct ProcessInviteCodeResponse: Sendable, Equatable {
     public let success: Bool
     public let householdId: String?
     public let householdName: String?
-    public let role: UserRole?
+    public let role: UserRoleType?
     public let message: String
     
     public init(
         success: Bool,
         householdId: String?,
         householdName: String?,
-        role: UserRole?,
+        role: UserRoleType?,
         message: String
     ) {
         self.success = success

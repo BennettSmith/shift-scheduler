@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after linking a scout to an additional household.
 public struct LinkScoutResponse: Sendable, Equatable {

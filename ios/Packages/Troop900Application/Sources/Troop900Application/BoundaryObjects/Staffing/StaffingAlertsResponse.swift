@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response containing prioritized list of understaffed shifts.
 public struct StaffingAlertsResponse: Sendable, Equatable {

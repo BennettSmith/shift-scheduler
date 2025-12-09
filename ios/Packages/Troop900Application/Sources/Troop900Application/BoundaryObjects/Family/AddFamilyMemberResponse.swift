@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response after adding a family member.
 public struct AddFamilyMemberResponse: Sendable, Equatable {

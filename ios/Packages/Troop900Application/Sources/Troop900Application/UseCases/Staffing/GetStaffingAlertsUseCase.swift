@@ -21,8 +21,11 @@ public final class GetStaffingAlertsUseCase: GetStaffingAlertsUseCaseProtocol, S
     }
     
     public func execute(daysAhead: Int, requestingUserId: String) async throws -> StaffingAlertsResponse {
+        // Validate and convert boundary ID to domain ID type
+        let requestingUserIdValue = try UserId(requestingUserId)
+        
         // Validate requesting user has permission (must be committee)
-        let requestingUser = try await userRepository.getUser(id: requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserIdValue)
         guard requestingUser.role.isLeadership else {
             throw DomainError.unauthorized
         }
@@ -44,18 +47,18 @@ public final class GetStaffingAlertsUseCase: GetStaffingAlertsUseCaseProtocol, S
         var lowStaffingAlerts: [StaffingAlert] = []
         
         for shift in publishedShifts {
-            // Calculate staffing levels
-            let scoutLevel = StaffingLevel.calculate(
+            // Calculate staffing levels using domain StaffingLevel
+            let scoutLevel = StaffingLevel(
                 current: shift.currentScouts,
                 required: shift.requiredScouts
             )
-            let parentLevel = StaffingLevel.calculate(
+            let parentLevel = StaffingLevel(
                 current: shift.currentParents,
                 required: shift.requiredParents
             )
             
             // Overall staffing is the worst of scout or parent staffing
-            let overallLevel = min(scoutLevel.priority, parentLevel.priority) == scoutLevel.priority ? scoutLevel : parentLevel
+            let overallLevel = scoutLevel.priority <= parentLevel.priority ? scoutLevel : parentLevel
             
             // Only create alerts for critical or low staffing
             guard overallLevel == .critical || overallLevel == .low else {
@@ -69,14 +72,15 @@ public final class GetStaffingAlertsUseCase: GetStaffingAlertsUseCaseProtocol, S
             // Calculate days until shift
             let daysUntil = calendar.dateComponents([.day], from: now, to: shift.date).day ?? 0
             
+            // Convert domain StaffingLevel to boundary StaffingLevelType
             let alert = StaffingAlert(
-                id: shift.id,
-                shiftId: shift.id,
+                id: shift.id.value,
+                shiftId: shift.id.value,
                 shiftDate: shift.date,
                 shiftLabel: shift.label,
                 timeRange: formatTimeRange(start: shift.startTime, end: shift.endTime),
                 location: shift.location,
-                staffingLevel: overallLevel,
+                staffingLevel: StaffingLevelType(from: overallLevel),
                 requiredScouts: shift.requiredScouts,
                 currentScouts: shift.currentScouts,
                 scoutShortfall: scoutShortfall,

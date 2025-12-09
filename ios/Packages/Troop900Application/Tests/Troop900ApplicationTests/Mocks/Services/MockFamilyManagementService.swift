@@ -17,13 +17,13 @@ public final class MockFamilyManagementService: FamilyManagementService, @unchec
     public var addFamilyMemberCalledWith: [AddFamilyMemberRequest] = []
     
     public var linkScoutToHouseholdCallCount = 0
-    public var linkScoutToHouseholdCalledWith: [(scoutId: String, linkCode: String)] = []
+    public var linkScoutToHouseholdCalledWith: [(scoutId: UserId, linkCode: String)] = []
     
     public var regenerateHouseholdLinkCodeCallCount = 0
     public var regenerateHouseholdLinkCodeCalledWith: [String] = []
     
     public var deactivateFamilyCallCount = 0
-    public var deactivateFamilyCalledWith: [DeactivateFamilyRequest] = []
+    public var deactivateFamilyCalledWith: [FamilyDeactivationRequest] = []
     
     // MARK: - FamilyManagementService Implementation
     
@@ -38,13 +38,13 @@ public final class MockFamilyManagementService: FamilyManagementService, @unchec
         // Default success response
         return AddFamilyMemberResult(
             success: true,
-            userId: "user-\(UUID().uuidString.prefix(8))",
+            userId: UserId(unchecked: "user-\(UUID().uuidString.prefix(8))"),
             claimCode: "CLAIMCODE",
             message: "Family member added successfully"
         )
     }
     
-    public func linkScoutToHousehold(scoutId: String, linkCode: String) async throws -> LinkScoutResult {
+    public func linkScoutToHousehold(scoutId: UserId, linkCode: String) async throws -> LinkScoutResult {
         linkScoutToHouseholdCallCount += 1
         linkScoutToHouseholdCalledWith.append((scoutId, linkCode))
         
@@ -73,7 +73,7 @@ public final class MockFamilyManagementService: FamilyManagementService, @unchec
         return String((0..<8).map { _ in characters.randomElement()! })
     }
     
-    public func deactivateFamily(request: DeactivateFamilyRequest) async throws {
+    public func deactivateFamily(request: FamilyDeactivationRequest) async throws {
         deactivateFamilyCallCount += 1
         deactivateFamilyCalledWith.append(request)
         

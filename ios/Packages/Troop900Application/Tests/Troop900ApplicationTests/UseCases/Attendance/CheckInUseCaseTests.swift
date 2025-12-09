@@ -51,8 +51,8 @@ struct CheckInUseCaseTests {
         #expect(response.checkInTime != nil)
         #expect(response.message == "Successfully checked in!")
         #expect(mockAttendanceService.checkInCallCount == 1)
-        #expect(mockAttendanceService.checkInCalledWith[0].assignmentId == assignmentId)
-        #expect(mockAttendanceService.checkInCalledWith[0].shiftId == shiftId)
+        #expect(mockAttendanceService.checkInCalledWith[0].assignmentId.value == assignmentId)
+        #expect(mockAttendanceService.checkInCalledWith[0].shiftId.value == shiftId)
         #expect(mockAttendanceService.checkInCalledWith[0].qrCodeData == "QR123")
     }
     
@@ -61,7 +61,7 @@ struct CheckInUseCaseTests {
         // Given
         let assignmentId = "assignment-1"
         let shiftId = "shift-1"
-        let location = GeoLocation(latitude: 37.7749, longitude: -122.4194)
+        let location = Coordinate(latitude: 37.7749, longitude: -122.4194)
         let assignment = TestFixtures.createAssignment(
             id: assignmentId,
             shiftId: shiftId,

@@ -40,8 +40,9 @@ public final class CreateShiftUseCase: CreateShiftUseCaseProtocol, Sendable {
         let initialStatus: ShiftStatus = request.publishImmediately ? .published : .draft
         
         // Create shift
+        let shiftId = ShiftId(unchecked: UUID().uuidString)
         let shift = Shift(
-            id: UUID().uuidString,
+            id: shiftId,
             date: request.date,
             startTime: request.startTime,
             endTime: request.endTime,
@@ -58,7 +59,7 @@ public final class CreateShiftUseCase: CreateShiftUseCaseProtocol, Sendable {
             createdAt: Date()
         )
         
-        let shiftId = try await shiftRepository.createShift(shift)
+        let createdShiftId = try await shiftRepository.createShift(shift)
         
         // Send notification if requested and shift is published
         var notificationSent = false
@@ -88,8 +89,8 @@ public final class CreateShiftUseCase: CreateShiftUseCaseProtocol, Sendable {
         }
         
         return CreateShiftResponse(
-            shiftId: shiftId,
-            status: initialStatus,
+            shiftId: createdShiftId.value,
+            status: ShiftStatusType(from: initialStatus),
             notificationSent: notificationSent
         )
     }

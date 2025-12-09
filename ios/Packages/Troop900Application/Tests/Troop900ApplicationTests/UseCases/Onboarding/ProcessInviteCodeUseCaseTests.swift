@@ -52,7 +52,7 @@ struct ProcessInviteCodeUseCaseTests {
         #expect(response.message == "Welcome to the household!")
         #expect(mockOnboardingService.processInviteCodeCallCount == 1)
         #expect(mockOnboardingService.processInviteCodeCalledWith[0].code == code)
-        #expect(mockOnboardingService.processInviteCodeCalledWith[0].userId == userId)
+        #expect(mockOnboardingService.processInviteCodeCalledWith[0].userId.value == userId)
     }
     
     @Test("Process invite code succeeds for scout role")

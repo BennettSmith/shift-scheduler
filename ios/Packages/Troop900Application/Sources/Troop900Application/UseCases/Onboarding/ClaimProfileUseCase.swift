@@ -17,18 +17,23 @@ public final class ClaimProfileUseCase: ClaimProfileUseCaseProtocol, Sendable {
     }
     
     public func execute(request: ClaimProfileRequest) async throws -> ClaimProfileResponse {
+        // Validate and convert boundary ID to domain ID type
+        let userId = try UserId(request.userId)
+        
         // Call service to claim profile (Cloud Function handles validation and linking)
-        let result = try await onboardingService.claimProfile(claimCode: request.claimCode, userId: request.userId)
+        let result = try await onboardingService.claimProfile(claimCode: request.claimCode, userId: userId)
         
         // Fetch updated user if successful
-        var user: User?
-        if result.success, let userId = result.userId {
-            user = try? await userRepository.getUser(id: userId)
+        var profile: ClaimedProfileInfo?
+        if result.success, let resultUserId = result.userId {
+            if let user = try? await userRepository.getUser(id: resultUserId) {
+                profile = ClaimedProfileInfo(from: user)
+            }
         }
         
         return ClaimProfileResponse(
             success: result.success,
-            user: user,
+            profile: profile,
             message: result.message
         )
     }

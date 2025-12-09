@@ -26,20 +26,26 @@ public final class GetHouseholdMembersUseCase: GetHouseholdMembersUseCaseProtoco
         let household = try await householdRepository.getHousehold(id: householdId)
         
         // Fetch all members
-        var members: [User] = []
+        var memberInfos: [MemberInfo] = []
         for memberId in household.members {
-            if let user = try? await userRepository.getUser(id: memberId) {
-                members.append(user)
+            // Convert string ID to UserId
+            if let userId = try? UserId(memberId),
+               let user = try? await userRepository.getUser(id: userId) {
+                memberInfos.append(MemberInfo(from: user))
             }
         }
         
         // Fetch all family units
         let familyUnits = try await familyUnitRepository.getFamilyUnitsInHousehold(householdId: householdId)
+        let familyUnitInfos = familyUnits.map { FamilyUnitInfo(from: $0) }
         
         return HouseholdMembersResponse(
-            household: household,
-            members: members,
-            familyUnits: familyUnits
+            householdId: household.id,
+            householdName: household.name,
+            isActive: household.isActive,
+            linkCode: household.linkCode,
+            members: memberInfos,
+            familyUnits: familyUnitInfos
         )
     }
 }

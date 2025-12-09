@@ -5,7 +5,7 @@ public protocol ShiftRepository: Sendable {
     /// Get a shift by ID.
     /// - Parameter id: The shift's ID.
     /// - Returns: The shift entity.
-    func getShift(id: String) async throws -> Shift
+    func getShift(id: ShiftId) async throws -> Shift
     
     /// Get all shifts within a date range.
     /// - Parameters:
@@ -22,7 +22,7 @@ public protocol ShiftRepository: Sendable {
     /// Observe a shift by ID for real-time updates.
     /// - Parameter id: The shift's ID.
     /// - Returns: A stream of shift entities.
-    func observeShift(id: String) -> AsyncThrowingStream<Shift, Error>
+    func observeShift(id: ShiftId) -> AsyncThrowingStream<Shift, Error>
     
     /// Observe all shifts within a date range for real-time updates.
     /// - Parameters:
@@ -38,9 +38,9 @@ public protocol ShiftRepository: Sendable {
     /// Create a new shift entity.
     /// - Parameter shift: The shift entity to create.
     /// - Returns: The created shift's ID.
-    func createShift(_ shift: Shift) async throws -> String
+    func createShift(_ shift: Shift) async throws -> ShiftId
     
     /// Delete a shift by ID.
     /// - Parameter id: The shift's ID.
-    func deleteShift(id: String) async throws
+    func deleteShift(id: ShiftId) async throws
 }

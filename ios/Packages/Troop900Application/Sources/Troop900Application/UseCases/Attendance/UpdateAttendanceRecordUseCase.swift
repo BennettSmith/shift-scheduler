@@ -21,14 +21,21 @@ public final class UpdateAttendanceRecordUseCase: UpdateAttendanceRecordUseCaseP
     }
     
     public func execute(request: UpdateAttendanceRecordRequest) async throws {
+        // Step 1: Validate and convert boundary IDs to domain ID types
+        let attendanceRecordId = try AttendanceRecordId(request.attendanceRecordId)
+        let requestingUserId = try UserId(request.requestingUserId)
+        
+        // Step 2: Convert boundary enums to domain types (if provided)
+        let newStatus = request.status.map { AttendanceStatus(from: $0) }
+        
         // Validate requesting user has permission (must be committee)
-        let requestingUser = try await userRepository.getUser(id: request.requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserId)
         guard requestingUser.role.isLeadership else {
             throw DomainError.unauthorized
         }
         
         // Get existing attendance record
-        let existingRecord = try await attendanceRepository.getAttendanceRecord(id: request.attendanceRecordId)
+        let existingRecord = try await attendanceRepository.getAttendanceRecord(id: attendanceRecordId)
         
         // Calculate hours worked if both times are provided
         var calculatedHours: Double? = existingRecord.hoursWorked
@@ -57,7 +64,7 @@ public final class UpdateAttendanceRecordUseCase: UpdateAttendanceRecordUseCaseP
             checkInMethod: .adminOverride,
             checkInLocation: existingRecord.checkInLocation,
             hoursWorked: request.hoursWorked ?? calculatedHours,
-            status: request.status ?? existingRecord.status,
+            status: newStatus ?? existingRecord.status,
             notes: adminNotes
         )
         

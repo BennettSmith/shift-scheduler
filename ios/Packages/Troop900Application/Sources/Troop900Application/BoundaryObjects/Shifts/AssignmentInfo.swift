@@ -1,13 +1,12 @@
 import Foundation
-import Troop900Domain
 
 /// Information about an assignment for display purposes.
 public struct AssignmentInfo: Sendable, Equatable, Identifiable {
     public let id: String
     public let userId: String
     public let userName: String
-    public let assignmentType: AssignmentType
-    public let status: AssignmentStatus
+    public let assignmentType: AssignmentTypeValue
+    public let status: AssignmentStatusType
     public let notes: String?
     public let assignedAt: Date
     
@@ -15,8 +14,8 @@ public struct AssignmentInfo: Sendable, Equatable, Identifiable {
         id: String,
         userId: String,
         userName: String,
-        assignmentType: AssignmentType,
-        status: AssignmentStatus,
+        assignmentType: AssignmentTypeValue,
+        status: AssignmentStatusType,
         notes: String?,
         assignedAt: Date
     ) {

@@ -27,20 +27,24 @@ public final class GetShiftAttendanceDetailsUseCase: GetShiftAttendanceDetailsUs
     }
     
     public func execute(shiftId: String, requestingUserId: String) async throws -> ShiftAttendanceDetailsResponse {
+        // Step 1: Validate and convert boundary IDs to domain ID types
+        let shiftIdValue = try ShiftId(shiftId)
+        let requestingUserIdValue = try UserId(requestingUserId)
+        
         // Validate requesting user has permission (must be committee)
-        let requestingUser = try await userRepository.getUser(id: requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserIdValue)
         guard requestingUser.role.isLeadership else {
             throw DomainError.unauthorized
         }
         
         // Get shift
-        let shift = try await shiftRepository.getShift(id: shiftId)
+        let shift = try await shiftRepository.getShift(id: shiftIdValue)
         
         // Get all assignments for this shift
-        let assignments = try await assignmentRepository.getAssignmentsForShift(shiftId: shiftId)
+        let assignments = try await assignmentRepository.getAssignmentsForShift(shiftId: shiftIdValue)
         
         // Get all attendance records for this shift
-        let attendanceRecords = try await attendanceRepository.getAttendanceRecordsForShift(shiftId: shiftId)
+        let attendanceRecords = try await attendanceRepository.getAttendanceRecordsForShift(shiftId: shiftIdValue)
         
         // Create a map of attendance records by assignment ID
         let attendanceMap = Dictionary(uniqueKeysWithValues: attendanceRecords.map { ($0.assignmentId, $0) })
@@ -63,18 +67,18 @@ public final class GetShiftAttendanceDetailsUseCase: GetShiftAttendanceDetailsUs
             let isWalkIn = assignment.assignedBy != nil && assignment.assignedBy != assignment.userId
             
             let detail = AttendanceRecordDetail(
-                id: attendanceRecord?.id ?? assignment.id,
-                assignmentId: assignment.id,
-                userId: user.id,
+                id: attendanceRecord?.id.value ?? assignment.id.value,
+                assignmentId: assignment.id.value,
+                userId: user.id.value,
                 userName: user.fullName,
-                userRole: user.role,
-                assignmentType: assignment.assignmentType,
+                userRole: UserRoleType(from: user.role),
+                assignmentType: ParticipantType(from: assignment.assignmentType),
                 checkInTime: attendanceRecord?.checkInTime,
                 checkOutTime: attendanceRecord?.checkOutTime,
-                checkInMethod: attendanceRecord?.checkInMethod ?? .manual,
-                checkInLocation: attendanceRecord?.checkInLocation,
+                checkInMethod: CheckInMethodType(from: attendanceRecord?.checkInMethod ?? .manual),
+                checkInLocation: attendanceRecord?.checkInLocation.map { Coordinate(from: $0) },
                 hoursWorked: attendanceRecord?.hoursWorked,
-                status: attendanceRecord?.status ?? .pending,
+                status: AttendanceStatusType(from: attendanceRecord?.status ?? .pending),
                 notes: attendanceRecord?.notes ?? assignment.notes,
                 isWalkIn: isWalkIn
             )
@@ -97,7 +101,7 @@ public final class GetShiftAttendanceDetailsUseCase: GetShiftAttendanceDetailsUs
         }
         
         return ShiftAttendanceDetailsResponse(
-            shiftId: shift.id,
+            shiftId: shift.id.value,
             shiftDate: shift.date,
             shiftLabel: shift.label,
             totalAssigned: assignments.count,

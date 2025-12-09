@@ -30,23 +30,7 @@ public final class GetWeekScheduleUseCase: GetWeekScheduleUseCaseProtocol, Senda
             let date = calendar.date(byAdding: .day, value: dayOffset, to: weekStartDate)!
             let dayShifts = shifts.filter { calendar.isDate($0.date, inSameDayAs: date) }
             
-            let shiftSummaries = dayShifts.map { shift in
-                ShiftSummary(
-                    id: shift.id,
-                    date: shift.date,
-                    startTime: shift.startTime,
-                    endTime: shift.endTime,
-                    requiredScouts: shift.requiredScouts,
-                    requiredParents: shift.requiredParents,
-                    currentScouts: shift.currentScouts,
-                    currentParents: shift.currentParents,
-                    location: shift.location,
-                    label: shift.label,
-                    status: shift.status,
-                    staffingStatus: shift.staffingStatus,
-                    timeRange: formatTimeRange(start: shift.startTime, end: shift.endTime)
-                )
-            }
+            let shiftSummaries = dayShifts.map { ShiftSummary(from: $0) }
             
             daySchedules.append(DaySchedule(
                 id: "\(date.timeIntervalSince1970)",
@@ -60,11 +44,5 @@ public final class GetWeekScheduleUseCase: GetWeekScheduleUseCaseProtocol, Senda
             weekEndDate: weekEndDate,
             days: daySchedules
         )
-    }
-    
-    private func formatTimeRange(start: Date, end: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return "\(formatter.string(from: start)) - \(formatter.string(from: end))"
     }
 }

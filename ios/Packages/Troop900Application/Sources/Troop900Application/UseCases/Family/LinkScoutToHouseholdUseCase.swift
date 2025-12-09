@@ -24,8 +24,12 @@ public final class LinkScoutToHouseholdUseCase: LinkScoutToHouseholdUseCaseProto
     }
     
     public func execute(request: LinkScoutRequest) async throws -> LinkScoutResponse {
+        // Validate and convert boundary IDs to domain ID types
+        let scoutId = try UserId(request.scoutId)
+        let requestingUserId = try UserId(request.requestingUserId)
+        
         // Validate scout exists
-        let scout = try await userRepository.getUser(id: request.scoutId)
+        let scout = try await userRepository.getUser(id: scoutId)
         
         // Validate household exists via link code
         guard let targetHousehold = try await householdRepository.getHouseholdByLinkCode(linkCode: request.householdLinkCode) else {
@@ -38,7 +42,7 @@ public final class LinkScoutToHouseholdUseCase: LinkScoutToHouseholdUseCaseProto
         }
         
         // Validate requesting user is in target household
-        let requestingUser = try await userRepository.getUser(id: request.requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserId)
         guard requestingUser.households.contains(targetHousehold.id) else {
             throw DomainError.unauthorized
         }
@@ -55,12 +59,12 @@ public final class LinkScoutToHouseholdUseCase: LinkScoutToHouseholdUseCaseProto
         
         // Call service to link scout (Cloud Function handles updates)
         let result = try await familyManagementService.linkScoutToHousehold(
-            scoutId: request.scoutId,
+            scoutId: scoutId,
             linkCode: request.householdLinkCode
         )
         
         // Fetch updated scout to get new household list
-        let updatedScout = try await userRepository.getUser(id: request.scoutId)
+        let updatedScout = try await userRepository.getUser(id: scoutId)
         
         return LinkScoutResponse(
             success: result.success,

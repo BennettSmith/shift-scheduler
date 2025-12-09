@@ -181,14 +181,14 @@ struct GetShiftAttendanceDetailsUseCaseTests {
         
         // Walk-in assignment (assigned by someone else)
         let walkInAssignment = Assignment(
-            id: "walkin-assignment",
-            shiftId: shiftId,
-            userId: walkInUserId,
+            id: AssignmentId(unchecked: "walkin-assignment"),
+            shiftId: ShiftId(unchecked: shiftId),
+            userId: UserId(unchecked: walkInUserId),
             assignmentType: .parent,
             status: .confirmed,
             notes: nil,
             assignedAt: Date(),
-            assignedBy: committeeUserId // Assigned by committee
+            assignedBy: UserId(unchecked: committeeUserId) // Assigned by committee
         )
         
         mockShiftRepository.shiftsById[shiftId] = shift

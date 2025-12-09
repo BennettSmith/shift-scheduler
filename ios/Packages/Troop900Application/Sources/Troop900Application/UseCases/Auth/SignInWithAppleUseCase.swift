@@ -26,7 +26,7 @@ public final class SignInWithAppleUseCase: SignInWithAppleUseCaseProtocol, Senda
         let needsOnboarding = user?.isClaimed == false || user == nil
         
         return SignInResponse(
-            userId: userId,
+            userId: userId.value,
             isNewUser: isNewUser,
             needsOnboarding: needsOnboarding
         )

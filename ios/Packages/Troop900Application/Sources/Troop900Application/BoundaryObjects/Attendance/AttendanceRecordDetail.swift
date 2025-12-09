@@ -1,5 +1,7 @@
 import Foundation
-import Troop900Domain
+
+// Note: UserRoleType, ParticipantType, CheckInMethodType, AttendanceStatusType, and Coordinate
+// are defined in BoundaryObjects/Common/BoundaryEnums.swift
 
 /// Detailed information about an attendance record for committee review.
 public struct AttendanceRecordDetail: Sendable, Equatable, Identifiable {
@@ -7,14 +9,14 @@ public struct AttendanceRecordDetail: Sendable, Equatable, Identifiable {
     public let assignmentId: String
     public let userId: String
     public let userName: String
-    public let userRole: UserRole
-    public let assignmentType: AssignmentType
+    public let userRole: UserRoleType
+    public let assignmentType: ParticipantType
     public let checkInTime: Date?
     public let checkOutTime: Date?
-    public let checkInMethod: CheckInMethod
-    public let checkInLocation: GeoLocation?
+    public let checkInMethod: CheckInMethodType
+    public let checkInLocation: Coordinate?
     public let hoursWorked: Double?
-    public let status: AttendanceStatus
+    public let status: AttendanceStatusType
     public let notes: String?
     public let isWalkIn: Bool
     
@@ -23,14 +25,14 @@ public struct AttendanceRecordDetail: Sendable, Equatable, Identifiable {
         assignmentId: String,
         userId: String,
         userName: String,
-        userRole: UserRole,
-        assignmentType: AssignmentType,
+        userRole: UserRoleType,
+        assignmentType: ParticipantType,
         checkInTime: Date?,
         checkOutTime: Date?,
-        checkInMethod: CheckInMethod,
-        checkInLocation: GeoLocation?,
+        checkInMethod: CheckInMethodType,
+        checkInLocation: Coordinate?,
         hoursWorked: Double?,
-        status: AttendanceStatus,
+        status: AttendanceStatusType,
         notes: String?,
         isWalkIn: Bool
     ) {

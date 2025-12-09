@@ -14,8 +14,11 @@ public final class UpdateDraftShiftUseCase: UpdateDraftShiftUseCaseProtocol, Sen
     }
     
     public func execute(request: UpdateShiftRequest) async throws -> ShiftSummary {
+        // Validate and convert boundary ID to domain ID type
+        let shiftId = try ShiftId(request.shiftId)
+        
         // Fetch existing shift
-        let existingShift = try await shiftRepository.getShift(id: request.shiftId)
+        let existingShift = try await shiftRepository.getShift(id: shiftId)
         
         // Ensure shift is in draft status
         guard existingShift.status == .draft else {
@@ -78,24 +81,6 @@ public final class UpdateDraftShiftUseCase: UpdateDraftShiftUseCaseProtocol, Sen
         
         try await shiftRepository.updateShift(updatedShift)
         
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        let timeRange = "\(formatter.string(from: updatedShift.startTime)) - \(formatter.string(from: updatedShift.endTime))"
-        
-        return ShiftSummary(
-            id: updatedShift.id,
-            date: updatedShift.date,
-            startTime: updatedShift.startTime,
-            endTime: updatedShift.endTime,
-            requiredScouts: updatedShift.requiredScouts,
-            requiredParents: updatedShift.requiredParents,
-            currentScouts: updatedShift.currentScouts,
-            currentParents: updatedShift.currentParents,
-            location: updatedShift.location,
-            label: updatedShift.label,
-            status: updatedShift.status,
-            staffingStatus: updatedShift.staffingStatus,
-            timeRange: timeRange
-        )
+        return ShiftSummary(from: updatedShift)
     }
 }

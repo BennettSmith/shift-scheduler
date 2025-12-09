@@ -15,7 +15,10 @@ public final class GenerateInviteCodesUseCase: GenerateInviteCodesUseCaseProtoco
     }
     
     public func execute(request: GenerateInviteCodesRequest) async throws -> GenerateInviteCodesResponse {
-        var generatedCodes: [InviteCode] = []
+        // Convert boundary role to domain role
+        let role = request.role.toDomain()
+        
+        var generatedCodeInfos: [InviteCodeInfo] = []
         let expirationDate = request.expirationDays.map { days in
             Calendar.current.date(byAdding: .day, value: days, to: Date())
         }
@@ -26,7 +29,7 @@ public final class GenerateInviteCodesUseCase: GenerateInviteCodesUseCaseProtoco
                 id: UUID().uuidString,
                 code: code,
                 householdId: request.householdId,
-                role: request.role,
+                role: role,
                 createdBy: "", // Should be set from auth context
                 usedBy: nil,
                 usedAt: nil,
@@ -36,11 +39,11 @@ public final class GenerateInviteCodesUseCase: GenerateInviteCodesUseCaseProtoco
             )
             
             let _ = try await inviteCodeRepository.createInviteCode(inviteCode)
-            generatedCodes.append(inviteCode)
+            generatedCodeInfos.append(InviteCodeInfo(from: inviteCode))
         }
         
         return GenerateInviteCodesResponse(
-            codes: generatedCodes,
+            codes: generatedCodeInfos,
             message: "Generated \(request.count) invite code(s)"
         )
     }

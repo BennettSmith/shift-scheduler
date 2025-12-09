@@ -7,18 +7,18 @@ public protocol OnboardingService: Sendable {
     ///   - code: The invite code.
     ///   - userId: The user's ID.
     /// - Returns: The result of processing the invite code.
-    func processInviteCode(code: String, userId: String) async throws -> InviteCodeResult
+    func processInviteCode(code: String, userId: UserId) async throws -> InviteCodeResult
     
     /// Claim a pre-created user profile.
     /// - Parameters:
     ///   - claimCode: The claim code.
     ///   - userId: The authenticated user's ID.
     /// - Returns: The result of claiming the profile.
-    func claimProfile(claimCode: String, userId: String) async throws -> ClaimProfileResult
+    func claimProfile(claimCode: String, userId: UserId) async throws -> ClaimProfileResult
 }
 
 /// Result of processing an invite code.
-public struct InviteCodeResult: Sendable, Codable {
+public struct InviteCodeResult: Sendable {
     public let success: Bool
     public let householdId: String?
     public let userRole: UserRole?
@@ -33,12 +33,12 @@ public struct InviteCodeResult: Sendable, Codable {
 }
 
 /// Result of claiming a profile.
-public struct ClaimProfileResult: Sendable, Codable {
+public struct ClaimProfileResult: Sendable {
     public let success: Bool
-    public let userId: String?
+    public let userId: UserId?
     public let message: String
     
-    public init(success: Bool, userId: String?, message: String) {
+    public init(success: Bool, userId: UserId?, message: String) {
         self.success = success
         self.userId = userId
         self.message = message

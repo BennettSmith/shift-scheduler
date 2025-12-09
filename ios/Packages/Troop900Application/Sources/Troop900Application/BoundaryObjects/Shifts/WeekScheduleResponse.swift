@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response containing a week's schedule organized by day.
 public struct WeekScheduleResponse: Sendable, Equatable {

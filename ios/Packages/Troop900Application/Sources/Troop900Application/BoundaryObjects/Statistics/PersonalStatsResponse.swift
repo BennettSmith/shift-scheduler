@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Response containing a user's personal statistics and achievements.
 public struct PersonalStatsResponse: Sendable, Equatable {
@@ -77,14 +76,14 @@ public struct ShiftHistoryEntry: Sendable, Equatable, Identifiable {
     public let shiftDate: Date
     public let shiftLabel: String?
     public let hoursWorked: Double?
-    public let status: AttendanceStatus
+    public let status: AttendanceStatusType
     
     public init(
         id: String,
         shiftDate: Date,
         shiftLabel: String?,
         hoursWorked: Double?,
-        status: AttendanceStatus
+        status: AttendanceStatusType
     ) {
         self.id = id
         self.shiftDate = shiftDate

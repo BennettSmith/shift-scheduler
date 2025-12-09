@@ -1,5 +1,4 @@
 import Foundation
-import Troop900Domain
 
 /// Request to cancel an assignment.
 public struct CancelAssignmentRequest: Sendable, Equatable {

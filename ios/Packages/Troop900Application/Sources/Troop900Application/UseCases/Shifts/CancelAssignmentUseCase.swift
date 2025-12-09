@@ -23,8 +23,11 @@ public final class CancelAssignmentUseCase: CancelAssignmentUseCaseProtocol, Sen
     }
     
     public func execute(request: CancelAssignmentRequest) async throws {
+        // Validate and convert boundary ID to domain ID type
+        let assignmentId = try AssignmentId(request.assignmentId)
+        
         // Validate assignment exists
-        let assignment = try await assignmentRepository.getAssignment(id: request.assignmentId)
+        let assignment = try await assignmentRepository.getAssignment(id: assignmentId)
         
         guard assignment.isActive else {
             throw DomainError.assignmentNotActive
@@ -39,7 +42,7 @@ public final class CancelAssignmentUseCase: CancelAssignmentUseCaseProtocol, Sen
         
         // Call service to cancel (Cloud Function handles transaction)
         try await shiftSignupService.cancelAssignment(
-            assignmentId: request.assignmentId,
+            assignmentId: assignmentId,
             reason: request.reason
         )
     }

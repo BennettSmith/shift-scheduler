@@ -55,8 +55,8 @@ struct SignUpForShiftUseCaseTests {
         #expect(response.success == true)
         #expect(response.assignmentId.isEmpty == false)
         #expect(mockShiftSignupService.signUpCallCount == 1)
-        #expect(mockShiftSignupService.signUpCalledWith[0].shiftId == shiftId)
-        #expect(mockShiftSignupService.signUpCalledWith[0].userId == userId)
+        #expect(mockShiftSignupService.signUpCalledWith[0].shiftId.value == shiftId)
+        #expect(mockShiftSignupService.signUpCalledWith[0].userId.value == userId)
         #expect(mockShiftSignupService.signUpCalledWith[0].assignmentType == .scout)
     }
     

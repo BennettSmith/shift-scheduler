@@ -24,11 +24,14 @@ public final class DeactivateFamilyUseCase: DeactivateFamilyUseCaseProtocol, Sen
     }
     
     public func execute(request: DeactivateFamilyRequest) async throws -> DeactivateFamilyResponse {
+        // Validate and convert boundary ID to domain ID type
+        let requestingUserId = try UserId(request.requestingUserId)
+        
         // Validate household exists
         let household = try await householdRepository.getHousehold(id: request.householdId)
         
         // Validate requesting user has permission
-        let requestingUser = try await userRepository.getUser(id: request.requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserId)
         let isAdmin = requestingUser.role.isLeadership
         let canManageHousehold = requestingUser.canManageHouseholds.contains(request.householdId)
         

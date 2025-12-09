@@ -24,8 +24,11 @@ public final class GenerateScoutBucksReportUseCase: GenerateScoutBucksReportUseC
     }
     
     public func execute(request: ScoutBucksReportRequest) async throws -> ScoutBucksReportResponse {
+        // Validate and convert boundary ID to domain ID type
+        let requestingUserId = try UserId(request.requestingUserId)
+        
         // Validate requesting user has permission (must be committee)
-        let requestingUser = try await userRepository.getUser(id: request.requestingUserId)
+        let requestingUser = try await userRepository.getUser(id: requestingUserId)
         guard requestingUser.role.isLeadership else {
             throw DomainError.unauthorized
         }
@@ -65,7 +68,7 @@ public final class GenerateScoutBucksReportUseCase: GenerateScoutBucksReportUseC
             // Only include if eligible or if includeIneligible is true
             if isEligible || request.includeIneligible {
                 scoutEntries.append(ScoutBucksEntry(
-                    id: user.id,
+                    id: user.id.value,
                     scoutName: user.fullName,
                     totalHours: hours,
                     totalShifts: shifts,
