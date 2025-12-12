@@ -207,19 +207,19 @@ struct DomainErrorTests {
     @Test("Debug message for shift full")
     func shiftFullDebugMessage() {
         let error = DomainError.shiftFull
-        #expect(error.debugMessage == "shiftFull")
+        #expect(error.debugMessage == "DomainError.shiftFull")
     }
     
     @Test("Debug message for invalid input")
     func invalidInputDebugMessage() {
         let error = DomainError.invalidInput("Test message")
-        #expect(error.debugMessage == "Invalid input: Test message")
+        #expect(error.debugMessage == "DomainError.invalidInput: Test message")
     }
     
     @Test("Debug message for operation failed")
     func operationFailedDebugMessage() {
         let error = DomainError.operationFailed("Test failure")
-        #expect(error.debugMessage == "Operation failed: Test failure")
+        #expect(error.debugMessage == "DomainError.operationFailed: Test failure")
     }
     
     @Test("Debug message for unknown error")
@@ -228,7 +228,7 @@ struct DomainErrorTests {
             var localizedDescription: String { "Test error description" }
         }
         let error = DomainError.unknown(TestError())
-        #expect(error.debugMessage.contains("Unknown error"))
+        #expect(error.debugMessage.hasPrefix("DomainError.unknown:"))
     }
     
     // MARK: - LocalizedError Conformance
