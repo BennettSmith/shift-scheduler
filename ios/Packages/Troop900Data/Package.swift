@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 import PackageDescription
 
 let package = Package(
@@ -21,11 +21,6 @@ let package = Package(
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
             from: "12.0.0"
-        ),
-        // Swift Testing for tests
-        .package(
-            url: "https://github.com/apple/swift-testing.git",
-            from: "0.10.0"
         )
     ],
     targets: [
@@ -43,8 +38,7 @@ let package = Package(
         .testTarget(
             name: "Troop900DataTests",
             dependencies: [
-                "Troop900Data",
-                .product(name: "Testing", package: "swift-testing")
+                "Troop900Data"
             ],
             path: "Tests/Troop900DataTests"
         ),
