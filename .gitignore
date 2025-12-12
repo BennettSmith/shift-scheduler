@@ -23,12 +23,16 @@ yarn-error.log*
 ios/**/build/
 ios/**/DerivedData/
 ios/.swiftpm/
-ios/*.xcworkspace/xcuserdata/
-ios/**/ShiftScheduler.xcodeproj/xcuserdata/
+ios/**/*.xcworkspace/xcuserdata/
+ios/**/*.xcodeproj/xcuserdata/
+ios/**/.swiftpm/xcode/xcuserdata/
 
 # Swift Package Manager
 .build/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+# Package.resolved files (auto-generated, can be committed for reproducibility)
+# Uncomment the line below if you want to ignore all Package.resolved files:
+# ios/**/Package.resolved
 
 # Android (future)
 android/.gradle/
