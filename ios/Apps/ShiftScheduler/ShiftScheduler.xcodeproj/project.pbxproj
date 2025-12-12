@@ -10,6 +10,7 @@
 		4851AE1A2EE5009E00D71589 /* Troop900Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 4851AE192EE5009E00D71589 /* Troop900Domain */; };
 		4851AE1D2EE5027900D71589 /* Troop900Data in Frameworks */ = {isa = PBXBuildFile; productRef = 4851AE1C2EE5027900D71589 /* Troop900Data */; };
 		4851AE202EE502A500D71589 /* Troop900Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 4851AE1F2EE502A500D71589 /* Troop900Presentation */; };
+		48693E732EEBCD3E002F3831 /* SwiftScheduler.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 48693E722EEBCD3E002F3831 /* SwiftScheduler.xctestplan */; };
 		4889844A2EE53DBB00ACED5A /* Troop900Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 488984492EE53DBB00ACED5A /* Troop900Domain */; };
 		4889844D2EE53DEB00ACED5A /* Troop900Data in Frameworks */ = {isa = PBXBuildFile; productRef = 4889844C2EE53DEB00ACED5A /* Troop900Data */; };
 		488984502EE53E3100ACED5A /* Troop900Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 4889844F2EE53E3100ACED5A /* Troop900Presentation */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		48693E722EEBCD3E002F3831 /* SwiftScheduler.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SwiftScheduler.xctestplan; sourceTree = "<group>"; };
 		489EEDEE2EE4F53A00DA77A9 /* ShiftScheduler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiftScheduler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		489EEDFB2EE4F53B00DA77A9 /* ShiftSchedulerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShiftSchedulerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		489EEE052EE4F53B00DA77A9 /* ShiftSchedulerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShiftSchedulerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +94,7 @@
 		489EEDE52EE4F53A00DA77A9 = {
 			isa = PBXGroup;
 			children = (
+				48693E722EEBCD3E002F3831 /* SwiftScheduler.xctestplan */,
 				489EEDF02EE4F53A00DA77A9 /* ShiftScheduler */,
 				489EEDFE2EE4F53B00DA77A9 /* ShiftSchedulerTests */,
 				489EEE082EE4F53B00DA77A9 /* ShiftSchedulerUITests */,
@@ -240,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48693E732EEBCD3E002F3831 /* SwiftScheduler.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
