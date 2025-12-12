@@ -30,9 +30,9 @@ ios/**/.swiftpm/xcode/xcuserdata/
 # Swift Package Manager
 .build/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
-# Package.resolved files (auto-generated, can be committed for reproducibility)
-# Uncomment the line below if you want to ignore all Package.resolved files:
-# ios/**/Package.resolved
+# Package.resolved files in packages (auto-generated, can be regenerated)
+# Workspace-level Package.resolved files are kept for reproducibility
+ios/Packages/**/Package.resolved
 
 # Android (future)
 android/.gradle/
