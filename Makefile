@@ -1,6 +1,9 @@
 .PHONY: test/packages test/applications test help \
 	test/DesignSystem test/Domain test/Application \
-	test/Data test/Presentation test/Bootstrap
+	test/Data test/Presentation test/Bootstrap \
+	coverage/packages coverage/DesignSystem coverage/Domain \
+	coverage/Application coverage/Data coverage/Presentation \
+	coverage/Bootstrap
 
 # Application schemes
 APPS = ShiftScheduler Troop900UIShowcase
@@ -20,13 +23,22 @@ help:
 	@echo "  make test/applications - Run tests for all iOS applications"
 	@echo "  make test             - Run all tests (packages + applications)"
 	@echo ""
-	@echo "Individual package targets:"
+	@echo "Individual package test targets:"
 	@echo "  make test/DesignSystem"
 	@echo "  make test/Domain"
 	@echo "  make test/Application"
 	@echo "  make test/Data"
 	@echo "  make test/Presentation"
 	@echo "  make test/Bootstrap"
+	@echo ""
+	@echo "Coverage report targets:"
+	@echo "  make coverage/packages     - Generate coverage reports for all Swift packages"
+	@echo "  make coverage/DesignSystem - Generate coverage report for Troop900DesignSystem"
+	@echo "  make coverage/Domain       - Generate coverage report for Troop900Domain"
+	@echo "  make coverage/Application  - Generate coverage report for Troop900Application"
+	@echo "  make coverage/Data         - Generate coverage report for Troop900Data"
+	@echo "  make coverage/Presentation - Generate coverage report for Troop900Presentation"
+	@echo "  make coverage/Bootstrap    - Generate coverage report for Troop900Bootstrap"
 
 # Individual package test targets
 test/DesignSystem:
@@ -115,3 +127,34 @@ test/applications:
 
 test: test/packages test/applications
 	@echo "$(GREEN)🎉 All tests completed successfully!$(NC)"
+
+# Coverage report targets
+coverage/DesignSystem:
+	@echo "$(YELLOW)Generating coverage report for Troop900DesignSystem...$(NC)"
+	@./scripts/run_coverage.sh Troop900DesignSystem
+
+coverage/Domain:
+	@echo "$(YELLOW)Generating coverage report for Troop900Domain...$(NC)"
+	@./scripts/run_coverage.sh Troop900Domain
+
+coverage/Application:
+	@echo "$(YELLOW)Generating coverage report for Troop900Application...$(NC)"
+	@./scripts/run_coverage.sh Troop900Application
+
+coverage/Data:
+	@echo "$(YELLOW)Generating coverage report for Troop900Data...$(NC)"
+	@./scripts/run_coverage.sh Troop900Data
+
+coverage/Presentation:
+	@echo "$(YELLOW)Generating coverage report for Troop900Presentation...$(NC)"
+	@./scripts/run_coverage.sh Troop900Presentation
+
+coverage/Bootstrap:
+	@echo "$(YELLOW)Generating coverage report for Troop900Bootstrap...$(NC)"
+	@./scripts/run_coverage.sh Troop900Bootstrap
+
+coverage/packages: coverage/DesignSystem coverage/Domain coverage/Application coverage/Data coverage/Presentation coverage/Bootstrap
+	@echo "$(GREEN)✅ All coverage reports generated!$(NC)"
+	@echo "$(GREEN)Reports are available in each package directory:$(NC)"
+	@echo "  - COVERAGE_REPORT.md (detailed text report)"
+	@echo "  - coverage_report.html (interactive HTML visualization)"

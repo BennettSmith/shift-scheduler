@@ -1,7 +1,10 @@
-import UIKit
 import FirebaseCore
 import Troop900Data
 import Troop900Domain
+
+#if canImport(UIKit)
+import UIKit
+#endif
 
 /// Central place to construct shared dependencies (composition root helpers).
 public enum AppEnvironment {
@@ -90,6 +93,7 @@ public struct InMemoryInitialData {
     }
 }
 
+#if canImport(UIKit)
 /// A UIKit app delegate that configures Firebase at launch.
 /// Lives in Troop900Bootstrap so the app target does not need to import Firebase.
 public final class BootstrapAppDelegate: NSObject, UIApplicationDelegate {
@@ -102,5 +106,6 @@ public final class BootstrapAppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 }
+#endif
 
 
