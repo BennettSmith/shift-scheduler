@@ -8,12 +8,12 @@ struct UserTests {
     @Test("User initialization")
     func userInitialization() {
         let user = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .scout,
-            accountStatus: .active,
+            role: UserRole.scout,
+            accountStatus: AccountStatus.active,
             households: ["household-1"],
             canManageHouseholds: [],
             familyUnitId: "family-1",
@@ -24,22 +24,22 @@ struct UserTests {
             updatedAt: Date()
         )
         
-        #expect(user.id == "user-1")
+        #expect(user.id.value == "user-1")
         #expect(user.email == "test@example.com")
         #expect(user.firstName == "John")
         #expect(user.lastName == "Doe")
-        #expect(user.role == .scout)
+        #expect(user.role == UserRole.scout)
     }
     
     @Test("Full name is computed correctly")
     func fullName() {
         let user = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .scout,
-            accountStatus: .active,
+            role: UserRole.scout,
+            accountStatus: AccountStatus.active,
             households: [],
             canManageHouseholds: [],
             familyUnitId: nil,
@@ -56,12 +56,12 @@ struct UserTests {
     @Test("Scoutmaster is admin")
     func scoutmasterIsAdmin() {
         let user = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .scoutmaster,
-            accountStatus: .active,
+            role: UserRole.scoutmaster,
+            accountStatus: AccountStatus.active,
             households: [],
             canManageHouseholds: [],
             familyUnitId: nil,
@@ -78,12 +78,12 @@ struct UserTests {
     @Test("Assistant Scoutmaster is admin")
     func assistantScoutmasterIsAdmin() {
         let user = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .assistantScoutmaster,
-            accountStatus: .active,
+            role: UserRole.assistantScoutmaster,
+            accountStatus: AccountStatus.active,
             households: [],
             canManageHouseholds: [],
             familyUnitId: nil,
@@ -100,12 +100,12 @@ struct UserTests {
     @Test("Scout is not admin")
     func scoutIsNotAdmin() {
         let user = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .scout,
-            accountStatus: .active,
+            role: UserRole.scout,
+            accountStatus: AccountStatus.active,
             households: [],
             canManageHouseholds: [],
             familyUnitId: nil,
@@ -122,12 +122,12 @@ struct UserTests {
     @Test("Active and claimed user can sign up for shifts")
     func activeClaimedCanSignUp() {
         let user = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .scout,
-            accountStatus: .active,
+            role: UserRole.scout,
+            accountStatus: AccountStatus.active,
             households: [],
             canManageHouseholds: [],
             familyUnitId: nil,
@@ -144,12 +144,12 @@ struct UserTests {
     @Test("Inactive user cannot sign up for shifts")
     func inactiveUserCannotSignUp() {
         let user = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .scout,
-            accountStatus: .inactive,
+            role: UserRole.scout,
+            accountStatus: AccountStatus.inactive,
             households: [],
             canManageHouseholds: [],
             familyUnitId: nil,
@@ -166,12 +166,12 @@ struct UserTests {
     @Test("Unclaimed user cannot sign up for shifts")
     func unclaimedUserCannotSignUp() {
         let user = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .scout,
-            accountStatus: .active,
+            role: UserRole.scout,
+            accountStatus: AccountStatus.active,
             households: [],
             canManageHouseholds: [],
             familyUnitId: nil,
@@ -189,12 +189,12 @@ struct UserTests {
     func userEquality() {
         let date = Date()
         let user1 = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .scout,
-            accountStatus: .active,
+            role: UserRole.scout,
+            accountStatus: AccountStatus.active,
             households: [],
             canManageHouseholds: [],
             familyUnitId: nil,
@@ -206,12 +206,12 @@ struct UserTests {
         )
         
         let user2 = User(
-            id: "user-1",
+            id: UserId(unchecked: "user-1"),
             email: "test@example.com",
             firstName: "John",
             lastName: "Doe",
-            role: .scout,
-            accountStatus: .active,
+            role: UserRole.scout,
+            accountStatus: AccountStatus.active,
             households: [],
             canManageHouseholds: [],
             familyUnitId: nil,
